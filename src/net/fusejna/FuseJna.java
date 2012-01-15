@@ -62,5 +62,12 @@ final class FuseJna
 		}
 		fuse.fuse_main_real(args.length, args, operations, new TypeSize(operations.size()), null);
 		System.err.println("Mounted");
+		try {
+			Thread.sleep(10000);
+		}
+		catch (final InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

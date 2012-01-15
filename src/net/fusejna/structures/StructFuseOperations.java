@@ -77,9 +77,9 @@ public class StructFuseOperations extends Structure
 	{
 		getattr = new Callback()
 		{
-			public int callback(final String path, final Pointer stat)
+			public int callback(final String path, final StructStat.ByReference stat)
 			{
-				System.out.println("getattr");
+				System.out.println("getattr " + stat);
 				sleep();
 				return 0;
 			}
@@ -87,15 +87,6 @@ public class StructFuseOperations extends Structure
 		readlink = new Callback()
 		{
 			public int callback(final String path, final String target, final TypeSize size)
-			{
-				System.out.println("readlink");
-				sleep();
-				return 0;
-			}
-		};
-		readlink = new Callback()
-		{
-			public int callback(final String path, final Pointer target, final TypeSize size)
 			{
 				System.out.println("readlink");
 				sleep();
@@ -195,7 +186,7 @@ public class StructFuseOperations extends Structure
 		utime = null; // Deprecated
 		open = new Callback()
 		{
-			public int callback(final String path, final Pointer info)
+			public int callback(final String path, final StructFuseFileInfo.ByReference info)
 			{
 				System.out.println("open");
 				sleep();
@@ -205,7 +196,7 @@ public class StructFuseOperations extends Structure
 		read = new Callback()
 		{
 			public int callback(final String path, final Pointer buffer, final TypeSize size, final TypeOff offset,
-					final Pointer info)
+					final StructFuseFileInfo.ByReference info)
 			{
 				System.out.println("read");
 				sleep();
@@ -215,7 +206,7 @@ public class StructFuseOperations extends Structure
 		write = new Callback()
 		{
 			public int callback(final String path, final String buffer, final TypeSize size, final TypeOff offset,
-					final Pointer info)
+					final StructFuseFileInfo.ByReference info)
 			{
 				System.out.println("write");
 				sleep();
@@ -224,7 +215,7 @@ public class StructFuseOperations extends Structure
 		};
 		statfs = new Callback()
 		{
-			public int callback(final String path, final Pointer statsvfs)
+			public int callback(final String path, final StructFuseFileInfo.ByReference statsvfs)
 			{
 				System.out.println("statfs");
 				sleep();
@@ -233,7 +224,7 @@ public class StructFuseOperations extends Structure
 		};
 		flush = new Callback()
 		{
-			public int callback(final String path, final Pointer info)
+			public int callback(final String path, final StructFuseFileInfo.ByReference info)
 			{
 				System.out.println("flush");
 				sleep();
@@ -242,7 +233,7 @@ public class StructFuseOperations extends Structure
 		};
 		release = new Callback()
 		{
-			public int callback(final String path, final Pointer info)
+			public int callback(final String path, final StructFuseFileInfo.ByReference info)
 			{
 				System.out.println("info");
 				sleep();
@@ -251,7 +242,7 @@ public class StructFuseOperations extends Structure
 		};
 		fsync = new Callback()
 		{
-			public int callback(final String path, final Pointer info)
+			public int callback(final String path, final StructFuseFileInfo.ByReference info)
 			{
 				System.out.println("fsync");
 				sleep();
@@ -296,7 +287,7 @@ public class StructFuseOperations extends Structure
 		};
 		opendir = new Callback()
 		{
-			public int callback(final String path, final Pointer info)
+			public int callback(final String path, final StructFuseFileInfo.ByReference info)
 			{
 				System.out.println("opendir");
 				sleep();
@@ -305,7 +296,8 @@ public class StructFuseOperations extends Structure
 		};
 		readdir = new Callback()
 		{
-			public int callback(final String path, final Callback fillFunction, final TypeOff offset, final Pointer info)
+			public int callback(final String path, final Callback fillFunction, final TypeOff offset,
+					final StructFuseFileInfo.ByReference info)
 			{
 				System.out.println("readdir");
 				sleep();
@@ -314,7 +306,7 @@ public class StructFuseOperations extends Structure
 		};
 		releasedir = new Callback()
 		{
-			public int callback(final String path, final Pointer info)
+			public int callback(final String path, final StructFuseFileInfo.ByReference info)
 			{
 				System.out.println("releasedir");
 				sleep();
@@ -323,7 +315,7 @@ public class StructFuseOperations extends Structure
 		};
 		fsyncdir = new Callback()
 		{
-			public int callback(final String path, final Pointer info)
+			public int callback(final String path, final StructFuseFileInfo.ByReference info)
 			{
 				System.out.println("fsyncdir");
 				sleep();
@@ -358,7 +350,7 @@ public class StructFuseOperations extends Structure
 		};
 		create = new Callback()
 		{
-			public int callback(final String path, final TypeMode mode, final Pointer info)
+			public int callback(final String path, final TypeMode mode, final StructFuseFileInfo.ByReference info)
 			{
 				System.out.println("create");
 				sleep();
@@ -367,7 +359,7 @@ public class StructFuseOperations extends Structure
 		};
 		ftruncate = new Callback()
 		{
-			public int callback(final String path, final TypeOff offset, final Pointer info)
+			public int callback(final String path, final TypeOff offset, final StructFuseFileInfo.ByReference info)
 			{
 				System.out.println("ftruncate");
 				sleep();
@@ -376,7 +368,7 @@ public class StructFuseOperations extends Structure
 		};
 		fgetattr = new Callback()
 		{
-			public int callback(final String path, final Pointer attr, final Pointer info)
+			public int callback(final String path, final Pointer attr, final StructFuseFileInfo.ByReference info)
 			{
 				System.out.println("fgetattr");
 				sleep();
@@ -403,7 +395,7 @@ public class StructFuseOperations extends Structure
 		};
 		bmap = new Callback()
 		{
-			public int callback(final String path, final Pointer info)
+			public int callback(final String path, final StructFuseFileInfo.ByReference info)
 			{
 				System.out.println("bmap");
 				sleep();

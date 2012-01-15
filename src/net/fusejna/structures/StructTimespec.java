@@ -5,7 +5,7 @@ import com.sun.jna.Structure;
 
 public class StructTimespec extends Structure
 {
-	public static class ByReference extends StructFuseContext implements Structure.ByReference
+	public static class ByReference extends StructTimespec implements Structure.ByReference
 	{
 	}
 
