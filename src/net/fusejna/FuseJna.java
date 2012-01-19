@@ -1,10 +1,6 @@
 package net.fusejna;
 
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.charset.CharacterCodingException;
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetEncoder;
+import java.io.File;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -29,7 +25,7 @@ final class FuseJna
 	private static LibFuse libFuse = null;
 	private static Lock libFuseLoadLock = new ReentrantLock();
 
-	static LibFuse getFuse()
+	static LibFuse getFuse() throws UnsatisfiedLinkError
 	{
 		if (libFuse != null) {
 			// No need to lock if everything is fine already
@@ -47,27 +43,51 @@ final class FuseJna
 	public static void main(final String... args)
 	{
 		final LibFuse fuse = getFuse();
+		final String[] argv = { "userfs", "-f", args[0] };
 		final StructFuseOperations.ByReference operations = new StructFuseOperations.ByReference(new NullFS());
-		final Charset utf8 = Charset.forName("UTF-8");
-		final CharsetEncoder utf8encoder = utf8.newEncoder();
-		final ByteBuffer[] argv = new ByteBuffer[args.length];
-		try {
-			for (int i = 0; i < args.length; i++) {
-				utf8encoder.reset();
-				argv[i] = utf8encoder.encode(CharBuffer.wrap(args[i]));
+		fuse.fuse_main_real(argv.length, argv, operations, new TypeSize(operations.size()), null);
+		System.err.println("Mounted");
+	}
+
+	static void mount(final FuseFilesystem filesystem, final File mountpoint) throws InvalidMountpointException, FuseException,
+			UnsatisfiedLinkError
+	{
+		if (!mountpoint.isDirectory()) {
+			throw new NotADirectoryMountpointException(mountpoint);
+		}
+		if (!mountpoint.canRead() || !mountpoint.canWrite() || !mountpoint.canExecute()) {
+			boolean successful = true;
+			try {
+				successful = mountpoint.setReadable(true) && successful;
+				successful = mountpoint.setWritable(true) && successful;
+				successful = mountpoint.setExecutable(true) && successful;
+			}
+			catch (final Exception e) {
+				throw new InvalidPermissionsMountpointException(mountpoint);
+			}
+			if (!successful) {
+				throw new InvalidPermissionsMountpointException(mountpoint);
 			}
 		}
-		catch (final CharacterCodingException e) {
-			// Not gonna happen
+		final String[] options = filesystem.getOptions();
+		final String[] argv;
+		if (options == null) {
+			argv = new String[3];
 		}
-		fuse.fuse_main_real(args.length, args, operations, new TypeSize(operations.size()), null);
-		System.err.println("Mounted");
-		try {
-			Thread.sleep(10000);
+		else {
+			argv = new String[3 + options.length];
+			for (int i = 0; i < options.length; i++) {
+				argv[i + 2] = options[i];
+			}
 		}
-		catch (final InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		argv[0] = filesystem.getFuseName();
+		argv[1] = "-f";
+		argv[argv.length - 1] = mountpoint.getAbsolutePath();
+		final LibFuse fuse = getFuse();
+		final StructFuseOperations operations = new StructFuseOperations(filesystem);
+		final int result = fuse.fuse_main_real(argv.length, argv, operations, new TypeSize(operations), null);
+		if (result != 0) {
+			throw new FuseException(result);
 		}
 	}
 }
