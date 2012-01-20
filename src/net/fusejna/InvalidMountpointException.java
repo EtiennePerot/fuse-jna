@@ -2,7 +2,7 @@ package net.fusejna;
 
 import java.io.File;
 
-public abstract class InvalidMountpointException extends Exception
+public abstract class InvalidMountpointException extends IllegalArgumentException
 {
 	private static final long serialVersionUID = -4067651016257829200L;
 	private final File mountpoint;

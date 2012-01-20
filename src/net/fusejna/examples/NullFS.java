@@ -2,9 +2,9 @@ package net.fusejna.examples;
 
 import java.io.File;
 
-import net.fusejna.FuseFilesystem;
+import net.fusejna.util.FuseFilesystemAdapterFull;
 
-public final class NullFS extends FuseFilesystem
+public final class NullFS extends FuseFilesystemAdapterFull
 {
 	public static void main(final String... args)
 	{
@@ -20,11 +20,5 @@ public final class NullFS extends FuseFilesystem
 	protected String getName()
 	{
 		return "NullFS";
-	}
-
-	@Override
-	protected String[] getOptions()
-	{
-		return null;
 	}
 }
