@@ -2,13 +2,13 @@ package net.fusejna.structures;
 
 import com.sun.jna.Structure;
 
-public class StructFuseConnInfo extends Structure
+public abstract class StructFuseConnInfo extends Structure
 {
-	public static class ByReference extends StructFuseConnInfo implements Structure.ByReference
+	public static final class ByReference extends StructFuseConnInfo implements Structure.ByReference
 	{
 	}
 
-	public static class ByValue extends StructFuseConnInfo implements Structure.ByValue
+	public static final class ByValue extends StructFuseConnInfo implements Structure.ByValue
 	{
 	}
 
@@ -21,7 +21,7 @@ public class StructFuseConnInfo extends Structure
 	public int want;
 	public int[] reserved = new int[25];
 
-	public void setOptions(final boolean setVolumeName, final boolean caseInsensitive)
+	public final void setOptions(final boolean setVolumeName, final boolean caseInsensitive)
 	{
 		want = (setVolumeName ? 0x2 : 0x0) | (caseInsensitive ? 0x1 : 0x0);
 		write();

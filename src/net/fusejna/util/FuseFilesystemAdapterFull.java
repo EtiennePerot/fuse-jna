@@ -7,12 +7,17 @@ import net.fusejna.FuseFilesystem;
 public abstract class FuseFilesystemAdapterFull extends FuseFilesystem
 {
 	@Override
-	protected void afterUnmount(final File mountPoint)
+	public void afterUnmount(final File mountPoint)
 	{
 	}
 
 	@Override
-	protected void beforeUnmount(final File mountPoint)
+	public void beforeUnmount(final File mountPoint)
+	{
+	}
+
+	@Override
+	public void destroy()
 	{
 	}
 
@@ -29,7 +34,12 @@ public abstract class FuseFilesystemAdapterFull extends FuseFilesystem
 	}
 
 	@Override
-	protected void onMount(final File mountPoint)
+	public void init()
+	{
+	}
+
+	@Override
+	public void onMount(final File mountPoint)
 	{
 	}
 }

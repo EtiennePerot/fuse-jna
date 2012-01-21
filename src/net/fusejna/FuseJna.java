@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.logging.Logger;
 
 import net.fusejna.structures.StructFuseContext;
 import net.fusejna.structures.StructFuseOperations;
@@ -96,7 +97,7 @@ final class FuseJna
 		return libFuse;
 	}
 
-	static final void mount(final FuseFilesystem filesystem, File mountPoint, final boolean blocking) throws FuseException
+	static final void mount(FuseFilesystem filesystem, File mountPoint, final boolean blocking) throws FuseException
 	{
 		mountPoint = mountPoint.getAbsoluteFile();
 		try {
@@ -121,6 +122,10 @@ final class FuseJna
 			if (!successful) {
 				throw new InvalidPermissionsMountpointException(mountPoint);
 			}
+		}
+		final Logger logger = filesystem.getLogger();
+		if (logger != null) {
+			filesystem = new LoggedFuseFilesystem(filesystem, logger);
 		}
 		filesystem.setFinalMountPoint(mountPoint);
 		final String filesystemName = getFilesystemName(mountPoint, filesystem.getFuseName());

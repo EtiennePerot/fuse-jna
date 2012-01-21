@@ -7,13 +7,13 @@ import net.fusejna.types.TypeUid;
 import com.sun.jna.Pointer;
 import com.sun.jna.Structure;
 
-public class StructFuseContext extends Structure
+public abstract class StructFuseContext extends Structure
 {
-	public static class ByReference extends StructFuseContext implements Structure.ByReference
+	public static final class ByReference extends StructFuseContext implements Structure.ByReference
 	{
 	}
 
-	public static class ByValue extends StructFuseContext implements Structure.ByValue
+	public static final class ByValue extends StructFuseContext implements Structure.ByValue
 	{
 	}
 

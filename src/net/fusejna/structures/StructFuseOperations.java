@@ -76,8 +76,9 @@ public class StructFuseOperations extends Structure
 		{
 			public final int callback(final String path, final StructStat.ByReference stat)
 			{
-				System.out.println("getattr " + stat);
-				return 0;
+				final int result = filesystem.getattr(path, new StructStat.StatSetter(stat));
+				stat.write();
+				return result;
 			}
 		};
 		readlink = new Callback()
@@ -296,7 +297,7 @@ public class StructFuseOperations extends Structure
 		{
 			public final Pointer callback(final StructFuseConnInfo.ByReference conn)
 			{
-				System.out.println("init");
+				filesystem.init();
 				return null;
 			}
 		};
@@ -304,7 +305,7 @@ public class StructFuseOperations extends Structure
 		{
 			public final void callback(final Pointer user_data)
 			{
-				System.out.println("destroy");
+				filesystem.destroy();
 			}
 		};
 		access = new Callback()
