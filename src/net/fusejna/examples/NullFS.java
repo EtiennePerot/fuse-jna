@@ -2,8 +2,9 @@ package net.fusejna.examples;
 
 import java.io.File;
 
-import net.fusejna.structures.StructStat.NodeType;
-import net.fusejna.structures.StructStat.StatSetter;
+import net.fusejna.DirectoryFiller;
+import net.fusejna.StructStat.NodeType;
+import net.fusejna.StructStat.StatSetter;
 import net.fusejna.util.FuseFilesystemAdapterFull;
 
 public final class NullFS extends FuseFilesystemAdapterFull
@@ -22,7 +23,14 @@ public final class NullFS extends FuseFilesystemAdapterFull
 	@Override
 	public int getattr(final String path, final StatSetter stat)
 	{
-		stat.setMode(NodeType.FILE);
+		stat.setMode(NodeType.DIRECTORY);
+		return 0;
+	}
+
+	@Override
+	public int readdir(final String path, final DirectoryFiller filler)
+	{
+		filler.add("hello");
 		return 0;
 	}
 }

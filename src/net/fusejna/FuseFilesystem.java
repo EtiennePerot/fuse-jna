@@ -6,11 +6,20 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
-import net.fusejna.structures.StructStat.StatSetter;
+import net.fusejna.StructStat.NodeType;
+import net.fusejna.StructStat.StatSetter;
+import net.fusejna.types.TypeOff;
+
+import com.sun.jna.Function;
+import com.sun.jna.Pointer;
 
 public abstract class FuseFilesystem
 {
 	private static @interface FuseMethod
+	{
+	}
+
+	private static @interface UserMethod
 	{
 	}
 
@@ -20,14 +29,45 @@ public abstract class FuseFilesystem
 	private File mountPoint = null;
 	private Logger logger = null;
 
+	@FuseMethod
+	final void _destroy()
+	{
+		destroy();
+	}
+
+	@FuseMethod
+	final int _getattr(final String path, final StructStat stat)
+	{
+		final StatSetter setter = new StatSetter(path, stat);
+		// Set some sensible defaults
+		setter.setMode(NodeType.DIRECTORY).setAllTimesMillis(System.currentTimeMillis()).nlink(1).uid(FuseJna.getUid())
+				.gid(FuseJna.getGid());
+		final int result = getattr(path, setter);
+		stat.write();
+		return result;
+	}
+
+	@FuseMethod
+	final void _init()
+	{
+		init();
+	}
+
+	@FuseMethod
+	final int _readdir(final String path, final Pointer buf, final Pointer fillFunction, final TypeOff offset,
+			final net.fusejna.StructFuseFileInfo.ByReference info)
+	{
+		return readdir(path, new DirectoryFiller(buf, Function.getFunction(fillFunction)));
+	}
+
 	public abstract void afterUnmount(final File mountPoint);
 
 	public abstract void beforeUnmount(final File mountPoint);
 
-	@FuseMethod
+	@UserMethod
 	public abstract void destroy();
 
-	@FuseMethod
+	@UserMethod
 	public abstract int getattr(final String path, final StatSetter stat);
 
 	final String getFuseName()
@@ -112,6 +152,9 @@ public abstract class FuseFilesystem
 	}
 
 	public abstract void onMount(final File mountPoint);
+
+	@UserMethod
+	public abstract int readdir(final String path, DirectoryFiller filler);
 
 	void setFinalMountPoint(final File mountPoint)
 	{

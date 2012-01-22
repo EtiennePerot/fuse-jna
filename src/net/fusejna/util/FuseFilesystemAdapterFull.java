@@ -2,7 +2,9 @@ package net.fusejna.util;
 
 import java.io.File;
 
+import net.fusejna.DirectoryFiller;
 import net.fusejna.FuseFilesystem;
+import net.fusejna.StructStat.StatSetter;
 
 public abstract class FuseFilesystemAdapterFull extends FuseFilesystem
 {
@@ -19,6 +21,12 @@ public abstract class FuseFilesystemAdapterFull extends FuseFilesystem
 	@Override
 	public void destroy()
 	{
+	}
+
+	@Override
+	public int getattr(final String path, final StatSetter stat)
+	{
+		return 0;
 	}
 
 	@Override
@@ -41,5 +49,11 @@ public abstract class FuseFilesystemAdapterFull extends FuseFilesystem
 	@Override
 	public void onMount(final File mountPoint)
 	{
+	}
+
+	@Override
+	public int readdir(final String path, final DirectoryFiller filler)
+	{
+		return 0;
 	}
 }

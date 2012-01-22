@@ -1,4 +1,4 @@
-package net.fusejna.structures;
+package net.fusejna;
 
 import com.sun.jna.Structure;
 

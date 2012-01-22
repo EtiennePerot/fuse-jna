@@ -1,4 +1,4 @@
-package net.fusejna.structures;
+package net.fusejna;
 
 import net.fusejna.types.TypeUInt64;
 
@@ -7,11 +7,11 @@ import com.sun.jna.Structure;
 
 public class StructFuseFileInfo extends Structure
 {
-	public static class ByReference extends StructFuseFileInfo implements Structure.ByReference
+	public static final class ByReference extends StructFuseFileInfo implements Structure.ByReference
 	{
 	}
 
-	public static class ByValue extends StructFuseFileInfo implements Structure.ByValue
+	public static final class ByValue extends StructFuseFileInfo implements Structure.ByValue
 	{
 	}
 

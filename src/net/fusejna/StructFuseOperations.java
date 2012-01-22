@@ -1,6 +1,5 @@
-package net.fusejna.structures;
+package net.fusejna;
 
-import net.fusejna.FuseFilesystem;
 import net.fusejna.types.TypeDev;
 import net.fusejna.types.TypeGid;
 import net.fusejna.types.TypeMode;
@@ -14,7 +13,7 @@ import com.sun.jna.Structure;
 
 public class StructFuseOperations extends Structure
 {
-	public static class ByReference extends StructFuseOperations implements Structure.ByReference
+	public static final class ByReference extends StructFuseOperations implements Structure.ByReference
 	{
 		public ByReference(final FuseFilesystem filesystem)
 		{
@@ -22,7 +21,7 @@ public class StructFuseOperations extends Structure
 		}
 	}
 
-	public static class ByValue extends StructFuseOperations implements Structure.ByValue
+	public static final class ByValue extends StructFuseOperations implements Structure.ByValue
 	{
 		public ByValue(final FuseFilesystem filesystem)
 		{
@@ -72,15 +71,54 @@ public class StructFuseOperations extends Structure
 	@SuppressWarnings("unused")
 	public StructFuseOperations(final FuseFilesystem filesystem)
 	{
-		getattr = new Callback()
-		{
-			public final int callback(final String path, final StructStat.ByReference stat)
-			{
-				final int result = filesystem.getattr(path, new StructStat.StatSetter(stat));
-				stat.write();
-				return result;
-			}
-		};
+		switch (Platform.platform()) {
+			case LINUX_X86_64:
+				getattr = new Callback()
+				{
+					public final int callback(final String path, final StructStat.x86_64.ByReference stat)
+					{
+						return filesystem._getattr(path, stat);
+					}
+				};
+				break;
+			case LINUX_I686:
+				getattr = new Callback()
+				{
+					public final int callback(final String path, final StructStat.i686.ByReference stat)
+					{
+						return filesystem._getattr(path, stat);
+					}
+				};
+				break;
+			case LINUX_PPC:
+				getattr = new Callback()
+				{
+					public final int callback(final String path, final StructStat.ppc.ByReference stat)
+					{
+						return filesystem._getattr(path, stat);
+					}
+				};
+				break;
+			case MAC:
+				getattr = new Callback()
+				{
+					public final int callback(final String path, final StructStat.mac.ByReference stat)
+					{
+						return filesystem._getattr(path, stat);
+					}
+				};
+				break;
+			case FREEBSD:
+			case MAC_MACFUSE:
+				getattr = new Callback()
+				{
+					public final int callback(final String path, final StructStat.bsd.ByReference stat)
+					{
+						return filesystem._getattr(path, stat);
+					}
+				};
+				break;
+		}
 		readlink = new Callback()
 		{
 			public final int callback(final String path, final String target, final TypeSize size)
@@ -270,11 +308,10 @@ public class StructFuseOperations extends Structure
 		};
 		readdir = new Callback()
 		{
-			public final int callback(final String path, final Callback fillFunction, final TypeOff offset,
+			public final int callback(final String path, final Pointer buf, final Pointer fillFunction, final TypeOff offset,
 					final StructFuseFileInfo.ByReference info)
 			{
-				System.out.println("readdir");
-				return 0;
+				return filesystem._readdir(path, buf, fillFunction, offset, info);
 			}
 		};
 		releasedir = new Callback()
@@ -297,7 +334,7 @@ public class StructFuseOperations extends Structure
 		{
 			public final Pointer callback(final StructFuseConnInfo.ByReference conn)
 			{
-				filesystem.init();
+				filesystem._init();
 				return null;
 			}
 		};
@@ -305,7 +342,7 @@ public class StructFuseOperations extends Structure
 		{
 			public final void callback(final Pointer user_data)
 			{
-				filesystem.destroy();
+				filesystem._destroy();
 			}
 		};
 		access = new Callback()

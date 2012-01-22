@@ -1,4 +1,4 @@
-package net.fusejna.structures;
+package net.fusejna;
 
 import net.fusejna.types.TypeGid;
 import net.fusejna.types.TypePid;

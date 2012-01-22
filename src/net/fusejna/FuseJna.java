@@ -9,23 +9,10 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Logger;
 
-import net.fusejna.structures.StructFuseContext;
-import net.fusejna.structures.StructFuseOperations;
 import net.fusejna.types.TypeSize;
-
-import com.sun.jna.Library;
-import com.sun.jna.Native;
-import com.sun.jna.Pointer;
 
 final class FuseJna
 {
-	private interface LibFuse extends Library
-	{
-		StructFuseContext.ByReference fuse_get_context();
-
-		int fuse_main_real(int argc, String[] argv, StructFuseOperations op, TypeSize size, Pointer user_data);
-	}
-
 	private static final class MountThread extends Thread
 	{
 		private Integer result = null;
@@ -59,12 +46,14 @@ final class FuseJna
 	}
 
 	private static LibFuse libFuse = null;
-	private static Lock libFuseLoadLock = new ReentrantLock();
+	private static Lock initLock = new ReentrantLock();
 	private static Lock filesystemNameLock = new ReentrantLock();
 	private static final Random defaultFilesystemRandom = new Random();
 	private static final Map<File, String> filesystemNames = new HashMap<File, String>();
 	private static final long errorSleepDuration = 750;
 	private static String fusermount = "fusermount";
+	private static int currentUid = 0;
+	private static int currentGid = 0;
 
 	private static final String getFilesystemName(final File mountPoint, final String fuseName)
 	{
@@ -82,18 +71,34 @@ final class FuseJna
 		return fuseName + suffix;
 	}
 
-	static final LibFuse getFuse() throws UnsatisfiedLinkError
+	static final int getGid()
+	{
+		return currentGid;
+	}
+
+	static final int getUid()
+	{
+		return currentUid;
+	}
+
+	static final LibFuse init() throws UnsatisfiedLinkError
 	{
 		if (libFuse != null) {
 			// No need to lock if everything is fine already
 			return libFuse;
 		}
-		libFuseLoadLock.lock();
+		initLock.lock();
 		if (libFuse == null) {
-			Native.setProtected(true);
-			libFuse = (LibFuse) Native.loadLibrary("fuse", LibFuse.class);
+			libFuse = Platform.init();
 		}
-		libFuseLoadLock.unlock();
+		try {
+			currentUid = Integer.parseInt(new ProcessGobbler("id", "-u").getStdout());
+			currentGid = Integer.parseInt(new ProcessGobbler("id", "-g").getStdout());
+		}
+		catch (final Exception e) {
+			// Oh well, keep default values
+		}
+		initLock.unlock();
 		return libFuse;
 	}
 
@@ -143,7 +148,7 @@ final class FuseJna
 		argv[0] = filesystemName;
 		argv[1] = "-f";
 		argv[argv.length - 1] = mountPoint.getAbsolutePath();
-		final LibFuse fuse = getFuse();
+		final LibFuse fuse = init();
 		final StructFuseOperations operations = new StructFuseOperations(filesystem);
 		final Integer result;
 		if (blocking) {

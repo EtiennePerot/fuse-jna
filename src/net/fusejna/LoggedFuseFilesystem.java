@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import net.fusejna.structures.StructStat.StatSetter;
+import net.fusejna.StructStat.StatSetter;
 
 final class LoggedFuseFilesystem extends FuseFilesystem
 {
@@ -182,6 +182,18 @@ final class LoggedFuseFilesystem extends FuseFilesystem
 				filesystem.onMount(mountPoint);
 			}
 		}, mountPoint);
+	}
+
+	@Override
+	public int readdir(final String path, final DirectoryFiller filler)
+	{
+		return log("readdir", 0, new LoggedMethod<Integer>()
+		{
+			public Integer invoke()
+			{
+				return filesystem.readdir(path, filler);
+			}
+		}, path, filler);
 	}
 
 	@Override
