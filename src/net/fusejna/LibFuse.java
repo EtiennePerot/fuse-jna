@@ -7,7 +7,11 @@ import com.sun.jna.Pointer;
 
 interface LibFuse extends Library
 {
-	static interface LibMacFuse extends LibFuse
+	static interface LibFuseProbe extends Library
+	{
+	}
+
+	static interface LibMacFuseProbe extends LibFuseProbe
 	{
 		String macfuse_version();
 	}

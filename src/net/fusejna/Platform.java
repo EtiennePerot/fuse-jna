@@ -1,6 +1,7 @@
 package net.fusejna;
 
-import net.fusejna.LibFuse.LibMacFuse;
+import net.fusejna.LibFuse.LibFuseProbe;
+import net.fusejna.LibFuse.LibMacFuseProbe;
 
 import com.sun.jna.Native;
 
@@ -24,23 +25,33 @@ public final class Platform
 				// First, need to load iconv
 				final LibDl dl = (LibDl) Native.loadLibrary("iconv", LibDl.class);
 				dl.dlopen("iconv", LibDl.RTLD_LAZY | LibDl.RTLD_GLOBAL);
-				LibFuse libFuse = null;
+				LibFuseProbe probe = null;
 				try {
-					libFuse = (LibMacFuse) Native.loadLibrary("fuse4x", LibMacFuse.class);
-					((LibMacFuse) libFuse).macfuse_version();
-					return libFuse;
+					probe = (LibMacFuseProbe) Native.loadLibrary("fuse4x", LibMacFuseProbe.class);
+					((LibMacFuseProbe) probe).macfuse_version();
+					// MacFUSE-compatible fuse4x
+					platform = PlatformEnum.MAC_MACFUSE;
+					return (LibFuse) Native.loadLibrary("fuse4x", LibFuse.class);
 				}
 				catch (final Throwable e) {
 					try {
+						probe = (LibFuseProbe) Native.loadLibrary("fuse4x", LibFuseProbe.class);
+						// FUSE-compatible fuse4x
+						platform = PlatformEnum.MAC;
 						return (LibFuse) Native.loadLibrary("fuse4x", LibFuse.class);
 					}
 					catch (final Throwable e2) {
 						try {
-							libFuse = (LibMacFuse) Native.loadLibrary("fuse", LibMacFuse.class);
-							((LibMacFuse) libFuse).macfuse_version();
-							return libFuse;
+							probe = (LibMacFuseProbe) Native.loadLibrary("fuse", LibMacFuseProbe.class);
+							((LibMacFuseProbe) probe).macfuse_version();
+							// MacFUSE
+							platform = PlatformEnum.MAC_MACFUSE;
+							return (LibFuse) Native.loadLibrary("fuse", LibFuse.class);
 						}
 						catch (final Throwable e3) {
+							probe = (LibFuseProbe) Native.loadLibrary("fuse", LibFuseProbe.class);
+							// Some other FUSE-compatible library
+							platform = PlatformEnum.MAC;
 							return (LibFuse) Native.loadLibrary("fuse", LibFuse.class);
 						}
 					}

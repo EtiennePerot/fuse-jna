@@ -52,6 +52,7 @@ final class FuseJna
 	private static final Map<File, String> filesystemNames = new HashMap<File, String>();
 	private static final long errorSleepDuration = 750;
 	private static String fusermount = "fusermount";
+	private static String umount = "umount";
 	private static int currentUid = 0;
 	private static int currentGid = 0;
 
@@ -175,18 +176,24 @@ final class FuseJna
 		FuseJna.fusermount = fusermount;
 	}
 
+	public static final void setUmount(final String umount)
+	{
+		FuseJna.umount = umount;
+	}
+
 	static void unmount(final FuseFilesystem fuseFilesystem) throws IOException, FuseException
 	{
 		final File mountPoint = fuseFilesystem.getMountPoint();
+		ProcessGobbler fusermount;
 		try {
-			final Process fusermount = new ProcessBuilder(FuseJna.fusermount, "-l", "-u", mountPoint.toString()).start();
-			final int result = fusermount.waitFor();
-			if (result != 0) {
-				throw new FuseException(result);
-			}
+			fusermount = new ProcessGobbler(FuseJna.fusermount, "-l", "-u", mountPoint.toString());
 		}
-		catch (final InterruptedException e) {
-			// Ignore
+		catch (final IOException e) {
+			fusermount = new ProcessGobbler(FuseJna.umount, mountPoint.toString());
+		}
+		final int result = fusermount.getReturnCode();
+		if (result != 0) {
+			throw new FuseException(result);
 		}
 		unregisterFilesystemName(fuseFilesystem.getMountPoint());
 	}
