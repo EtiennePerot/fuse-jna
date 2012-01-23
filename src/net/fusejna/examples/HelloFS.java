@@ -39,7 +39,9 @@ public class HelloFS extends FuseFilesystemAdapterFull
 	@Override
 	public int read(final String path, final ByteBuffer buffer, final long size, final long offset, final FileInfoWrapper info)
 	{
-		final String s = contents.substring((int) offset, (int) Math.max(contents.length() - offset, offset));
+		// Compute substring that we are being asked to read
+		final String s = contents.substring((int) offset,
+				(int) Math.max(offset, Math.min(contents.length() - offset, offset + size)));
 		buffer.put(s.getBytes());
 		return s.getBytes().length;
 	}
