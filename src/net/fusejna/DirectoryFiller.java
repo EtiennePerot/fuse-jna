@@ -22,7 +22,7 @@ public final class DirectoryFiller
 		add(currentDirectory, parentDirectory);
 	}
 
-	public boolean add(final Iterable<String> files)
+	public final boolean add(final Iterable<String> files)
 	{
 		int result;
 		for (final String file : files) {
@@ -37,7 +37,7 @@ public final class DirectoryFiller
 		return true;
 	}
 
-	public boolean add(final String... files)
+	public final boolean add(final String... files)
 	{
 		return add(Arrays.asList(files));
 	}

@@ -1,10 +1,12 @@
 package net.fusejna;
 
 import java.io.File;
+import java.nio.ByteBuffer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import net.fusejna.StructStat.StatSetter;
+import net.fusejna.StructFuseFileInfo.FileInfoWrapper;
+import net.fusejna.StructStat.StatWrapper;
 
 final class LoggedFuseFilesystem extends FuseFilesystem
 {
@@ -72,7 +74,20 @@ final class LoggedFuseFilesystem extends FuseFilesystem
 	}
 
 	@Override
-	public int getattr(final String path, final StatSetter stat)
+	public int fgetattr(final String path, final StatWrapper stat, final FileInfoWrapper info)
+	{
+		return log("fgetattr", 0, new LoggedMethod<Integer>()
+		{
+			@Override
+			public Integer invoke()
+			{
+				return filesystem.fgetattr(path, stat, info);
+			}
+		}, path, stat);
+	}
+
+	@Override
+	public int getattr(final String path, final StatWrapper stat)
 	{
 		return log("getattr", 0, new LoggedMethod<Integer>()
 		{
@@ -182,6 +197,31 @@ final class LoggedFuseFilesystem extends FuseFilesystem
 				filesystem.onMount(mountPoint);
 			}
 		}, mountPoint);
+	}
+
+	@Override
+	public int open(final String path, final FileInfoWrapper info)
+	{
+		return log("open", 0, new LoggedMethod<Integer>()
+		{
+			@Override
+			public Integer invoke()
+			{
+				return filesystem.open(path, info);
+			}
+		}, path, info);
+	}
+
+	@Override
+	public int read(final String path, final ByteBuffer buffer, final long size, final long offset, final FileInfoWrapper info)
+	{
+		return log("read", 0, new LoggedMethod<Integer>()
+		{
+			public Integer invoke()
+			{
+				return filesystem.read(path, buffer, size, offset, info);
+			}
+		}, path, buffer, size, offset, info);
 	}
 
 	@Override

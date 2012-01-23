@@ -2,13 +2,16 @@ package net.fusejna;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
+import net.fusejna.StructFuseFileInfo.FileInfoWrapper;
 import net.fusejna.StructStat.NodeType;
-import net.fusejna.StructStat.StatSetter;
+import net.fusejna.StructStat.StatWrapper;
 import net.fusejna.types.TypeOff;
+import net.fusejna.types.TypeSize;
 
 import com.sun.jna.Function;
 import com.sun.jna.Pointer;
@@ -36,14 +39,24 @@ public abstract class FuseFilesystem
 	}
 
 	@FuseMethod
+	final int _fgetattr(final String path, final StructStat stat, final StructFuseFileInfo info)
+	{
+		final StatWrapper swrapper = new StatWrapper(path, stat);
+		defaultStat(swrapper, FuseJna.getUid(), FuseJna.getGid());
+		final FileInfoWrapper fwrapper = new FileInfoWrapper(path, info);
+		final int result = fgetattr(path, swrapper, fwrapper);
+		swrapper.write();
+		fwrapper.write();
+		return result;
+	}
+
+	@FuseMethod
 	final int _getattr(final String path, final StructStat stat)
 	{
-		final StatSetter setter = new StatSetter(path, stat);
-		// Set some sensible defaults
-		setter.setMode(NodeType.DIRECTORY).setAllTimesMillis(System.currentTimeMillis()).nlink(1).uid(FuseJna.getUid())
-				.gid(FuseJna.getGid());
-		final int result = getattr(path, setter);
-		stat.write();
+		final StatWrapper wrapper = new StatWrapper(path, stat);
+		defaultStat(wrapper, FuseJna.getUid(), FuseJna.getGid());
+		final int result = getattr(path, wrapper);
+		wrapper.write();
 		return result;
 	}
 
@@ -54,8 +67,30 @@ public abstract class FuseFilesystem
 	}
 
 	@FuseMethod
+	final int _open(final String path, final StructFuseFileInfo info)
+	{
+		final FileInfoWrapper wrapper = new FileInfoWrapper(path, info);
+		final int result = open(path, wrapper);
+		wrapper.write();
+		return result;
+	}
+
+	@FuseMethod
+	final int _read(final String path, final Pointer buffer, final TypeSize size, final TypeOff offset,
+			final StructFuseFileInfo info)
+	{
+		final long bufSize = size.longValue();
+		final long readOffset = offset.longValue();
+		final ByteBuffer buf = buffer.getByteBuffer(0, bufSize);
+		final FileInfoWrapper wrapper = new FileInfoWrapper(path, info);
+		final int result = read(path, buf, bufSize, readOffset, wrapper);
+		wrapper.write();
+		return result;
+	}
+
+	@FuseMethod
 	final int _readdir(final String path, final Pointer buf, final Pointer fillFunction, final TypeOff offset,
-			final net.fusejna.StructFuseFileInfo.ByReference info)
+			final net.fusejna.StructFuseFileInfo info)
 	{
 		return readdir(path, new DirectoryFiller(buf, Function.getFunction(fillFunction)));
 	}
@@ -64,11 +99,28 @@ public abstract class FuseFilesystem
 
 	public abstract void beforeUnmount(final File mountPoint);
 
+	/**
+	 * Subclasses may override this to customize the default parameters applied to the stat structure, or to prevent such
+	 * behavior (by overriding this method with an empty one)
+	 * 
+	 * @param stat
+	 *            The
+	 */
+	protected void defaultStat(final StatWrapper wrapper, final long uid, final long gid)
+	{
+		// Set some sensible defaults
+		wrapper.setMode(NodeType.DIRECTORY).setAllTimesMillis(System.currentTimeMillis()).nlink(1).uid(FuseJna.getUid())
+				.gid(FuseJna.getGid());
+	}
+
 	@UserMethod
 	public abstract void destroy();
 
 	@UserMethod
-	public abstract int getattr(final String path, final StatSetter stat);
+	public abstract int fgetattr(final String path, final StatWrapper stat, FileInfoWrapper info);
+
+	@UserMethod
+	public abstract int getattr(final String path, final StatWrapper stat);
 
 	final String getFuseName()
 	{
@@ -152,6 +204,11 @@ public abstract class FuseFilesystem
 	}
 
 	public abstract void onMount(final File mountPoint);
+
+	@UserMethod
+	public abstract int open(final String path, final FileInfoWrapper info);
+
+	public abstract int read(final String path, ByteBuffer buffer, long size, long offset, final FileInfoWrapper info);
 
 	@UserMethod
 	public abstract int readdir(final String path, DirectoryFiller filler);

@@ -90,7 +90,7 @@ final class FuseJna
 		}
 		initLock.lock();
 		if (libFuse == null) {
-			libFuse = Platform.init();
+			libFuse = Platform.fuse();
 		}
 		try {
 			currentUid = Integer.parseInt(new ProcessGobbler("id", "-u").getStdout());

@@ -556,160 +556,160 @@ public abstract class StructStat extends Structure
 		}
 	}
 
-	public static final class StatSetter
+	public static final class StatWrapper
 	{
 		private final StructStat structStat;
 		private final String path;
 
-		StatSetter(final String path, final StructStat structStat)
+		StatWrapper(final String path, final StructStat structStat)
 		{
 			this.path = path;
 			this.structStat = structStat;
 		}
 
-		StatSetter(final StructStat structStat)
+		StatWrapper(final StructStat structStat)
 		{
 			this(null, structStat);
 		}
 
-		public final StatSetter atime(final long sec)
+		public final StatWrapper atime(final long sec)
 		{
 			return atime(sec, 0);
 		}
 
-		public final StatSetter atime(final long sec, final long nsec)
+		public final StatWrapper atime(final long sec, final long nsec)
 		{
 			structStat.st_atime(sec, nsec);
 			return this;
 		}
 
-		public final StatSetter blksize(final long blksize)
+		public final StatWrapper blksize(final long blksize)
 		{
 			structStat.st_blksize(blksize);
 			return this;
 		}
 
-		public final StatSetter blocks(final long blocks)
+		public final StatWrapper blocks(final long blocks)
 		{
 			structStat.st_blocks(blocks);
 			return this;
 		}
 
-		public final StatSetter ctime(final long sec)
+		public final StatWrapper ctime(final long sec)
 		{
 			return ctime(sec, 0);
 		}
 
-		public final StatSetter ctime(final long sec, final long nsec)
+		public final StatWrapper ctime(final long sec, final long nsec)
 		{
 			structStat.st_ctime(sec, nsec);
 			return this;
 		}
 
-		public final StatSetter dev(final long dev)
+		public final StatWrapper dev(final long dev)
 		{
 			structStat.st_dev(dev);
 			return this;
 		}
 
-		public final StatSetter gen(final long gen)
+		public final StatWrapper gen(final long gen)
 		{
 			structStat.st_gen(gen);
 			return this;
 		}
 
-		public final StatSetter gid(final long gid)
+		public final StatWrapper gid(final long gid)
 		{
 			structStat.st_gid(gid);
 			return this;
 		}
 
-		public final StatSetter ino(final long ino)
+		public final StatWrapper ino(final long ino)
 		{
 			structStat.st_ino(ino);
 			return this;
 		}
 
-		public final StatSetter lspare(final long lspare)
+		public final StatWrapper lspare(final long lspare)
 		{
 			structStat.st_lspare(lspare);
 			return this;
 		}
 
-		public final StatSetter mode(final long mode)
+		public final StatWrapper mode(final long mode)
 		{
 			structStat.st_mode(mode);
 			return this;
 		}
 
-		public final StatSetter mtime(final long sec)
+		public final StatWrapper mtime(final long sec)
 		{
 			return mtime(sec, 0);
 		}
 
-		public final StatSetter mtime(final long sec, final long nsec)
+		public final StatWrapper mtime(final long sec, final long nsec)
 		{
 			structStat.st_atime(sec, nsec);
 			return this;
 		}
 
-		public final StatSetter nlink(final long nlink)
+		public final StatWrapper nlink(final long nlink)
 		{
 			structStat.st_nlink(nlink);
 			return this;
 		}
 
-		public final StatSetter qspare(final long qspare)
+		public final StatWrapper qspare(final long qspare)
 		{
 			structStat.st_qspare(qspare);
 			return this;
 		}
 
-		public final StatSetter rdev(final long rdev)
+		public final StatWrapper rdev(final long rdev)
 		{
 			structStat.st_rdev(rdev);
 			return this;
 		}
 
-		public final StatSetter setAllTimes(final long sec, final long nsec)
+		public final StatWrapper setAllTimes(final long sec, final long nsec)
 		{
 			return setTimes(sec, nsec, sec, nsec, sec, nsec);
 		}
 
-		public final StatSetter setAllTimesMillis(final long millis)
+		public final StatWrapper setAllTimesMillis(final long millis)
 		{
 			final long sec = millis / 1000L;
 			final long nsec = (millis % 1000L) * 1000000L;
 			return setAllTimes(sec, nsec);
 		}
 
-		public final StatSetter setAllTimesSec(final long sec)
+		public final StatWrapper setAllTimesSec(final long sec)
 		{
 			return setAllTimesSec(sec, sec, sec);
 		}
 
-		public final StatSetter setAllTimesSec(final long atime, final long mtime, final long ctime)
+		public final StatWrapper setAllTimesSec(final long atime, final long mtime, final long ctime)
 		{
 			return setAllTimesSec(atime, mtime, ctime, ctime);
 		}
 
-		public final StatSetter setAllTimesSec(final long atime, final long mtime, final long ctime, final long birthtime)
+		public final StatWrapper setAllTimesSec(final long atime, final long mtime, final long ctime, final long birthtime)
 		{
 			return setTimes(atime, 0, mtime, 0, ctime, 0);
 		}
 
-		public final StatSetter setMode(final NodeType type)
+		public final StatWrapper setMode(final NodeType type)
 		{
 			return setMode(type, true, true, true, true, true, true, true, true, true);
 		}
 
-		public final StatSetter setMode(final NodeType type, final boolean readable, final boolean writable,
+		public final StatWrapper setMode(final NodeType type, final boolean readable, final boolean writable,
 				final boolean executable)
 		{
 			return setMode(type, readable, writable, executable, readable, writable, executable, readable, writable, executable);
 		}
 
-		public final StatSetter setMode(final NodeType type, final boolean ownerReadable, final boolean ownerWritable,
+		public final StatWrapper setMode(final NodeType type, final boolean ownerReadable, final boolean ownerWritable,
 				final boolean ownerExecutable, final boolean groupReadable, final boolean groupWritable,
 				final boolean groupExecutable, final boolean otherReadable, final boolean otherWritable,
 				final boolean otherExecutable)
@@ -721,13 +721,13 @@ public abstract class StructStat extends Structure
 			return mode(mode);
 		}
 
-		public final StatSetter setTimes(final long atime_sec, final long atime_nsec, final long mtime_sec,
+		public final StatWrapper setTimes(final long atime_sec, final long atime_nsec, final long mtime_sec,
 				final long mtime_nsec, final long ctime_sec, final long ctime_nsec)
 		{
 			return setTimes(atime_sec, atime_nsec, mtime_sec, mtime_nsec, ctime_sec, ctime_nsec, ctime_sec, ctime_nsec);
 		}
 
-		public final StatSetter setTimes(final long atime_sec, final long atime_nsec, final long mtime_sec,
+		public final StatWrapper setTimes(final long atime_sec, final long atime_nsec, final long mtime_sec,
 				final long mtime_nsec, final long ctime_sec, final long ctime_nsec, final long birthtime_sec,
 				final long birthtime_nsec)
 		{
@@ -738,7 +738,7 @@ public abstract class StructStat extends Structure
 			return this;
 		}
 
-		public final StatSetter size(final long size)
+		public final StatWrapper size(final long size)
 		{
 			structStat.st_size(size);
 			return this;
@@ -753,10 +753,15 @@ public abstract class StructStat extends Structure
 			return structStat.toString();
 		}
 
-		public final StatSetter uid(final long uid)
+		public final StatWrapper uid(final long uid)
 		{
 			structStat.st_uid(uid);
 			return this;
+		}
+
+		final void write()
+		{
+			structStat.write();
 		}
 	}
 

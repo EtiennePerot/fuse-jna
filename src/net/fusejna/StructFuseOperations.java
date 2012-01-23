@@ -80,6 +80,14 @@ public class StructFuseOperations extends Structure
 						return filesystem._getattr(path, stat);
 					}
 				};
+				fgetattr = new Callback()
+				{
+					public final int callback(final String path, final StructStat.x86_64.ByReference stat,
+							final StructFuseFileInfo.ByReference info)
+					{
+						return filesystem._fgetattr(path, stat, info);
+					}
+				};
 				break;
 			case LINUX_I686:
 				getattr = new Callback()
@@ -87,6 +95,14 @@ public class StructFuseOperations extends Structure
 					public final int callback(final String path, final StructStat.i686.ByReference stat)
 					{
 						return filesystem._getattr(path, stat);
+					}
+				};
+				fgetattr = new Callback()
+				{
+					public final int callback(final String path, final StructStat.i686.ByReference stat,
+							final StructFuseFileInfo.ByReference info)
+					{
+						return filesystem._fgetattr(path, stat, info);
 					}
 				};
 				break;
@@ -98,6 +114,14 @@ public class StructFuseOperations extends Structure
 						return filesystem._getattr(path, stat);
 					}
 				};
+				fgetattr = new Callback()
+				{
+					public final int callback(final String path, final StructStat.ppc.ByReference stat,
+							final StructFuseFileInfo.ByReference info)
+					{
+						return filesystem._fgetattr(path, stat, info);
+					}
+				};
 				break;
 			case MAC:
 				getattr = new Callback()
@@ -105,6 +129,14 @@ public class StructFuseOperations extends Structure
 					public final int callback(final String path, final StructStat.mac.ByReference stat)
 					{
 						return filesystem._getattr(path, stat);
+					}
+				};
+				fgetattr = new Callback()
+				{
+					public final int callback(final String path, final StructStat.mac.ByReference stat,
+							final StructFuseFileInfo.ByReference info)
+					{
+						return filesystem._fgetattr(path, stat, info);
 					}
 				};
 				break;
@@ -115,6 +147,14 @@ public class StructFuseOperations extends Structure
 					public final int callback(final String path, final StructStat.bsd.ByReference stat)
 					{
 						return filesystem._getattr(path, stat);
+					}
+				};
+				fgetattr = new Callback()
+				{
+					public final int callback(final String path, final StructStat.bsd.ByReference stat,
+							final StructFuseFileInfo.ByReference info)
+					{
+						return filesystem._fgetattr(path, stat, info);
 					}
 				};
 				break;
@@ -211,8 +251,7 @@ public class StructFuseOperations extends Structure
 		{
 			public final int callback(final String path, final StructFuseFileInfo.ByReference info)
 			{
-				System.out.println("open");
-				return 0;
+				return filesystem._open(path, info);
 			}
 		};
 		read = new Callback()
@@ -220,8 +259,7 @@ public class StructFuseOperations extends Structure
 			public final int callback(final String path, final Pointer buffer, final TypeSize size, final TypeOff offset,
 					final StructFuseFileInfo.ByReference info)
 			{
-				System.out.println("read");
-				return 0;
+				return filesystem._read(path, buffer, size, offset, info);
 			}
 		};
 		write = new Callback()
@@ -253,7 +291,7 @@ public class StructFuseOperations extends Structure
 		{
 			public final int callback(final String path, final StructFuseFileInfo.ByReference info)
 			{
-				System.out.println("info");
+				System.out.println("release");
 				return 0;
 			}
 		};
@@ -366,14 +404,6 @@ public class StructFuseOperations extends Structure
 			public final int callback(final String path, final TypeOff offset, final StructFuseFileInfo.ByReference info)
 			{
 				System.out.println("ftruncate");
-				return 0;
-			}
-		};
-		fgetattr = new Callback()
-		{
-			public final int callback(final String path, final Pointer attr, final StructFuseFileInfo.ByReference info)
-			{
-				System.out.println("fgetattr");
 				return 0;
 			}
 		};
