@@ -11,22 +11,22 @@ import net.fusejna.types.TypeMode.ModeWrapper;
 
 final class LoggedFuseFilesystem extends FuseFilesystem
 {
-	private interface LoggedMethod<T>
+	private static interface LoggedMethod<T>
 	{
 		public T invoke();
 	}
 
-	private interface LoggedVoidMethod
+	private static interface LoggedVoidMethod
 	{
 		public void invoke();
 	}
 
-	private final String className;
-	private final Logger logger;
-	private final FuseFilesystem filesystem;
 	private static final String methodSuccess = "Method succeeded.";
 	private static final String methodFailure = "Exception thrown: ";
 	private static final String methodResult = " Result: ";
+	private final String className;
+	private final Logger logger;
+	private final FuseFilesystem filesystem;
 
 	LoggedFuseFilesystem(final FuseFilesystem filesystem, final Logger logger)
 	{
@@ -279,5 +279,18 @@ final class LoggedFuseFilesystem extends FuseFilesystem
 	{
 		super.setFinalMountPoint(mountPoint);
 		filesystem.setFinalMountPoint(mountPoint);
+	}
+
+	@Override
+	public int unlink(final String path)
+	{
+		return log("unlink", 0, new LoggedMethod<Integer>()
+		{
+			@Override
+			public Integer invoke()
+			{
+				return filesystem.unlink(path);
+			}
+		}, path);
 	}
 }

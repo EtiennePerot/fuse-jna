@@ -69,6 +69,7 @@ public abstract class FuseFilesystem
 		init();
 	}
 
+	@FuseMethod
 	final int _mkdir(final String path, final TypeMode mode)
 	{
 		return mkdir(path, new ModeWrapper(mode.longValue()));
@@ -115,6 +116,12 @@ public abstract class FuseFilesystem
 		final long bufSize = size.longValue();
 		final ByteBuffer buf = buffer.getByteBuffer(0, bufSize);
 		return readlink(path, buf, bufSize);
+	}
+
+	@FuseMethod
+	final int _unlink(final String path)
+	{
+		return unlink(path);
 	}
 
 	public abstract void afterUnmount(final File mountPoint);
@@ -199,6 +206,7 @@ public abstract class FuseFilesystem
 		return this;
 	}
 
+	@UserMethod
 	public abstract int mkdir(String path, ModeWrapper modeWrapper);
 
 	@UserMethod
@@ -235,6 +243,7 @@ public abstract class FuseFilesystem
 	@UserMethod
 	public abstract int open(final String path, final FileInfoWrapper info);
 
+	@UserMethod
 	public abstract int read(final String path, ByteBuffer buffer, long size, long offset, final FileInfoWrapper info);
 
 	@UserMethod
@@ -249,6 +258,9 @@ public abstract class FuseFilesystem
 		this.mountPoint = mountPoint;
 		mountLock.unlock();
 	}
+
+	@UserMethod
+	public abstract int unlink(String path);
 
 	public final void unmount() throws IOException, FuseException
 	{

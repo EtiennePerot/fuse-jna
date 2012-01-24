@@ -184,8 +184,7 @@ public class StructFuseOperations extends Structure
 		{
 			public final int callback(final String path)
 			{
-				System.out.println("unlink");
-				return 0;
+				return filesystem._unlink(path);
 			}
 		};
 		rmdir = new Callback()

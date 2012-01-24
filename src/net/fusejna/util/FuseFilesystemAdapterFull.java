@@ -96,4 +96,10 @@ public abstract class FuseFilesystemAdapterFull extends FuseFilesystem
 	{
 		return 0;
 	}
+
+	@Override
+	public int unlink(final String path)
+	{
+		return 0;
+	}
 }
