@@ -23,6 +23,12 @@ public abstract class FuseFilesystemAdapterFull extends FuseFilesystem
 	}
 
 	@Override
+	public int chmod(final String path, final ModeWrapper modeWrapper)
+	{
+		return 0;
+	}
+
+	@Override
 	public void destroy()
 	{
 	}

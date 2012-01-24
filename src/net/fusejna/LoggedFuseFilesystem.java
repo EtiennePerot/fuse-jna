@@ -62,6 +62,19 @@ final class LoggedFuseFilesystem extends FuseFilesystem
 	}
 
 	@Override
+	public int chmod(final String path, final ModeWrapper modeWrapper)
+	{
+		return log("chmod", 0, new LoggedMethod<Integer>()
+		{
+			@Override
+			public Integer invoke()
+			{
+				return filesystem.chmod(path, modeWrapper);
+			}
+		}, path, modeWrapper);
+	}
+
+	@Override
 	public void destroy()
 	{
 		log("destroy", new LoggedVoidMethod()

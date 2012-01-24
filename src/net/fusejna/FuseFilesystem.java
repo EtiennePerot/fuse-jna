@@ -36,6 +36,12 @@ public abstract class FuseFilesystem
 	private Logger logger = null;
 
 	@FuseMethod
+	final int _chmod(final String path, final TypeMode mode)
+	{
+		return chmod(path, new ModeWrapper(mode.longValue()));
+	}
+
+	@FuseMethod
 	final void _destroy()
 	{
 		destroy();
@@ -151,6 +157,9 @@ public abstract class FuseFilesystem
 	public abstract void afterUnmount(final File mountPoint);
 
 	public abstract void beforeUnmount(final File mountPoint);
+
+	@UserMethod
+	public abstract int chmod(String path, ModeWrapper modeWrapper);
 
 	/**
 	 * Subclasses may override this to customize the default parameters applied to the stat structure, or to prevent such
