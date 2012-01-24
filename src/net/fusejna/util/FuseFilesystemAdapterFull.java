@@ -98,6 +98,12 @@ public abstract class FuseFilesystemAdapterFull extends FuseFilesystem
 	}
 
 	@Override
+	public int rmdir(final String path)
+	{
+		return 0;
+	}
+
+	@Override
 	public int unlink(final String path)
 	{
 		return 0;

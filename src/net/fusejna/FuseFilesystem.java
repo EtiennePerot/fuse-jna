@@ -119,6 +119,12 @@ public abstract class FuseFilesystem
 	}
 
 	@FuseMethod
+	final int _rmdir(final String path)
+	{
+		return rmdir(path);
+	}
+
+	@FuseMethod
 	final int _unlink(final String path)
 	{
 		return unlink(path);
@@ -251,6 +257,9 @@ public abstract class FuseFilesystem
 
 	@UserMethod
 	public abstract int readlink(final String path, ByteBuffer buffer, long size);
+
+	@UserMethod
+	public abstract int rmdir(String path);
 
 	void setFinalMountPoint(final File mountPoint)
 	{

@@ -191,8 +191,7 @@ public class StructFuseOperations extends Structure
 		{
 			public final int callback(final String path)
 			{
-				System.out.println("rmdir");
-				return 0;
+				return filesystem._rmdir(path);
 			}
 		};
 		symlink = new Callback()

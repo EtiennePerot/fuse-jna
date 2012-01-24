@@ -275,6 +275,19 @@ final class LoggedFuseFilesystem extends FuseFilesystem
 	}
 
 	@Override
+	public int rmdir(final String path)
+	{
+		return log("rmdir", 0, new LoggedMethod<Integer>()
+		{
+			@Override
+			public Integer invoke()
+			{
+				return filesystem.rmdir(path);
+			}
+		}, path);
+	}
+
+	@Override
 	void setFinalMountPoint(final File mountPoint)
 	{
 		super.setFinalMountPoint(mountPoint);
