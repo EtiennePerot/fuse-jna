@@ -226,8 +226,7 @@ public class StructFuseOperations extends Structure
 		{
 			public final int callback(final String path, final TypeUid uid, final TypeGid gid)
 			{
-				System.out.println("chown");
-				return 0;
+				return filesystem._chown(path, uid, gid);
 			}
 		};
 		truncate = new Callback()

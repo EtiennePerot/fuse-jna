@@ -10,11 +10,13 @@ import java.util.regex.Pattern;
 import net.fusejna.StructFuseFileInfo.FileInfoWrapper;
 import net.fusejna.StructStat.StatWrapper;
 import net.fusejna.types.TypeDev;
+import net.fusejna.types.TypeGid;
 import net.fusejna.types.TypeMode;
 import net.fusejna.types.TypeMode.ModeWrapper;
 import net.fusejna.types.TypeMode.NodeType;
 import net.fusejna.types.TypeOff;
 import net.fusejna.types.TypeSize;
+import net.fusejna.types.TypeUid;
 
 import com.sun.jna.Function;
 import com.sun.jna.Pointer;
@@ -39,6 +41,12 @@ public abstract class FuseFilesystem
 	final int _chmod(final String path, final TypeMode mode)
 	{
 		return chmod(path, new ModeWrapper(mode.longValue()));
+	}
+
+	@FuseMethod
+	final int _chown(final String path, final TypeUid uid, final TypeGid gid)
+	{
+		return chown(path, uid.longValue(), gid.longValue());
 	}
 
 	@FuseMethod
@@ -160,6 +168,9 @@ public abstract class FuseFilesystem
 
 	@UserMethod
 	public abstract int chmod(String path, ModeWrapper modeWrapper);
+
+	@UserMethod
+	public abstract int chown(String path, long uid, long gid);
 
 	/**
 	 * Subclasses may override this to customize the default parameters applied to the stat structure, or to prevent such

@@ -29,6 +29,12 @@ public abstract class FuseFilesystemAdapterFull extends FuseFilesystem
 	}
 
 	@Override
+	public int chown(final String path, final long uid, final long gid)
+	{
+		return 0;
+	}
+
+	@Override
 	public void destroy()
 	{
 	}

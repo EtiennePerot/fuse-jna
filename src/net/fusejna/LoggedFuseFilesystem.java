@@ -75,6 +75,19 @@ final class LoggedFuseFilesystem extends FuseFilesystem
 	}
 
 	@Override
+	public int chown(final String path, final long uid, final long gid)
+	{
+		return log("chown", 0, new LoggedMethod<Integer>()
+		{
+			@Override
+			public Integer invoke()
+			{
+				return filesystem.chown(path, uid, gid);
+			}
+		}, path, uid, gid);
+	}
+
+	@Override
 	public void destroy()
 	{
 		log("destroy", new LoggedVoidMethod()
