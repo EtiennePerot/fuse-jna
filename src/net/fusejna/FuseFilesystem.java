@@ -70,6 +70,12 @@ public abstract class FuseFilesystem
 	}
 
 	@FuseMethod
+	final int _link(final String path, final String target)
+	{
+		return link(path, target);
+	}
+
+	@FuseMethod
 	final int _mkdir(final String path, final TypeMode mode)
 	{
 		return mkdir(path, new ModeWrapper(mode.longValue()));
@@ -206,6 +212,9 @@ public abstract class FuseFilesystem
 	{
 		return getMountPoint() != null;
 	}
+
+	@UserMethod
+	public abstract int link(String path, String target);
 
 	protected final FuseFilesystem log(final boolean logging)
 	{

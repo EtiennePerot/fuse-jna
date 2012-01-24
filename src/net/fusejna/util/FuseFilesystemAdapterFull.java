@@ -57,6 +57,12 @@ public abstract class FuseFilesystemAdapterFull extends FuseFilesystem
 	}
 
 	@Override
+	public int link(final String path, final String target)
+	{
+		return 0;
+	}
+
+	@Override
 	public int mkdir(final String path, final ModeWrapper modeWrapper)
 	{
 		return 0;

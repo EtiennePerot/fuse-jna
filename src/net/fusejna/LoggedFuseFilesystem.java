@@ -139,6 +139,19 @@ final class LoggedFuseFilesystem extends FuseFilesystem
 		});
 	}
 
+	@Override
+	public int link(final String path, final String target)
+	{
+		return log("link", 0, new LoggedMethod<Integer>()
+		{
+			@Override
+			public Integer invoke()
+			{
+				return filesystem.link(path, target);
+			}
+		}, path, target);
+	}
+
 	private void log(final String methodName, final LoggedVoidMethod method)
 	{
 		log(methodName, method, null, (Object[]) null);

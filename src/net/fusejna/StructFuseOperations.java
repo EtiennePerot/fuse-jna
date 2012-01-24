@@ -212,8 +212,7 @@ public class StructFuseOperations extends Structure
 		{
 			public final int callback(final String path, final String target)
 			{
-				System.out.println("link");
-				return 0;
+				return filesystem._link(path, target);
 			}
 		};
 		chmod = new Callback()
