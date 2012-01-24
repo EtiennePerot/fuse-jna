@@ -198,8 +198,7 @@ public class StructFuseOperations extends Structure
 		{
 			public final int callback(final String path, final String target)
 			{
-				System.out.println("symlink");
-				return 0;
+				return filesystem._symlink(path, target);
 			}
 		};
 		rename = new Callback()

@@ -45,7 +45,7 @@ final class LoggedFuseFilesystem extends FuseFilesystem
 			{
 				filesystem.afterUnmount(mountPoint);
 			}
-		}, mountPoint);
+		}, mountPoint.toString());
 	}
 
 	@Override
@@ -58,7 +58,7 @@ final class LoggedFuseFilesystem extends FuseFilesystem
 			{
 				filesystem.beforeUnmount(mountPoint);
 			}
-		}, mountPoint);
+		}, mountPoint.toString());
 	}
 
 	@Override
@@ -141,15 +141,15 @@ final class LoggedFuseFilesystem extends FuseFilesystem
 
 	private void log(final String methodName, final LoggedVoidMethod method)
 	{
-		log(methodName, method, (Object[]) null);
+		log(methodName, method, null, (Object[]) null);
 	}
 
-	private void log(final String methodName, final LoggedVoidMethod method, final Object... args)
+	private void log(final String methodName, final LoggedVoidMethod method, final String path, final Object... args)
 	{
 		try {
 			logger.entering(className, methodName, args);
 			method.invoke();
-			logger.logp(Level.INFO, className, methodName, methodSuccess, args);
+			logger.logp(Level.INFO, className, methodName, (path == null ? "" : "[" + path + "] ") + methodSuccess, args);
 			logger.exiting(className, methodName, args);
 		}
 		catch (final Throwable e) {
@@ -159,15 +159,17 @@ final class LoggedFuseFilesystem extends FuseFilesystem
 
 	private <T> T log(final String methodName, final T defaultValue, final LoggedMethod<T> method)
 	{
-		return log(methodName, defaultValue, method, (Object[]) null);
+		return log(methodName, defaultValue, method, null, (Object[]) null);
 	}
 
-	private <T> T log(final String methodName, final T defaultValue, final LoggedMethod<T> method, final Object... args)
+	private <T> T log(final String methodName, final T defaultValue, final LoggedMethod<T> method, final String path,
+			final Object... args)
 	{
 		try {
 			logger.entering(className, methodName, args);
 			final T result = method.invoke();
-			logger.logp(Level.INFO, className, methodName, methodSuccess + methodResult + result, args);
+			logger.logp(Level.INFO, className, methodName, (path == null ? "" : "[" + path + "] ") + methodSuccess
+					+ methodResult + result, args);
 			logger.exiting(className, methodName, args);
 			return result;
 		}
@@ -215,14 +217,14 @@ final class LoggedFuseFilesystem extends FuseFilesystem
 	@Override
 	public void onMount(final File mountPoint)
 	{
-		log("onMouse", new LoggedVoidMethod()
+		log("onMount", new LoggedVoidMethod()
 		{
 			@Override
 			public void invoke()
 			{
 				filesystem.onMount(mountPoint);
 			}
-		}, mountPoint);
+		}, mountPoint.toString());
 	}
 
 	@Override
@@ -292,6 +294,19 @@ final class LoggedFuseFilesystem extends FuseFilesystem
 	{
 		super.setFinalMountPoint(mountPoint);
 		filesystem.setFinalMountPoint(mountPoint);
+	}
+
+	@Override
+	public int symlink(final String path, final String target)
+	{
+		return log("symlink", 0, new LoggedMethod<Integer>()
+		{
+			@Override
+			public Integer invoke()
+			{
+				return filesystem.symlink(path, target);
+			}
+		}, path, target);
 	}
 
 	@Override

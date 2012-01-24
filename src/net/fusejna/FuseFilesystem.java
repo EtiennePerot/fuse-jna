@@ -125,6 +125,12 @@ public abstract class FuseFilesystem
 	}
 
 	@FuseMethod
+	final int _symlink(final String path, final String target)
+	{
+		return symlink(path, target);
+	}
+
+	@FuseMethod
 	final int _unlink(final String path)
 	{
 		return unlink(path);
@@ -267,6 +273,9 @@ public abstract class FuseFilesystem
 		this.mountPoint = mountPoint;
 		mountLock.unlock();
 	}
+
+	@UserMethod
+	public abstract int symlink(String path, String target);
 
 	@UserMethod
 	public abstract int unlink(String path);
