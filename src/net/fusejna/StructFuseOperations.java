@@ -205,8 +205,7 @@ public class StructFuseOperations extends Structure
 		{
 			public final int callback(final String path, final String newName)
 			{
-				System.out.println("rename");
-				return 0;
+				return filesystem._rename(path, newName);
 			}
 		};
 		link = new Callback()

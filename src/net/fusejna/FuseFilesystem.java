@@ -119,6 +119,12 @@ public abstract class FuseFilesystem
 	}
 
 	@FuseMethod
+	final int _rename(final String path, final String newName)
+	{
+		return rename(path, newName);
+	}
+
+	@FuseMethod
 	final int _rmdir(final String path)
 	{
 		return rmdir(path);
@@ -263,6 +269,9 @@ public abstract class FuseFilesystem
 
 	@UserMethod
 	public abstract int readlink(final String path, ByteBuffer buffer, long size);
+
+	@UserMethod
+	public abstract int rename(String path, String newName);
 
 	@UserMethod
 	public abstract int rmdir(String path);

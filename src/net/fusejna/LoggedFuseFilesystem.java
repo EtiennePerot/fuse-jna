@@ -277,6 +277,19 @@ final class LoggedFuseFilesystem extends FuseFilesystem
 	}
 
 	@Override
+	public int rename(final String path, final String newName)
+	{
+		return log("rename", 0, new LoggedMethod<Integer>()
+		{
+			@Override
+			public Integer invoke()
+			{
+				return filesystem.rename(path, newName);
+			}
+		});
+	}
+
+	@Override
 	public int rmdir(final String path)
 	{
 		return log("rmdir", 0, new LoggedMethod<Integer>()
