@@ -177,8 +177,7 @@ public class StructFuseOperations extends Structure
 		{
 			public final int callback(final String path, final TypeMode mode)
 			{
-				System.out.println("mkdir");
-				return 0;
+				return filesystem._mkdir(path, mode);
 			}
 		};
 		unlink = new Callback()

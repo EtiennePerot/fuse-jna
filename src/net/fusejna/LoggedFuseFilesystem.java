@@ -188,6 +188,19 @@ final class LoggedFuseFilesystem extends FuseFilesystem
 	}
 
 	@Override
+	public int mkdir(final String path, final ModeWrapper modeWrapper)
+	{
+		return log("mkdir", 0, new LoggedMethod<Integer>()
+		{
+			@Override
+			public Integer invoke()
+			{
+				return filesystem.mkdir(path, modeWrapper);
+			}
+		}, path, modeWrapper);
+	}
+
+	@Override
 	public int mknod(final String path, final ModeWrapper modeWrapper, final long dev)
 	{
 		return log("mknod", 0, new LoggedMethod<Integer>()

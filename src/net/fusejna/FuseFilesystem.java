@@ -69,6 +69,11 @@ public abstract class FuseFilesystem
 		init();
 	}
 
+	final int _mkdir(final String path, final TypeMode mode)
+	{
+		return mkdir(path, new ModeWrapper(mode.longValue()));
+	}
+
 	@FuseMethod
 	final int _mknod(final String path, final TypeMode mode, final TypeDev dev)
 	{
@@ -193,6 +198,8 @@ public abstract class FuseFilesystem
 		mountLock.unlock();
 		return this;
 	}
+
+	public abstract int mkdir(String path, ModeWrapper modeWrapper);
 
 	@UserMethod
 	public abstract int mknod(final String path, ModeWrapper modeWrapper, long dev);
