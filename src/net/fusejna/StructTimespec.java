@@ -16,6 +16,16 @@ public class StructTimespec extends Structure
 	public NativeLong tv_sec;
 	public NativeLong tv_nsec;
 
+	public long nsec()
+	{
+		return tv_nsec.longValue();
+	}
+
+	public long sec()
+	{
+		return tv_sec.longValue();
+	}
+
 	public final void set(final double time)
 	{
 		set((long) time, (long) (time * 1000000000d));

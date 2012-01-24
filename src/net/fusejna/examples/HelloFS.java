@@ -4,8 +4,8 @@ import java.nio.ByteBuffer;
 
 import net.fusejna.DirectoryFiller;
 import net.fusejna.StructFuseFileInfo.FileInfoWrapper;
-import net.fusejna.StructStat.NodeType;
 import net.fusejna.StructStat.StatWrapper;
+import net.fusejna.types.TypeMode.NodeType;
 import net.fusejna.util.FuseFilesystemAdapterFull;
 
 public class HelloFS extends FuseFilesystemAdapterFull

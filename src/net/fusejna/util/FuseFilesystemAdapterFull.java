@@ -8,6 +8,7 @@ import net.fusejna.ErrorCodes;
 import net.fusejna.FuseFilesystem;
 import net.fusejna.StructFuseFileInfo.FileInfoWrapper;
 import net.fusejna.StructStat.StatWrapper;
+import net.fusejna.types.TypeMode.ModeWrapper;
 
 public abstract class FuseFilesystemAdapterFull extends FuseFilesystem
 {
@@ -56,6 +57,12 @@ public abstract class FuseFilesystemAdapterFull extends FuseFilesystem
 	}
 
 	@Override
+	public int mknod(final String path, final ModeWrapper modeWrapper, final long dev)
+	{
+		return 0;
+	}
+
+	@Override
 	public void onMount(final File mountPoint)
 	{
 	}
@@ -74,6 +81,12 @@ public abstract class FuseFilesystemAdapterFull extends FuseFilesystem
 
 	@Override
 	public int readdir(final String path, final DirectoryFiller filler)
+	{
+		return 0;
+	}
+
+	@Override
+	public int readlink(final String path, final ByteBuffer buffer, final long size)
 	{
 		return 0;
 	}

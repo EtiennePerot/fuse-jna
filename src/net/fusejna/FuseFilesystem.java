@@ -8,8 +8,11 @@ import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 import net.fusejna.StructFuseFileInfo.FileInfoWrapper;
-import net.fusejna.StructStat.NodeType;
 import net.fusejna.StructStat.StatWrapper;
+import net.fusejna.types.TypeDev;
+import net.fusejna.types.TypeMode;
+import net.fusejna.types.TypeMode.ModeWrapper;
+import net.fusejna.types.TypeMode.NodeType;
 import net.fusejna.types.TypeOff;
 import net.fusejna.types.TypeSize;
 
@@ -67,6 +70,12 @@ public abstract class FuseFilesystem
 	}
 
 	@FuseMethod
+	final int _mknod(final String path, final TypeMode mode, final TypeDev dev)
+	{
+		return mknod(path, new ModeWrapper(mode.longValue()), dev.longValue());
+	}
+
+	@FuseMethod
 	final int _open(final String path, final StructFuseFileInfo info)
 	{
 		final FileInfoWrapper wrapper = new FileInfoWrapper(path, info);
@@ -93,6 +102,14 @@ public abstract class FuseFilesystem
 			final net.fusejna.StructFuseFileInfo info)
 	{
 		return readdir(path, new DirectoryFiller(buf, Function.getFunction(fillFunction)));
+	}
+
+	@FuseMethod
+	final int _readlink(final String path, final Pointer buffer, final TypeSize size)
+	{
+		final long bufSize = size.longValue();
+		final ByteBuffer buf = buffer.getByteBuffer(0, bufSize);
+		return readlink(path, buf, bufSize);
 	}
 
 	public abstract void afterUnmount(final File mountPoint);
@@ -177,6 +194,9 @@ public abstract class FuseFilesystem
 		return this;
 	}
 
+	@UserMethod
+	public abstract int mknod(final String path, ModeWrapper modeWrapper, long dev);
+
 	public final void mount(final File mountPoint) throws FuseException
 	{
 		mount(mountPoint, true);
@@ -212,6 +232,9 @@ public abstract class FuseFilesystem
 
 	@UserMethod
 	public abstract int readdir(final String path, DirectoryFiller filler);
+
+	@UserMethod
+	public abstract int readlink(final String path, ByteBuffer buffer, long size);
 
 	void setFinalMountPoint(final File mountPoint)
 	{

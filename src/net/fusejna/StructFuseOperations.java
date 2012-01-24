@@ -161,18 +161,16 @@ public class StructFuseOperations extends Structure
 		}
 		readlink = new Callback()
 		{
-			public final int callback(final String path, final String target, final TypeSize size)
+			public final int callback(final String path, final Pointer buffer, final TypeSize size)
 			{
-				System.out.println("readlink");
-				return 0;
+				return filesystem._readlink(path, buffer, size);
 			}
 		};
 		mknod = new Callback()
 		{
 			public final int callback(final String path, final TypeMode mode, final TypeDev dev)
 			{
-				System.out.println("mknod");
-				return 0;
+				return filesystem._mknod(path, mode, dev);
 			}
 		};
 		mkdir = new Callback()

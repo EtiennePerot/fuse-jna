@@ -7,17 +7,18 @@ import java.util.logging.Logger;
 
 import net.fusejna.StructFuseFileInfo.FileInfoWrapper;
 import net.fusejna.StructStat.StatWrapper;
+import net.fusejna.types.TypeMode.ModeWrapper;
 
 final class LoggedFuseFilesystem extends FuseFilesystem
 {
 	private interface LoggedMethod<T>
 	{
-		T invoke();
+		public T invoke();
 	}
 
 	private interface LoggedVoidMethod
 	{
-		void invoke();
+		public void invoke();
 	}
 
 	private final String className;
@@ -187,6 +188,18 @@ final class LoggedFuseFilesystem extends FuseFilesystem
 	}
 
 	@Override
+	public int mknod(final String path, final ModeWrapper modeWrapper, final long dev)
+	{
+		return log("mknod", 0, new LoggedMethod<Integer>()
+		{
+			public Integer invoke()
+			{
+				return filesystem.mknod(path, modeWrapper, dev);
+			}
+		}, path, modeWrapper, dev);
+	}
+
+	@Override
 	public void onMount(final File mountPoint)
 	{
 		log("onMouse", new LoggedVoidMethod()
@@ -234,6 +247,18 @@ final class LoggedFuseFilesystem extends FuseFilesystem
 				return filesystem.readdir(path, filler);
 			}
 		}, path, filler);
+	}
+
+	@Override
+	public int readlink(final String path, final ByteBuffer buffer, final long size)
+	{
+		return log("readlink", 0, new LoggedMethod<Integer>()
+		{
+			public Integer invoke()
+			{
+				return filesystem.readlink(path, buffer, size);
+			}
+		}, path, buffer, size);
 	}
 
 	@Override

@@ -8,6 +8,9 @@ import net.fusejna.types.TypeGid;
 import net.fusejna.types.TypeIno;
 import net.fusejna.types.TypeLspare;
 import net.fusejna.types.TypeMode;
+import net.fusejna.types.TypeMode.IModeWrapper;
+import net.fusejna.types.TypeMode.ModeWrapper;
+import net.fusejna.types.TypeMode.NodeType;
 import net.fusejna.types.TypeNLink;
 import net.fusejna.types.TypeOff;
 import net.fusejna.types.TypeQspare;
@@ -48,15 +51,51 @@ public abstract class StructStat extends Structure
 		}
 
 		@Override
+		public long st_atime_nsec()
+		{
+			return st_atime.nsec();
+		}
+
+		@Override
+		public long st_atime_sec()
+		{
+			return st_atime.sec();
+		}
+
+		@Override
 		public void st_birthtime(final long sec, final long nsec)
 		{
 			// Not implemented
 		}
 
 		@Override
+		public long st_birthtime_nsec()
+		{
+			return -1L;
+		}
+
+		@Override
+		public long st_birthtime_sec()
+		{
+			return -1L;
+		}
+
+		@Override
+		public long st_blksize()
+		{
+			return st_blksize.longValue();
+		}
+
+		@Override
 		public final void st_blksize(final long st_blksize)
 		{
 			this.st_blksize.setValue(st_blksize);
+		}
+
+		@Override
+		public long st_blocks()
+		{
+			return st_blocks.longValue();
 		}
 
 		@Override
@@ -72,9 +111,33 @@ public abstract class StructStat extends Structure
 		}
 
 		@Override
+		public long st_ctime_nsec()
+		{
+			return st_ctime.nsec();
+		}
+
+		@Override
+		public long st_ctime_sec()
+		{
+			return st_ctime.sec();
+		}
+
+		@Override
+		public long st_dev()
+		{
+			return st_dev.longValue();
+		}
+
+		@Override
 		public final void st_dev(final long st_dev)
 		{
 			this.st_dev.setValue(st_dev);
+		}
+
+		@Override
+		public long st_gen()
+		{
+			return -1L;
 		}
 
 		@Override
@@ -84,9 +147,21 @@ public abstract class StructStat extends Structure
 		}
 
 		@Override
+		public long st_gid()
+		{
+			return st_gid.longValue();
+		}
+
+		@Override
 		public final void st_gid(final long st_gid)
 		{
 			this.st_gid.setValue(st_gid);
+		}
+
+		@Override
+		public long st_ino()
+		{
+			return st_ino.longValue();
 		}
 
 		@Override
@@ -96,9 +171,21 @@ public abstract class StructStat extends Structure
 		}
 
 		@Override
+		public long st_lspare()
+		{
+			return -1L;
+		}
+
+		@Override
 		public final void st_lspare(final long st_lspare)
 		{
 			// Not implemented
+		}
+
+		@Override
+		public long st_mode()
+		{
+			return st_mode.longValue();
 		}
 
 		@Override
@@ -114,9 +201,33 @@ public abstract class StructStat extends Structure
 		}
 
 		@Override
+		public long st_mtime_nsec()
+		{
+			return st_mtime.nsec();
+		}
+
+		@Override
+		public long st_mtime_sec()
+		{
+			return st_mtime.sec();
+		}
+
+		@Override
+		public long st_nlink()
+		{
+			return st_nlink.longValue();
+		}
+
+		@Override
 		public final void st_nlink(final long st_nlink)
 		{
 			this.st_nlink.setValue(st_nlink);
+		}
+
+		@Override
+		public long st_qspare()
+		{
+			return -1L;
 		}
 
 		@Override
@@ -126,15 +237,33 @@ public abstract class StructStat extends Structure
 		}
 
 		@Override
+		public long st_rdev()
+		{
+			return st_rdev.longValue();
+		}
+
+		@Override
 		public final void st_rdev(final long st_rdev)
 		{
 			this.st_rdev.setValue(st_rdev);
 		}
 
 		@Override
+		public long st_size()
+		{
+			return st_size.longValue();
+		}
+
+		@Override
 		public final void st_size(final long st_size)
 		{
 			this.st_size.setValue(st_size);
+		}
+
+		@Override
+		public long st_uid()
+		{
+			return st_uid.longValue();
 		}
 
 		@Override
@@ -178,15 +307,51 @@ public abstract class StructStat extends Structure
 		}
 
 		@Override
+		public long st_atime_nsec()
+		{
+			return st_atime.nsec();
+		}
+
+		@Override
+		public long st_atime_sec()
+		{
+			return st_atime.sec();
+		}
+
+		@Override
 		public void st_birthtime(final long sec, final long nsec)
 		{
 			// Not implemented
 		}
 
 		@Override
+		public long st_birthtime_nsec()
+		{
+			return -1L;
+		}
+
+		@Override
+		public long st_birthtime_sec()
+		{
+			return -1L;
+		}
+
+		@Override
+		public long st_blksize()
+		{
+			return st_blksize.longValue();
+		}
+
+		@Override
 		public final void st_blksize(final long st_blksize)
 		{
 			this.st_blksize.setValue(st_blksize);
+		}
+
+		@Override
+		public long st_blocks()
+		{
+			return st_blocks.longValue();
 		}
 
 		@Override
@@ -202,9 +367,33 @@ public abstract class StructStat extends Structure
 		}
 
 		@Override
+		public long st_ctime_nsec()
+		{
+			return st_ctime.nsec();
+		}
+
+		@Override
+		public long st_ctime_sec()
+		{
+			return st_ctime.sec();
+		}
+
+		@Override
+		public long st_dev()
+		{
+			return st_dev.longValue();
+		}
+
+		@Override
 		public final void st_dev(final long st_dev)
 		{
 			this.st_dev.setValue(st_dev);
+		}
+
+		@Override
+		public long st_gen()
+		{
+			return -1L;
 		}
 
 		@Override
@@ -214,9 +403,21 @@ public abstract class StructStat extends Structure
 		}
 
 		@Override
+		public long st_gid()
+		{
+			return st_gid.longValue();
+		}
+
+		@Override
 		public final void st_gid(final long st_gid)
 		{
 			this.st_gid.setValue(st_gid);
+		}
+
+		@Override
+		public long st_ino()
+		{
+			return st_ino.longValue();
 		}
 
 		@Override
@@ -226,9 +427,21 @@ public abstract class StructStat extends Structure
 		}
 
 		@Override
+		public long st_lspare()
+		{
+			return -1L;
+		}
+
+		@Override
 		public final void st_lspare(final long st_lspare)
 		{
 			// Not implemented
+		}
+
+		@Override
+		public long st_mode()
+		{
+			return st_mode.longValue();
 		}
 
 		@Override
@@ -244,9 +457,33 @@ public abstract class StructStat extends Structure
 		}
 
 		@Override
+		public long st_mtime_nsec()
+		{
+			return st_mtime.nsec();
+		}
+
+		@Override
+		public long st_mtime_sec()
+		{
+			return st_mtime.sec();
+		}
+
+		@Override
+		public long st_nlink()
+		{
+			return st_nlink.longValue();
+		}
+
+		@Override
 		public final void st_nlink(final long st_nlink)
 		{
 			this.st_nlink.setValue(st_nlink);
+		}
+
+		@Override
+		public long st_qspare()
+		{
+			return -1L;
 		}
 
 		@Override
@@ -256,15 +493,33 @@ public abstract class StructStat extends Structure
 		}
 
 		@Override
+		public long st_rdev()
+		{
+			return st_rdev.longValue();
+		}
+
+		@Override
 		public final void st_rdev(final long st_rdev)
 		{
 			this.st_rdev.setValue(st_rdev);
 		}
 
 		@Override
+		public long st_size()
+		{
+			return st_size.longValue();
+		}
+
+		@Override
 		public final void st_size(final long st_size)
 		{
 			this.st_size.setValue(st_size);
+		}
+
+		@Override
+		public long st_uid()
+		{
+			return st_uid.longValue();
 		}
 
 		@Override
@@ -309,15 +564,51 @@ public abstract class StructStat extends Structure
 		}
 
 		@Override
+		public long st_atime_nsec()
+		{
+			return st_atime.nsec();
+		}
+
+		@Override
+		public long st_atime_sec()
+		{
+			return st_atime.sec();
+		}
+
+		@Override
 		public void st_birthtime(final long sec, final long nsec)
 		{
 			st_birthtime.set(sec, nsec);
 		}
 
 		@Override
+		public long st_birthtime_nsec()
+		{
+			return st_birthtime.nsec();
+		}
+
+		@Override
+		public long st_birthtime_sec()
+		{
+			return st_birthtime.sec();
+		}
+
+		@Override
+		public long st_blksize()
+		{
+			return st_blksize.longValue();
+		}
+
+		@Override
 		public final void st_blksize(final long st_blksize)
 		{
 			this.st_blksize.setValue(st_blksize);
+		}
+
+		@Override
+		public long st_blocks()
+		{
+			return st_blocks.longValue();
 		}
 
 		@Override
@@ -333,9 +624,33 @@ public abstract class StructStat extends Structure
 		}
 
 		@Override
+		public long st_ctime_nsec()
+		{
+			return st_ctime.nsec();
+		}
+
+		@Override
+		public long st_ctime_sec()
+		{
+			return st_ctime.sec();
+		}
+
+		@Override
+		public long st_dev()
+		{
+			return st_dev.longValue();
+		}
+
+		@Override
 		public final void st_dev(final long st_dev)
 		{
 			this.st_dev.setValue(st_dev);
+		}
+
+		@Override
+		public long st_gen()
+		{
+			return st_gen.longValue();
 		}
 
 		@Override
@@ -345,9 +660,21 @@ public abstract class StructStat extends Structure
 		}
 
 		@Override
+		public long st_gid()
+		{
+			return st_gid.longValue();
+		}
+
+		@Override
 		public final void st_gid(final long st_gid)
 		{
 			this.st_gid.setValue(st_gid);
+		}
+
+		@Override
+		public long st_ino()
+		{
+			return st_ino.longValue();
 		}
 
 		@Override
@@ -357,9 +684,21 @@ public abstract class StructStat extends Structure
 		}
 
 		@Override
+		public long st_lspare()
+		{
+			return st_lspare.longValue();
+		}
+
+		@Override
 		public final void st_lspare(final long st_lspare)
 		{
 			this.st_lspare.setValue(st_lspare);
+		}
+
+		@Override
+		public long st_mode()
+		{
+			return st_mode.longValue();
 		}
 
 		@Override
@@ -375,9 +714,33 @@ public abstract class StructStat extends Structure
 		}
 
 		@Override
+		public long st_mtime_nsec()
+		{
+			return st_mtime.nsec();
+		}
+
+		@Override
+		public long st_mtime_sec()
+		{
+			return st_mtime.sec();
+		}
+
+		@Override
+		public long st_nlink()
+		{
+			return st_nlink.longValue();
+		}
+
+		@Override
 		public final void st_nlink(final long st_nlink)
 		{
 			this.st_nlink.setValue(st_nlink);
+		}
+
+		@Override
+		public long st_qspare()
+		{
+			return st_qspare.longValue();
 		}
 
 		@Override
@@ -387,9 +750,21 @@ public abstract class StructStat extends Structure
 		}
 
 		@Override
+		public long st_rdev()
+		{
+			return st_rdev.longValue();
+		}
+
+		@Override
 		public final void st_rdev(final long st_rdev)
 		{
 			this.st_rdev.setValue(st_rdev);
+		}
+
+		@Override
+		public long st_size()
+		{
+			return st_size.longValue();
 		}
 
 		@Override
@@ -399,32 +774,15 @@ public abstract class StructStat extends Structure
 		}
 
 		@Override
+		public long st_uid()
+		{
+			return st_uid.longValue();
+		}
+
+		@Override
 		public final void st_uid(final long st_uid)
 		{
 			this.st_uid.setValue(st_uid);
-		}
-	}
-
-	public static enum NodeType
-	{
-		FILE, DIRECTORY, SYMBOLIC_LINK, SOCKET, FIFO, BLOCK_DEVICE;
-		public final long getBits()
-		{
-			switch (this) {
-				case FILE:
-					return S_IFREG;
-				case DIRECTORY:
-					return S_IFDIR;
-				case SYMBOLIC_LINK:
-					return S_IFLNK;
-				case SOCKET:
-					return S_IFSOCK;
-				case FIFO:
-					return S_IFIFO;
-				case BLOCK_DEVICE:
-					return S_IFBLK;
-			}
-			return -1L;
 		}
 	}
 
@@ -460,15 +818,51 @@ public abstract class StructStat extends Structure
 		}
 
 		@Override
+		public long st_atime_nsec()
+		{
+			return st_atime.nsec();
+		}
+
+		@Override
+		public long st_atime_sec()
+		{
+			return st_atime.sec();
+		}
+
+		@Override
 		public void st_birthtime(final long sec, final long nsec)
 		{
 			// Not implemented
 		}
 
 		@Override
+		public long st_birthtime_nsec()
+		{
+			return -1L;
+		}
+
+		@Override
+		public long st_birthtime_sec()
+		{
+			return -1L;
+		}
+
+		@Override
+		public long st_blksize()
+		{
+			return st_blksize.longValue();
+		}
+
+		@Override
 		public final void st_blksize(final long st_blksize)
 		{
 			this.st_blksize.setValue(st_blksize);
+		}
+
+		@Override
+		public long st_blocks()
+		{
+			return st_blocks.longValue();
 		}
 
 		@Override
@@ -484,9 +878,33 @@ public abstract class StructStat extends Structure
 		}
 
 		@Override
+		public long st_ctime_nsec()
+		{
+			return st_ctime.nsec();
+		}
+
+		@Override
+		public long st_ctime_sec()
+		{
+			return st_ctime.sec();
+		}
+
+		@Override
+		public long st_dev()
+		{
+			return st_dev.longValue();
+		}
+
+		@Override
 		public final void st_dev(final long st_dev)
 		{
 			this.st_dev.setValue(st_dev);
+		}
+
+		@Override
+		public long st_gen()
+		{
+			return -1L;
 		}
 
 		@Override
@@ -496,9 +914,21 @@ public abstract class StructStat extends Structure
 		}
 
 		@Override
+		public long st_gid()
+		{
+			return st_gid.longValue();
+		}
+
+		@Override
 		public final void st_gid(final long st_gid)
 		{
 			this.st_gid.setValue(st_gid);
+		}
+
+		@Override
+		public long st_ino()
+		{
+			return st_ino.longValue();
 		}
 
 		@Override
@@ -508,9 +938,21 @@ public abstract class StructStat extends Structure
 		}
 
 		@Override
+		public long st_lspare()
+		{
+			return -1L;
+		}
+
+		@Override
 		public final void st_lspare(final long st_lspare)
 		{
 			// Not implemented
+		}
+
+		@Override
+		public long st_mode()
+		{
+			return st_mode.longValue();
 		}
 
 		@Override
@@ -526,9 +968,33 @@ public abstract class StructStat extends Structure
 		}
 
 		@Override
+		public long st_mtime_nsec()
+		{
+			return st_mtime.nsec();
+		}
+
+		@Override
+		public long st_mtime_sec()
+		{
+			return st_mtime.sec();
+		}
+
+		@Override
+		public long st_nlink()
+		{
+			return st_nlink.longValue();
+		}
+
+		@Override
 		public final void st_nlink(final long st_nlink)
 		{
 			this.st_nlink.setValue(st_nlink);
+		}
+
+		@Override
+		public long st_qspare()
+		{
+			return -1L;
 		}
 
 		@Override
@@ -538,9 +1004,21 @@ public abstract class StructStat extends Structure
 		}
 
 		@Override
+		public long st_rdev()
+		{
+			return st_rdev.longValue();
+		}
+
+		@Override
 		public final void st_rdev(final long st_rdev)
 		{
 			this.st_rdev.setValue(st_rdev);
+		}
+
+		@Override
+		public long st_size()
+		{
+			return st_size.longValue();
 		}
 
 		@Override
@@ -550,21 +1028,29 @@ public abstract class StructStat extends Structure
 		}
 
 		@Override
+		public long st_uid()
+		{
+			return st_uid.longValue();
+		}
+
+		@Override
 		public final void st_uid(final long st_uid)
 		{
 			this.st_uid.setValue(st_uid);
 		}
 	}
 
-	public static final class StatWrapper
+	public static final class StatWrapper implements IModeWrapper
 	{
 		private final StructStat structStat;
 		private final String path;
+		private final ModeWrapper modeWrapper;
 
 		StatWrapper(final String path, final StructStat structStat)
 		{
 			this.path = path;
 			this.structStat = structStat;
+			modeWrapper = new ModeWrapper(structStat.st_mode());
 		}
 
 		StatWrapper(final StructStat structStat)
@@ -636,9 +1122,16 @@ public abstract class StructStat extends Structure
 			return this;
 		}
 
-		public final StatWrapper mode(final long mode)
+		@Override
+		public long mode()
 		{
-			structStat.st_mode(mode);
+			return modeWrapper.mode();
+		}
+
+		@Override
+		public StatWrapper mode(final long bits)
+		{
+			modeWrapper.mode(bits);
 			return this;
 		}
 
@@ -698,27 +1191,29 @@ public abstract class StructStat extends Structure
 			return setTimes(atime, 0, mtime, 0, ctime, 0);
 		}
 
-		public final StatWrapper setMode(final NodeType type)
+		@Override
+		public StatWrapper setMode(final NodeType type)
 		{
-			return setMode(type, true, true, true, true, true, true, true, true, true);
+			modeWrapper.setMode(type);
+			return this;
 		}
 
-		public final StatWrapper setMode(final NodeType type, final boolean readable, final boolean writable,
-				final boolean executable)
+		@Override
+		public StatWrapper setMode(final NodeType type, final boolean readable, final boolean writable, final boolean executable)
 		{
-			return setMode(type, readable, writable, executable, readable, writable, executable, readable, writable, executable);
+			modeWrapper.setMode(type, readable, writable, executable);
+			return this;
 		}
 
-		public final StatWrapper setMode(final NodeType type, final boolean ownerReadable, final boolean ownerWritable,
+		@Override
+		public StatWrapper setMode(final NodeType type, final boolean ownerReadable, final boolean ownerWritable,
 				final boolean ownerExecutable, final boolean groupReadable, final boolean groupWritable,
 				final boolean groupExecutable, final boolean otherReadable, final boolean otherWritable,
 				final boolean otherExecutable)
 		{
-			long mode = (type == null ? NodeType.FILE : type).getBits();
-			mode |= (ownerReadable ? S_IRUSR : 0L) | (ownerWritable ? S_IWUSR : 0L) | (ownerExecutable ? S_IXUSR : 0L);
-			mode |= (groupReadable ? S_IRGRP : 0L) | (groupWritable ? S_IWGRP : 0L) | (groupExecutable ? S_IXGRP : 0L);
-			mode |= (otherReadable ? S_IROTH : 0L) | (otherWritable ? S_IWOTH : 0L) | (otherExecutable ? S_IXOTH : 0L);
-			return mode(mode);
+			modeWrapper.setMode(type, ownerReadable, ownerWritable, ownerExecutable, groupReadable, groupWritable,
+					groupExecutable, otherReadable, otherWritable, otherExecutable);
+			return this;
 		}
 
 		public final StatWrapper setTimes(final long atime_sec, final long atime_nsec, final long mtime_sec,
@@ -747,10 +1242,18 @@ public abstract class StructStat extends Structure
 		@Override
 		public final String toString()
 		{
+			// Sync mode wrapper with struct before printing it
+			structStat.st_mode(modeWrapper.mode());
 			if (path != null) {
 				return path + "\n" + structStat;
 			}
 			return structStat.toString();
+		}
+
+		@Override
+		public NodeType type()
+		{
+			return modeWrapper.type();
 		}
 
 		public final StatWrapper uid(final long uid)
@@ -761,6 +1264,7 @@ public abstract class StructStat extends Structure
 
 		final void write()
 		{
+			structStat.st_mode(modeWrapper.mode());
 			structStat.write();
 		}
 	}
@@ -797,15 +1301,51 @@ public abstract class StructStat extends Structure
 		}
 
 		@Override
+		public long st_atime_nsec()
+		{
+			return st_atime.nsec();
+		}
+
+		@Override
+		public long st_atime_sec()
+		{
+			return st_atime.sec();
+		}
+
+		@Override
 		public void st_birthtime(final long sec, final long nsec)
 		{
 			// Not implemented
 		}
 
 		@Override
+		public long st_birthtime_nsec()
+		{
+			return -1L;
+		}
+
+		@Override
+		public long st_birthtime_sec()
+		{
+			return -1L;
+		}
+
+		@Override
+		public long st_blksize()
+		{
+			return st_blksize.longValue();
+		}
+
+		@Override
 		public final void st_blksize(final long st_blksize)
 		{
 			this.st_blksize.setValue(st_blksize);
+		}
+
+		@Override
+		public long st_blocks()
+		{
+			return st_blocks.longValue();
 		}
 
 		@Override
@@ -821,9 +1361,33 @@ public abstract class StructStat extends Structure
 		}
 
 		@Override
+		public long st_ctime_nsec()
+		{
+			return st_ctime.nsec();
+		}
+
+		@Override
+		public long st_ctime_sec()
+		{
+			return st_ctime.sec();
+		}
+
+		@Override
+		public long st_dev()
+		{
+			return st_dev.longValue();
+		}
+
+		@Override
 		public final void st_dev(final long st_dev)
 		{
 			this.st_dev.setValue(st_dev);
+		}
+
+		@Override
+		public long st_gen()
+		{
+			return -1L;
 		}
 
 		@Override
@@ -833,9 +1397,21 @@ public abstract class StructStat extends Structure
 		}
 
 		@Override
+		public long st_gid()
+		{
+			return st_gid.longValue();
+		}
+
+		@Override
 		public final void st_gid(final long st_gid)
 		{
 			this.st_gid.setValue(st_gid);
+		}
+
+		@Override
+		public long st_ino()
+		{
+			return st_ino.longValue();
 		}
 
 		@Override
@@ -845,9 +1421,21 @@ public abstract class StructStat extends Structure
 		}
 
 		@Override
+		public long st_lspare()
+		{
+			return -1L;
+		}
+
+		@Override
 		public final void st_lspare(final long st_lspare)
 		{
 			// Not implemented
+		}
+
+		@Override
+		public long st_mode()
+		{
+			return st_mode.longValue();
 		}
 
 		@Override
@@ -863,9 +1451,33 @@ public abstract class StructStat extends Structure
 		}
 
 		@Override
+		public long st_mtime_nsec()
+		{
+			return st_mtime.nsec();
+		}
+
+		@Override
+		public long st_mtime_sec()
+		{
+			return st_mtime.sec();
+		}
+
+		@Override
+		public long st_nlink()
+		{
+			return st_nlink.longValue();
+		}
+
+		@Override
 		public final void st_nlink(final long st_nlink)
 		{
 			this.st_nlink.setValue(st_nlink);
+		}
+
+		@Override
+		public long st_qspare()
+		{
+			return -1L;
 		}
 
 		@Override
@@ -875,9 +1487,21 @@ public abstract class StructStat extends Structure
 		}
 
 		@Override
+		public long st_rdev()
+		{
+			return st_rdev.longValue();
+		}
+
+		@Override
 		public final void st_rdev(final long st_rdev)
 		{
 			this.st_rdev.setValue(st_rdev);
+		}
+
+		@Override
+		public long st_size()
+		{
+			return st_size.longValue();
 		}
 
 		@Override
@@ -887,63 +1511,91 @@ public abstract class StructStat extends Structure
 		}
 
 		@Override
+		public long st_uid()
+		{
+			return st_uid.longValue();
+		}
+
+		@Override
 		public final void st_uid(final long st_uid)
 		{
 			this.st_uid.setValue(st_uid);
 		}
 	}
 
-	public static final long S_IFSOCK = 0140000;
-	public static final long S_IFLNK = 0120000;
-	public static final long S_IFREG = 0100000;
-	public static final long S_IFBLK = 0060000;
-	public static final long S_IFDIR = 0040000;
-	public static final long S_IFCHR = 0020000;
-	public static final long S_IFIFO = 0010000;
-	public static final long S_ISUID = 0004000;
-	public static final long S_ISGID = 0002000;
-	public static final long S_ISVTX = 0001000;
-	public static final long S_IRUSR = 00400;
-	public static final long S_IWUSR = 00200;
-	public static final long S_IXUSR = 00100;
-	public static final long S_IRGRP = 00040;
-	public static final long S_IWGRP = 00020;
-	public static final long S_IXGRP = 00010;
-	public static final long S_IROTH = 00004;
-	public static final long S_IWOTH = 00002;
-	public static final long S_IXOTH = 00001;
-
 	public abstract void st_atime(long sec, long nsec);
+
+	public abstract long st_atime_nsec();
+
+	public abstract long st_atime_sec();
 
 	public abstract void st_birthtime(long sec, long nsec);
 
+	public abstract long st_birthtime_nsec();
+
+	public abstract long st_birthtime_sec();
+
+	public abstract long st_blksize();
+
 	public abstract void st_blksize(long st_blksize);
+
+	public abstract long st_blocks();
 
 	public abstract void st_blocks(long st_blocks);
 
 	public abstract void st_ctime(long sec, long nsec);
 
+	public abstract long st_ctime_nsec();
+
+	public abstract long st_ctime_sec();
+
+	public abstract long st_dev();
+
 	public abstract void st_dev(long st_dev);
+
+	public abstract long st_gen();
 
 	public abstract void st_gen(final long st_gen);
 
+	public abstract long st_gid();
+
 	public abstract void st_gid(long st_gid);
+
+	public abstract long st_ino();
 
 	public abstract void st_ino(long st_ino);
 
+	public abstract long st_lspare();
+
 	public abstract void st_lspare(final long st_lspare);
+
+	public abstract long st_mode();
 
 	public abstract void st_mode(long st_mode);
 
 	public abstract void st_mtime(long sec, long nsec);
 
+	public abstract long st_mtime_nsec();
+
+	public abstract long st_mtime_sec();
+
+	public abstract long st_nlink();
+
 	public abstract void st_nlink(long st_nlink);
+
+	public abstract long st_qspare();
 
 	public abstract void st_qspare(final long st_qspare);
 
+	public abstract long st_rdev();
+
 	public abstract void st_rdev(long st_rdev);
 
+	public abstract long st_size();
+
 	public abstract void st_size(long st_size);
+
+	public abstract long st_uid();
 
 	public abstract void st_uid(long st_uid);
 }
