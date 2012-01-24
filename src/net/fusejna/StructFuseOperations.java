@@ -233,8 +233,7 @@ public class StructFuseOperations extends Structure
 		{
 			public final int callback(final String path, final TypeOff offset)
 			{
-				System.out.println("truncate");
-				return 0;
+				return filesystem._truncate(path, offset);
 			}
 		};
 		open = new Callback()
