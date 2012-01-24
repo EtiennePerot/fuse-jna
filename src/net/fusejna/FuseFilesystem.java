@@ -157,6 +157,12 @@ public abstract class FuseFilesystem
 	}
 
 	@FuseMethod
+	final int _truncate(final String path, final TypeOff offset)
+	{
+		return truncate(path, offset.longValue());
+	}
+
+	@FuseMethod
 	final int _unlink(final String path)
 	{
 		return unlink(path);
@@ -314,6 +320,9 @@ public abstract class FuseFilesystem
 
 	@UserMethod
 	public abstract int symlink(String path, String target);
+
+	@UserMethod
+	public abstract int truncate(String path, long offset);
 
 	@UserMethod
 	public abstract int unlink(String path);

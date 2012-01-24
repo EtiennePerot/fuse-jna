@@ -134,6 +134,12 @@ public abstract class FuseFilesystemAdapterFull extends FuseFilesystem
 	}
 
 	@Override
+	public int truncate(final String path, final long offset)
+	{
+		return 0;
+	}
+
+	@Override
 	public int unlink(final String path)
 	{
 		return 0;

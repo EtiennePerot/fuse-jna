@@ -362,6 +362,19 @@ final class LoggedFuseFilesystem extends FuseFilesystem
 	}
 
 	@Override
+	public int truncate(final String path, final long offset)
+	{
+		return log("truncate", 0, new LoggedMethod<Integer>()
+		{
+			@Override
+			public Integer invoke()
+			{
+				return filesystem.truncate(path, offset);
+			}
+		}, path, offset);
+	}
+
+	@Override
 	public int unlink(final String path)
 	{
 		return log("unlink", 0, new LoggedMethod<Integer>()
