@@ -8,6 +8,7 @@ import net.fusejna.ErrorCodes;
 import net.fusejna.FuseFilesystem;
 import net.fusejna.StructFuseFileInfo.FileInfoWrapper;
 import net.fusejna.StructStat.StatWrapper;
+import net.fusejna.StructStatvfs.StatvfsWrapper;
 import net.fusejna.types.TypeMode.ModeWrapper;
 
 public abstract class FuseFilesystemAdapterFull extends FuseFilesystem
@@ -128,6 +129,12 @@ public abstract class FuseFilesystemAdapterFull extends FuseFilesystem
 	}
 
 	@Override
+	public int statfs(final String path, final StatvfsWrapper wrapper)
+	{
+		return 0;
+	}
+
+	@Override
 	public int symlink(final String path, final String target)
 	{
 		return 0;
@@ -141,6 +148,13 @@ public abstract class FuseFilesystemAdapterFull extends FuseFilesystem
 
 	@Override
 	public int unlink(final String path)
+	{
+		return 0;
+	}
+
+	@Override
+	public int write(final String path, final ByteBuffer buf, final long bufSize, final long readOffset,
+			final FileInfoWrapper wrapper)
 	{
 		return 0;
 	}

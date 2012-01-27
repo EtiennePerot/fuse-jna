@@ -75,14 +75,14 @@ public class StructFuseOperations extends Structure
 			case LINUX_X86_64:
 				getattr = new Callback()
 				{
-					public final int callback(final String path, final StructStat.x86_64.ByReference stat)
+					public final int callback(final String path, final StructStat.X86_64.ByReference stat)
 					{
 						return filesystem._getattr(path, stat);
 					}
 				};
 				fgetattr = new Callback()
 				{
-					public final int callback(final String path, final StructStat.x86_64.ByReference stat,
+					public final int callback(final String path, final StructStat.X86_64.ByReference stat,
 							final StructFuseFileInfo.ByReference info)
 					{
 						return filesystem._fgetattr(path, stat, info);
@@ -92,14 +92,14 @@ public class StructFuseOperations extends Structure
 			case LINUX_I686:
 				getattr = new Callback()
 				{
-					public final int callback(final String path, final StructStat.i686.ByReference stat)
+					public final int callback(final String path, final StructStat.I686.ByReference stat)
 					{
 						return filesystem._getattr(path, stat);
 					}
 				};
 				fgetattr = new Callback()
 				{
-					public final int callback(final String path, final StructStat.i686.ByReference stat,
+					public final int callback(final String path, final StructStat.I686.ByReference stat,
 							final StructFuseFileInfo.ByReference info)
 					{
 						return filesystem._fgetattr(path, stat, info);
@@ -109,14 +109,14 @@ public class StructFuseOperations extends Structure
 			case LINUX_PPC:
 				getattr = new Callback()
 				{
-					public final int callback(final String path, final StructStat.ppc.ByReference stat)
+					public final int callback(final String path, final StructStat.PowerPC.ByReference stat)
 					{
 						return filesystem._getattr(path, stat);
 					}
 				};
 				fgetattr = new Callback()
 				{
-					public final int callback(final String path, final StructStat.ppc.ByReference stat,
+					public final int callback(final String path, final StructStat.PowerPC.ByReference stat,
 							final StructFuseFileInfo.ByReference info)
 					{
 						return filesystem._fgetattr(path, stat, info);
@@ -126,14 +126,14 @@ public class StructFuseOperations extends Structure
 			case MAC:
 				getattr = new Callback()
 				{
-					public final int callback(final String path, final StructStat.mac.ByReference stat)
+					public final int callback(final String path, final StructStat.Mac.ByReference stat)
 					{
 						return filesystem._getattr(path, stat);
 					}
 				};
 				fgetattr = new Callback()
 				{
-					public final int callback(final String path, final StructStat.mac.ByReference stat,
+					public final int callback(final String path, final StructStat.Mac.ByReference stat,
 							final StructFuseFileInfo.ByReference info)
 					{
 						return filesystem._fgetattr(path, stat, info);
@@ -144,14 +144,14 @@ public class StructFuseOperations extends Structure
 			case MAC_MACFUSE:
 				getattr = new Callback()
 				{
-					public final int callback(final String path, final StructStat.bsd.ByReference stat)
+					public final int callback(final String path, final StructStat.BSD.ByReference stat)
 					{
 						return filesystem._getattr(path, stat);
 					}
 				};
 				fgetattr = new Callback()
 				{
-					public final int callback(final String path, final StructStat.bsd.ByReference stat,
+					public final int callback(final String path, final StructStat.BSD.ByReference stat,
 							final StructFuseFileInfo.ByReference info)
 					{
 						return filesystem._fgetattr(path, stat, info);
@@ -253,21 +253,32 @@ public class StructFuseOperations extends Structure
 		};
 		write = new Callback()
 		{
-			public final int callback(final String path, final String buffer, final TypeSize size, final TypeOff offset,
+			public final int callback(final String path, final Pointer buffer, final TypeSize size, final TypeOff offset,
 					final StructFuseFileInfo.ByReference info)
 			{
-				System.out.println("write");
-				return 0;
+				return filesystem._write(path, buffer, size, offset, info);
 			}
 		};
-		statfs = new Callback()
-		{
-			public final int callback(final String path, final StructFuseFileInfo.ByReference statsvfs)
-			{
-				System.out.println("statfs");
-				return 0;
-			}
-		};
+		switch (Platform.platform()) {
+			case FREEBSD:
+				statfs = new Callback()
+				{
+					public final int callback(final String path, final StructStatvfs.FreeBSD.ByReference statsvfs)
+					{
+						return filesystem._statfs(path, statsvfs);
+					}
+				};
+				break;
+			default:
+				statfs = new Callback()
+				{
+					public final int callback(final String path, final StructStatvfs.NotFreeBSD.ByReference statsvfs)
+					{
+						return filesystem._statfs(path, statsvfs);
+					}
+				};
+				break;
+		}
 		flush = new Callback()
 		{
 			public final int callback(final String path, final StructFuseFileInfo.ByReference info)

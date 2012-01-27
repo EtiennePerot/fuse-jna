@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 
 import net.fusejna.StructFuseFileInfo.FileInfoWrapper;
 import net.fusejna.StructStat.StatWrapper;
+import net.fusejna.StructStatvfs.StatvfsWrapper;
 import net.fusejna.types.TypeDev;
 import net.fusejna.types.TypeGid;
 import net.fusejna.types.TypeMode;
@@ -151,6 +152,15 @@ public abstract class FuseFilesystem
 	}
 
 	@FuseMethod
+	final int _statfs(final String path, final StructStatvfs statsvfs)
+	{
+		final StatvfsWrapper wrapper = new StatvfsWrapper(path, statsvfs);
+		final int result = statfs(path, wrapper);
+		wrapper.write();
+		return result;
+	}
+
+	@FuseMethod
 	final int _symlink(final String path, final String target)
 	{
 		return symlink(path, target);
@@ -166,6 +176,19 @@ public abstract class FuseFilesystem
 	final int _unlink(final String path)
 	{
 		return unlink(path);
+	}
+
+	@FuseMethod
+	final int _write(final String path, final Pointer buffer, final TypeSize size, final TypeOff offset,
+			final net.fusejna.StructFuseFileInfo.ByReference info)
+	{
+		final long bufSize = size.longValue();
+		final long readOffset = offset.longValue();
+		final ByteBuffer buf = buffer.getByteBuffer(0, bufSize);
+		final FileInfoWrapper wrapper = new FileInfoWrapper(path, info);
+		final int result = write(path, buf, bufSize, readOffset, wrapper);
+		wrapper.write();
+		return result;
 	}
 
 	public abstract void afterUnmount(final File mountPoint);
@@ -319,6 +342,9 @@ public abstract class FuseFilesystem
 	}
 
 	@UserMethod
+	public abstract int statfs(String path, StatvfsWrapper wrapper);
+
+	@UserMethod
 	public abstract int symlink(String path, String target);
 
 	@UserMethod
@@ -341,4 +367,7 @@ public abstract class FuseFilesystem
 			mountLock.unlock();
 		}
 	}
+
+	@UserMethod
+	public abstract int write(String path, ByteBuffer buf, long bufSize, long readOffset, FileInfoWrapper wrapper);
 }

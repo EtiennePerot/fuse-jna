@@ -20,13 +20,13 @@ import com.sun.jna.Structure;
 
 public abstract class StructStat extends Structure
 {
-	public static class bsd extends StructStat
+	public static class BSD extends StructStat
 	{
-		public static final class ByReference extends bsd implements Structure.ByReference
+		public static final class ByReference extends BSD implements Structure.ByReference
 		{
 		}
 
-		public static final class ByValue extends bsd implements Structure.ByValue
+		public static final class ByValue extends BSD implements Structure.ByValue
 		{
 		}
 
@@ -45,241 +45,241 @@ public abstract class StructStat extends Structure
 		public TypeBlkSize st_blksize;
 
 		@Override
-		public final void st_atime(final long sec, final long nsec)
+		final void st_atime(final long sec, final long nsec)
 		{
 			st_atime.set(sec, nsec);
 		}
 
 		@Override
-		public long st_atime_nsec()
+		final long st_atime_nsec()
 		{
 			return st_atime.nsec();
 		}
 
 		@Override
-		public long st_atime_sec()
+		final long st_atime_sec()
 		{
 			return st_atime.sec();
 		}
 
 		@Override
-		public void st_birthtime(final long sec, final long nsec)
+		final void st_birthtime(final long sec, final long nsec)
 		{
 			// Not implemented
 		}
 
 		@Override
-		public long st_birthtime_nsec()
+		final long st_birthtime_nsec()
 		{
 			return -1L;
 		}
 
 		@Override
-		public long st_birthtime_sec()
+		final long st_birthtime_sec()
 		{
 			return -1L;
 		}
 
 		@Override
-		public long st_blksize()
+		final long st_blksize()
 		{
 			return st_blksize.longValue();
 		}
 
 		@Override
-		public final void st_blksize(final long st_blksize)
+		final void st_blksize(final long st_blksize)
 		{
 			this.st_blksize.setValue(st_blksize);
 		}
 
 		@Override
-		public long st_blocks()
+		final long st_blocks()
 		{
 			return st_blocks.longValue();
 		}
 
 		@Override
-		public final void st_blocks(final long st_blocks)
+		final void st_blocks(final long st_blocks)
 		{
 			this.st_blocks.setValue(st_blocks);
 		}
 
 		@Override
-		public final void st_ctime(final long sec, final long nsec)
+		final void st_ctime(final long sec, final long nsec)
 		{
 			st_ctime.set(sec, nsec);
 		}
 
 		@Override
-		public long st_ctime_nsec()
+		final long st_ctime_nsec()
 		{
 			return st_ctime.nsec();
 		}
 
 		@Override
-		public long st_ctime_sec()
+		final long st_ctime_sec()
 		{
 			return st_ctime.sec();
 		}
 
 		@Override
-		public long st_dev()
+		final long st_dev()
 		{
 			return st_dev.longValue();
 		}
 
 		@Override
-		public final void st_dev(final long st_dev)
+		final void st_dev(final long st_dev)
 		{
 			this.st_dev.setValue(st_dev);
 		}
 
 		@Override
-		public long st_gen()
+		final long st_gen()
 		{
 			return -1L;
 		}
 
 		@Override
-		public final void st_gen(final long st_gen)
+		final void st_gen(final long st_gen)
 		{
 			// Not implemented
 		}
 
 		@Override
-		public long st_gid()
+		final long st_gid()
 		{
 			return st_gid.longValue();
 		}
 
 		@Override
-		public final void st_gid(final long st_gid)
+		final void st_gid(final long st_gid)
 		{
 			this.st_gid.setValue(st_gid);
 		}
 
 		@Override
-		public long st_ino()
+		final long st_ino()
 		{
 			return st_ino.longValue();
 		}
 
 		@Override
-		public final void st_ino(final long st_ino)
+		final void st_ino(final long st_ino)
 		{
 			this.st_ino.setValue(st_ino);
 		}
 
 		@Override
-		public long st_lspare()
+		final long st_lspare()
 		{
 			return -1L;
 		}
 
 		@Override
-		public final void st_lspare(final long st_lspare)
+		final void st_lspare(final long st_lspare)
 		{
 			// Not implemented
 		}
 
 		@Override
-		public long st_mode()
+		final long st_mode()
 		{
 			return st_mode.longValue();
 		}
 
 		@Override
-		public final void st_mode(final long st_mode)
+		final void st_mode(final long st_mode)
 		{
 			this.st_mode.setValue(st_mode);
 		}
 
 		@Override
-		public final void st_mtime(final long sec, final long nsec)
+		final void st_mtime(final long sec, final long nsec)
 		{
 			st_mtime.set(sec, nsec);
 		}
 
 		@Override
-		public long st_mtime_nsec()
+		final long st_mtime_nsec()
 		{
 			return st_mtime.nsec();
 		}
 
 		@Override
-		public long st_mtime_sec()
+		final long st_mtime_sec()
 		{
 			return st_mtime.sec();
 		}
 
 		@Override
-		public long st_nlink()
+		final long st_nlink()
 		{
 			return st_nlink.longValue();
 		}
 
 		@Override
-		public final void st_nlink(final long st_nlink)
+		final void st_nlink(final long st_nlink)
 		{
 			this.st_nlink.setValue(st_nlink);
 		}
 
 		@Override
-		public long st_qspare()
+		final long st_qspare()
 		{
 			return -1L;
 		}
 
 		@Override
-		public final void st_qspare(final long st_qspare)
+		final void st_qspare(final long st_qspare)
 		{
 			// Not implemented
 		}
 
 		@Override
-		public long st_rdev()
+		final long st_rdev()
 		{
 			return st_rdev.longValue();
 		}
 
 		@Override
-		public final void st_rdev(final long st_rdev)
+		final void st_rdev(final long st_rdev)
 		{
 			this.st_rdev.setValue(st_rdev);
 		}
 
 		@Override
-		public long st_size()
+		final long st_size()
 		{
 			return st_size.longValue();
 		}
 
 		@Override
-		public final void st_size(final long st_size)
+		final void st_size(final long st_size)
 		{
 			this.st_size.setValue(st_size);
 		}
 
 		@Override
-		public long st_uid()
+		final long st_uid()
 		{
 			return st_uid.longValue();
 		}
 
 		@Override
-		public final void st_uid(final long st_uid)
+		final void st_uid(final long st_uid)
 		{
 			this.st_uid.setValue(st_uid);
 		}
 	}
 
-	public static class i686 extends StructStat
+	public static class I686 extends StructStat
 	{
-		public static final class ByReference extends i686 implements Structure.ByReference
+		public static final class ByReference extends I686 implements Structure.ByReference
 		{
 		}
 
-		public static final class ByValue extends i686 implements Structure.ByValue
+		public static final class ByValue extends I686 implements Structure.ByValue
 		{
 		}
 
@@ -301,241 +301,241 @@ public abstract class StructStat extends Structure
 		public TypeIno st_ino;
 
 		@Override
-		public final void st_atime(final long sec, final long nsec)
+		final void st_atime(final long sec, final long nsec)
 		{
 			st_atime.set(sec, nsec);
 		}
 
 		@Override
-		public long st_atime_nsec()
+		final long st_atime_nsec()
 		{
 			return st_atime.nsec();
 		}
 
 		@Override
-		public long st_atime_sec()
+		final long st_atime_sec()
 		{
 			return st_atime.sec();
 		}
 
 		@Override
-		public void st_birthtime(final long sec, final long nsec)
+		final void st_birthtime(final long sec, final long nsec)
 		{
 			// Not implemented
 		}
 
 		@Override
-		public long st_birthtime_nsec()
+		final long st_birthtime_nsec()
 		{
 			return -1L;
 		}
 
 		@Override
-		public long st_birthtime_sec()
+		final long st_birthtime_sec()
 		{
 			return -1L;
 		}
 
 		@Override
-		public long st_blksize()
+		final long st_blksize()
 		{
 			return st_blksize.longValue();
 		}
 
 		@Override
-		public final void st_blksize(final long st_blksize)
+		final void st_blksize(final long st_blksize)
 		{
 			this.st_blksize.setValue(st_blksize);
 		}
 
 		@Override
-		public long st_blocks()
+		final long st_blocks()
 		{
 			return st_blocks.longValue();
 		}
 
 		@Override
-		public final void st_blocks(final long st_blocks)
+		final void st_blocks(final long st_blocks)
 		{
 			this.st_blocks.setValue(st_blocks);
 		}
 
 		@Override
-		public final void st_ctime(final long sec, final long nsec)
+		final void st_ctime(final long sec, final long nsec)
 		{
 			st_ctime.set(sec, nsec);
 		}
 
 		@Override
-		public long st_ctime_nsec()
+		final long st_ctime_nsec()
 		{
 			return st_ctime.nsec();
 		}
 
 		@Override
-		public long st_ctime_sec()
+		final long st_ctime_sec()
 		{
 			return st_ctime.sec();
 		}
 
 		@Override
-		public long st_dev()
+		final long st_dev()
 		{
 			return st_dev.longValue();
 		}
 
 		@Override
-		public final void st_dev(final long st_dev)
+		final void st_dev(final long st_dev)
 		{
 			this.st_dev.setValue(st_dev);
 		}
 
 		@Override
-		public long st_gen()
+		final long st_gen()
 		{
 			return -1L;
 		}
 
 		@Override
-		public final void st_gen(final long st_gen)
+		final void st_gen(final long st_gen)
 		{
 			// Not implemented
 		}
 
 		@Override
-		public long st_gid()
+		final long st_gid()
 		{
 			return st_gid.longValue();
 		}
 
 		@Override
-		public final void st_gid(final long st_gid)
+		final void st_gid(final long st_gid)
 		{
 			this.st_gid.setValue(st_gid);
 		}
 
 		@Override
-		public long st_ino()
+		final long st_ino()
 		{
 			return st_ino.longValue();
 		}
 
 		@Override
-		public final void st_ino(final long st_ino)
+		final void st_ino(final long st_ino)
 		{
 			this.st_ino.setValue(st_ino);
 		}
 
 		@Override
-		public long st_lspare()
+		final long st_lspare()
 		{
 			return -1L;
 		}
 
 		@Override
-		public final void st_lspare(final long st_lspare)
+		final void st_lspare(final long st_lspare)
 		{
 			// Not implemented
 		}
 
 		@Override
-		public long st_mode()
+		final long st_mode()
 		{
 			return st_mode.longValue();
 		}
 
 		@Override
-		public final void st_mode(final long st_mode)
+		final void st_mode(final long st_mode)
 		{
 			this.st_mode.setValue(st_mode);
 		}
 
 		@Override
-		public final void st_mtime(final long sec, final long nsec)
+		final void st_mtime(final long sec, final long nsec)
 		{
 			st_mtime.set(sec, nsec);
 		}
 
 		@Override
-		public long st_mtime_nsec()
+		final long st_mtime_nsec()
 		{
 			return st_mtime.nsec();
 		}
 
 		@Override
-		public long st_mtime_sec()
+		final long st_mtime_sec()
 		{
 			return st_mtime.sec();
 		}
 
 		@Override
-		public long st_nlink()
+		final long st_nlink()
 		{
 			return st_nlink.longValue();
 		}
 
 		@Override
-		public final void st_nlink(final long st_nlink)
+		final void st_nlink(final long st_nlink)
 		{
 			this.st_nlink.setValue(st_nlink);
 		}
 
 		@Override
-		public long st_qspare()
+		final long st_qspare()
 		{
 			return -1L;
 		}
 
 		@Override
-		public final void st_qspare(final long st_qspare)
+		final void st_qspare(final long st_qspare)
 		{
 			// Not implemented
 		}
 
 		@Override
-		public long st_rdev()
+		final long st_rdev()
 		{
 			return st_rdev.longValue();
 		}
 
 		@Override
-		public final void st_rdev(final long st_rdev)
+		final void st_rdev(final long st_rdev)
 		{
 			this.st_rdev.setValue(st_rdev);
 		}
 
 		@Override
-		public long st_size()
+		final long st_size()
 		{
 			return st_size.longValue();
 		}
 
 		@Override
-		public final void st_size(final long st_size)
+		final void st_size(final long st_size)
 		{
 			this.st_size.setValue(st_size);
 		}
 
 		@Override
-		public long st_uid()
+		final long st_uid()
 		{
 			return st_uid.longValue();
 		}
 
 		@Override
-		public final void st_uid(final long st_uid)
+		final void st_uid(final long st_uid)
 		{
 			this.st_uid.setValue(st_uid);
 		}
 	}
 
-	public static class mac extends StructStat
+	public static class Mac extends StructStat
 	{
-		public static final class ByReference extends mac implements Structure.ByReference
+		public static final class ByReference extends Mac implements Structure.ByReference
 		{
 		}
 
-		public static final class ByValue extends mac implements Structure.ByValue
+		public static final class ByValue extends Mac implements Structure.ByValue
 		{
 		}
 
@@ -558,241 +558,241 @@ public abstract class StructStat extends Structure
 		public TypeQspare st_qspare;
 
 		@Override
-		public final void st_atime(final long sec, final long nsec)
+		final void st_atime(final long sec, final long nsec)
 		{
 			st_atime.set(sec, nsec);
 		}
 
 		@Override
-		public long st_atime_nsec()
+		final long st_atime_nsec()
 		{
 			return st_atime.nsec();
 		}
 
 		@Override
-		public long st_atime_sec()
+		final long st_atime_sec()
 		{
 			return st_atime.sec();
 		}
 
 		@Override
-		public void st_birthtime(final long sec, final long nsec)
+		final void st_birthtime(final long sec, final long nsec)
 		{
 			st_birthtime.set(sec, nsec);
 		}
 
 		@Override
-		public long st_birthtime_nsec()
+		final long st_birthtime_nsec()
 		{
 			return st_birthtime.nsec();
 		}
 
 		@Override
-		public long st_birthtime_sec()
+		final long st_birthtime_sec()
 		{
 			return st_birthtime.sec();
 		}
 
 		@Override
-		public long st_blksize()
+		final long st_blksize()
 		{
 			return st_blksize.longValue();
 		}
 
 		@Override
-		public final void st_blksize(final long st_blksize)
+		final void st_blksize(final long st_blksize)
 		{
 			this.st_blksize.setValue(st_blksize);
 		}
 
 		@Override
-		public long st_blocks()
+		final long st_blocks()
 		{
 			return st_blocks.longValue();
 		}
 
 		@Override
-		public final void st_blocks(final long st_blocks)
+		final void st_blocks(final long st_blocks)
 		{
 			this.st_blocks.setValue(st_blocks);
 		}
 
 		@Override
-		public final void st_ctime(final long sec, final long nsec)
+		final void st_ctime(final long sec, final long nsec)
 		{
 			st_ctime.set(sec, nsec);
 		}
 
 		@Override
-		public long st_ctime_nsec()
+		final long st_ctime_nsec()
 		{
 			return st_ctime.nsec();
 		}
 
 		@Override
-		public long st_ctime_sec()
+		final long st_ctime_sec()
 		{
 			return st_ctime.sec();
 		}
 
 		@Override
-		public long st_dev()
+		final long st_dev()
 		{
 			return st_dev.longValue();
 		}
 
 		@Override
-		public final void st_dev(final long st_dev)
+		final void st_dev(final long st_dev)
 		{
 			this.st_dev.setValue(st_dev);
 		}
 
 		@Override
-		public long st_gen()
+		final long st_gen()
 		{
 			return st_gen.longValue();
 		}
 
 		@Override
-		public final void st_gen(final long st_gen)
+		final void st_gen(final long st_gen)
 		{
 			this.st_gen.setValue(st_gen);
 		}
 
 		@Override
-		public long st_gid()
+		final long st_gid()
 		{
 			return st_gid.longValue();
 		}
 
 		@Override
-		public final void st_gid(final long st_gid)
+		final void st_gid(final long st_gid)
 		{
 			this.st_gid.setValue(st_gid);
 		}
 
 		@Override
-		public long st_ino()
+		final long st_ino()
 		{
 			return st_ino.longValue();
 		}
 
 		@Override
-		public final void st_ino(final long st_ino)
+		final void st_ino(final long st_ino)
 		{
 			this.st_ino.setValue(st_ino);
 		}
 
 		@Override
-		public long st_lspare()
+		final long st_lspare()
 		{
 			return st_lspare.longValue();
 		}
 
 		@Override
-		public final void st_lspare(final long st_lspare)
+		final void st_lspare(final long st_lspare)
 		{
 			this.st_lspare.setValue(st_lspare);
 		}
 
 		@Override
-		public long st_mode()
+		final long st_mode()
 		{
 			return st_mode.longValue();
 		}
 
 		@Override
-		public final void st_mode(final long st_mode)
+		final void st_mode(final long st_mode)
 		{
 			this.st_mode.setValue(st_mode);
 		}
 
 		@Override
-		public final void st_mtime(final long sec, final long nsec)
+		final void st_mtime(final long sec, final long nsec)
 		{
 			st_mtime.set(sec, nsec);
 		}
 
 		@Override
-		public long st_mtime_nsec()
+		final long st_mtime_nsec()
 		{
 			return st_mtime.nsec();
 		}
 
 		@Override
-		public long st_mtime_sec()
+		final long st_mtime_sec()
 		{
 			return st_mtime.sec();
 		}
 
 		@Override
-		public long st_nlink()
+		final long st_nlink()
 		{
 			return st_nlink.longValue();
 		}
 
 		@Override
-		public final void st_nlink(final long st_nlink)
+		final void st_nlink(final long st_nlink)
 		{
 			this.st_nlink.setValue(st_nlink);
 		}
 
 		@Override
-		public long st_qspare()
+		final long st_qspare()
 		{
 			return st_qspare.longValue();
 		}
 
 		@Override
-		public final void st_qspare(final long st_qspare)
+		final void st_qspare(final long st_qspare)
 		{
 			this.st_qspare.setValue(st_qspare);
 		}
 
 		@Override
-		public long st_rdev()
+		final long st_rdev()
 		{
 			return st_rdev.longValue();
 		}
 
 		@Override
-		public final void st_rdev(final long st_rdev)
+		final void st_rdev(final long st_rdev)
 		{
 			this.st_rdev.setValue(st_rdev);
 		}
 
 		@Override
-		public long st_size()
+		final long st_size()
 		{
 			return st_size.longValue();
 		}
 
 		@Override
-		public final void st_size(final long st_size)
+		final void st_size(final long st_size)
 		{
 			this.st_size.setValue(st_size);
 		}
 
 		@Override
-		public long st_uid()
+		final long st_uid()
 		{
 			return st_uid.longValue();
 		}
 
 		@Override
-		public final void st_uid(final long st_uid)
+		final void st_uid(final long st_uid)
 		{
 			this.st_uid.setValue(st_uid);
 		}
 	}
 
-	public static class ppc extends StructStat
+	public static class PowerPC extends StructStat
 	{
-		public static final class ByReference extends ppc implements Structure.ByReference
+		public static final class ByReference extends PowerPC implements Structure.ByReference
 		{
 		}
 
-		public static final class ByValue extends ppc implements Structure.ByValue
+		public static final class ByValue extends PowerPC implements Structure.ByValue
 		{
 		}
 
@@ -812,229 +812,229 @@ public abstract class StructStat extends Structure
 		public StructTimespec.ByValue st_ctime;
 
 		@Override
-		public final void st_atime(final long sec, final long nsec)
+		final void st_atime(final long sec, final long nsec)
 		{
 			st_atime.set(sec, nsec);
 		}
 
 		@Override
-		public long st_atime_nsec()
+		final long st_atime_nsec()
 		{
 			return st_atime.nsec();
 		}
 
 		@Override
-		public long st_atime_sec()
+		final long st_atime_sec()
 		{
 			return st_atime.sec();
 		}
 
 		@Override
-		public void st_birthtime(final long sec, final long nsec)
+		final void st_birthtime(final long sec, final long nsec)
 		{
 			// Not implemented
 		}
 
 		@Override
-		public long st_birthtime_nsec()
+		final long st_birthtime_nsec()
 		{
 			return -1L;
 		}
 
 		@Override
-		public long st_birthtime_sec()
+		final long st_birthtime_sec()
 		{
 			return -1L;
 		}
 
 		@Override
-		public long st_blksize()
+		final long st_blksize()
 		{
 			return st_blksize.longValue();
 		}
 
 		@Override
-		public final void st_blksize(final long st_blksize)
+		final void st_blksize(final long st_blksize)
 		{
 			this.st_blksize.setValue(st_blksize);
 		}
 
 		@Override
-		public long st_blocks()
+		final long st_blocks()
 		{
 			return st_blocks.longValue();
 		}
 
 		@Override
-		public final void st_blocks(final long st_blocks)
+		final void st_blocks(final long st_blocks)
 		{
 			this.st_blocks.setValue(st_blocks);
 		}
 
 		@Override
-		public final void st_ctime(final long sec, final long nsec)
+		final void st_ctime(final long sec, final long nsec)
 		{
 			st_ctime.set(sec, nsec);
 		}
 
 		@Override
-		public long st_ctime_nsec()
+		final long st_ctime_nsec()
 		{
 			return st_ctime.nsec();
 		}
 
 		@Override
-		public long st_ctime_sec()
+		final long st_ctime_sec()
 		{
 			return st_ctime.sec();
 		}
 
 		@Override
-		public long st_dev()
+		final long st_dev()
 		{
 			return st_dev.longValue();
 		}
 
 		@Override
-		public final void st_dev(final long st_dev)
+		final void st_dev(final long st_dev)
 		{
 			this.st_dev.setValue(st_dev);
 		}
 
 		@Override
-		public long st_gen()
+		final long st_gen()
 		{
 			return -1L;
 		}
 
 		@Override
-		public final void st_gen(final long st_gen)
+		final void st_gen(final long st_gen)
 		{
 			// Not implemented
 		}
 
 		@Override
-		public long st_gid()
+		final long st_gid()
 		{
 			return st_gid.longValue();
 		}
 
 		@Override
-		public final void st_gid(final long st_gid)
+		final void st_gid(final long st_gid)
 		{
 			this.st_gid.setValue(st_gid);
 		}
 
 		@Override
-		public long st_ino()
+		final long st_ino()
 		{
 			return st_ino.longValue();
 		}
 
 		@Override
-		public final void st_ino(final long st_ino)
+		final void st_ino(final long st_ino)
 		{
 			this.st_ino.setValue(st_ino);
 		}
 
 		@Override
-		public long st_lspare()
+		final long st_lspare()
 		{
 			return -1L;
 		}
 
 		@Override
-		public final void st_lspare(final long st_lspare)
+		final void st_lspare(final long st_lspare)
 		{
 			// Not implemented
 		}
 
 		@Override
-		public long st_mode()
+		final long st_mode()
 		{
 			return st_mode.longValue();
 		}
 
 		@Override
-		public final void st_mode(final long st_mode)
+		final void st_mode(final long st_mode)
 		{
 			this.st_mode.setValue(st_mode);
 		}
 
 		@Override
-		public final void st_mtime(final long sec, final long nsec)
+		final void st_mtime(final long sec, final long nsec)
 		{
 			st_mtime.set(sec, nsec);
 		}
 
 		@Override
-		public long st_mtime_nsec()
+		final long st_mtime_nsec()
 		{
 			return st_mtime.nsec();
 		}
 
 		@Override
-		public long st_mtime_sec()
+		final long st_mtime_sec()
 		{
 			return st_mtime.sec();
 		}
 
 		@Override
-		public long st_nlink()
+		final long st_nlink()
 		{
 			return st_nlink.longValue();
 		}
 
 		@Override
-		public final void st_nlink(final long st_nlink)
+		final void st_nlink(final long st_nlink)
 		{
 			this.st_nlink.setValue(st_nlink);
 		}
 
 		@Override
-		public long st_qspare()
+		final long st_qspare()
 		{
 			return -1L;
 		}
 
 		@Override
-		public final void st_qspare(final long st_qspare)
+		final void st_qspare(final long st_qspare)
 		{
 			// Not implemented
 		}
 
 		@Override
-		public long st_rdev()
+		final long st_rdev()
 		{
 			return st_rdev.longValue();
 		}
 
 		@Override
-		public final void st_rdev(final long st_rdev)
+		final void st_rdev(final long st_rdev)
 		{
 			this.st_rdev.setValue(st_rdev);
 		}
 
 		@Override
-		public long st_size()
+		final long st_size()
 		{
 			return st_size.longValue();
 		}
 
 		@Override
-		public final void st_size(final long st_size)
+		final void st_size(final long st_size)
 		{
 			this.st_size.setValue(st_size);
 		}
 
 		@Override
-		public long st_uid()
+		final long st_uid()
 		{
 			return st_uid.longValue();
 		}
 
 		@Override
-		public final void st_uid(final long st_uid)
+		final void st_uid(final long st_uid)
 		{
 			this.st_uid.setValue(st_uid);
 		}
@@ -1269,13 +1269,13 @@ public abstract class StructStat extends Structure
 		}
 	}
 
-	public static class x86_64 extends StructStat
+	public static class X86_64 extends StructStat
 	{
-		public static final class ByReference extends x86_64 implements Structure.ByReference
+		public static final class ByReference extends X86_64 implements Structure.ByReference
 		{
 		}
 
-		public static final class ByValue extends x86_64 implements Structure.ByValue
+		public static final class ByValue extends X86_64 implements Structure.ByValue
 		{
 		}
 
@@ -1295,307 +1295,307 @@ public abstract class StructStat extends Structure
 		public StructTimespec.ByValue st_ctime;
 
 		@Override
-		public final void st_atime(final long sec, final long nsec)
+		final void st_atime(final long sec, final long nsec)
 		{
 			st_atime.set(sec, nsec);
 		}
 
 		@Override
-		public long st_atime_nsec()
+		final long st_atime_nsec()
 		{
 			return st_atime.nsec();
 		}
 
 		@Override
-		public long st_atime_sec()
+		final long st_atime_sec()
 		{
 			return st_atime.sec();
 		}
 
 		@Override
-		public void st_birthtime(final long sec, final long nsec)
+		final void st_birthtime(final long sec, final long nsec)
 		{
 			// Not implemented
 		}
 
 		@Override
-		public long st_birthtime_nsec()
+		final long st_birthtime_nsec()
 		{
 			return -1L;
 		}
 
 		@Override
-		public long st_birthtime_sec()
+		final long st_birthtime_sec()
 		{
 			return -1L;
 		}
 
 		@Override
-		public long st_blksize()
+		final long st_blksize()
 		{
 			return st_blksize.longValue();
 		}
 
 		@Override
-		public final void st_blksize(final long st_blksize)
+		final void st_blksize(final long st_blksize)
 		{
 			this.st_blksize.setValue(st_blksize);
 		}
 
 		@Override
-		public long st_blocks()
+		final long st_blocks()
 		{
 			return st_blocks.longValue();
 		}
 
 		@Override
-		public final void st_blocks(final long st_blocks)
+		final void st_blocks(final long st_blocks)
 		{
 			this.st_blocks.setValue(st_blocks);
 		}
 
 		@Override
-		public final void st_ctime(final long sec, final long nsec)
+		final void st_ctime(final long sec, final long nsec)
 		{
 			st_ctime.set(sec, nsec);
 		}
 
 		@Override
-		public long st_ctime_nsec()
+		final long st_ctime_nsec()
 		{
 			return st_ctime.nsec();
 		}
 
 		@Override
-		public long st_ctime_sec()
+		final long st_ctime_sec()
 		{
 			return st_ctime.sec();
 		}
 
 		@Override
-		public long st_dev()
+		final long st_dev()
 		{
 			return st_dev.longValue();
 		}
 
 		@Override
-		public final void st_dev(final long st_dev)
+		final void st_dev(final long st_dev)
 		{
 			this.st_dev.setValue(st_dev);
 		}
 
 		@Override
-		public long st_gen()
+		final long st_gen()
 		{
 			return -1L;
 		}
 
 		@Override
-		public final void st_gen(final long st_gen)
+		final void st_gen(final long st_gen)
 		{
 			// Not implemented
 		}
 
 		@Override
-		public long st_gid()
+		final long st_gid()
 		{
 			return st_gid.longValue();
 		}
 
 		@Override
-		public final void st_gid(final long st_gid)
+		final void st_gid(final long st_gid)
 		{
 			this.st_gid.setValue(st_gid);
 		}
 
 		@Override
-		public long st_ino()
+		final long st_ino()
 		{
 			return st_ino.longValue();
 		}
 
 		@Override
-		public final void st_ino(final long st_ino)
+		final void st_ino(final long st_ino)
 		{
 			this.st_ino.setValue(st_ino);
 		}
 
 		@Override
-		public long st_lspare()
+		final long st_lspare()
 		{
 			return -1L;
 		}
 
 		@Override
-		public final void st_lspare(final long st_lspare)
+		final void st_lspare(final long st_lspare)
 		{
 			// Not implemented
 		}
 
 		@Override
-		public long st_mode()
+		final long st_mode()
 		{
 			return st_mode.longValue();
 		}
 
 		@Override
-		public final void st_mode(final long st_mode)
+		final void st_mode(final long st_mode)
 		{
 			this.st_mode.setValue(st_mode);
 		}
 
 		@Override
-		public final void st_mtime(final long sec, final long nsec)
+		final void st_mtime(final long sec, final long nsec)
 		{
 			st_mtime.set(sec, nsec);
 		}
 
 		@Override
-		public long st_mtime_nsec()
+		final long st_mtime_nsec()
 		{
 			return st_mtime.nsec();
 		}
 
 		@Override
-		public long st_mtime_sec()
+		final long st_mtime_sec()
 		{
 			return st_mtime.sec();
 		}
 
 		@Override
-		public long st_nlink()
+		final long st_nlink()
 		{
 			return st_nlink.longValue();
 		}
 
 		@Override
-		public final void st_nlink(final long st_nlink)
+		final void st_nlink(final long st_nlink)
 		{
 			this.st_nlink.setValue(st_nlink);
 		}
 
 		@Override
-		public long st_qspare()
+		final long st_qspare()
 		{
 			return -1L;
 		}
 
 		@Override
-		public final void st_qspare(final long st_qspare)
+		final void st_qspare(final long st_qspare)
 		{
 			// Not implemented
 		}
 
 		@Override
-		public long st_rdev()
+		final long st_rdev()
 		{
 			return st_rdev.longValue();
 		}
 
 		@Override
-		public final void st_rdev(final long st_rdev)
+		final void st_rdev(final long st_rdev)
 		{
 			this.st_rdev.setValue(st_rdev);
 		}
 
 		@Override
-		public long st_size()
+		final long st_size()
 		{
 			return st_size.longValue();
 		}
 
 		@Override
-		public final void st_size(final long st_size)
+		final void st_size(final long st_size)
 		{
 			this.st_size.setValue(st_size);
 		}
 
 		@Override
-		public long st_uid()
+		final long st_uid()
 		{
 			return st_uid.longValue();
 		}
 
 		@Override
-		public final void st_uid(final long st_uid)
+		final void st_uid(final long st_uid)
 		{
 			this.st_uid.setValue(st_uid);
 		}
 	}
 
-	public abstract void st_atime(long sec, long nsec);
+	abstract void st_atime(long sec, long nsec);
 
-	public abstract long st_atime_nsec();
+	abstract long st_atime_nsec();
 
-	public abstract long st_atime_sec();
+	abstract long st_atime_sec();
 
-	public abstract void st_birthtime(long sec, long nsec);
+	abstract void st_birthtime(long sec, long nsec);
 
-	public abstract long st_birthtime_nsec();
+	abstract long st_birthtime_nsec();
 
-	public abstract long st_birthtime_sec();
+	abstract long st_birthtime_sec();
 
-	public abstract long st_blksize();
+	abstract long st_blksize();
 
-	public abstract void st_blksize(long st_blksize);
+	abstract void st_blksize(long st_blksize);
 
-	public abstract long st_blocks();
+	abstract long st_blocks();
 
-	public abstract void st_blocks(long st_blocks);
+	abstract void st_blocks(long st_blocks);
 
-	public abstract void st_ctime(long sec, long nsec);
+	abstract void st_ctime(long sec, long nsec);
 
-	public abstract long st_ctime_nsec();
+	abstract long st_ctime_nsec();
 
-	public abstract long st_ctime_sec();
+	abstract long st_ctime_sec();
 
-	public abstract long st_dev();
+	abstract long st_dev();
 
-	public abstract void st_dev(long st_dev);
+	abstract void st_dev(long st_dev);
 
-	public abstract long st_gen();
+	abstract long st_gen();
 
-	public abstract void st_gen(final long st_gen);
+	abstract void st_gen(final long st_gen);
 
-	public abstract long st_gid();
+	abstract long st_gid();
 
-	public abstract void st_gid(long st_gid);
+	abstract void st_gid(long st_gid);
 
-	public abstract long st_ino();
+	abstract long st_ino();
 
-	public abstract void st_ino(long st_ino);
+	abstract void st_ino(long st_ino);
 
-	public abstract long st_lspare();
+	abstract long st_lspare();
 
-	public abstract void st_lspare(final long st_lspare);
+	abstract void st_lspare(final long st_lspare);
 
-	public abstract long st_mode();
+	abstract long st_mode();
 
-	public abstract void st_mode(long st_mode);
+	abstract void st_mode(long st_mode);
 
-	public abstract void st_mtime(long sec, long nsec);
+	abstract void st_mtime(long sec, long nsec);
 
-	public abstract long st_mtime_nsec();
+	abstract long st_mtime_nsec();
 
-	public abstract long st_mtime_sec();
+	abstract long st_mtime_sec();
 
-	public abstract long st_nlink();
+	abstract long st_nlink();
 
-	public abstract void st_nlink(long st_nlink);
+	abstract void st_nlink(long st_nlink);
 
-	public abstract long st_qspare();
+	abstract long st_qspare();
 
-	public abstract void st_qspare(final long st_qspare);
+	abstract void st_qspare(final long st_qspare);
 
-	public abstract long st_rdev();
+	abstract long st_rdev();
 
-	public abstract void st_rdev(long st_rdev);
+	abstract void st_rdev(long st_rdev);
 
-	public abstract long st_size();
+	abstract long st_size();
 
-	public abstract void st_size(long st_size);
+	abstract void st_size(long st_size);
 
-	public abstract long st_uid();
+	abstract long st_uid();
 
-	public abstract void st_uid(long st_uid);
+	abstract void st_uid(long st_uid);
 }

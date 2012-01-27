@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 
 import net.fusejna.StructFuseFileInfo.FileInfoWrapper;
 import net.fusejna.StructStat.StatWrapper;
+import net.fusejna.StructStatvfs.StatvfsWrapper;
 import net.fusejna.types.TypeMode.ModeWrapper;
 
 final class LoggedFuseFilesystem extends FuseFilesystem
@@ -349,6 +350,19 @@ final class LoggedFuseFilesystem extends FuseFilesystem
 	}
 
 	@Override
+	public int statfs(final String path, final StatvfsWrapper wrapper)
+	{
+		return log("statfs", 0, new LoggedMethod<Integer>()
+		{
+			@Override
+			public Integer invoke()
+			{
+				return filesystem.statfs(path, wrapper);
+			}
+		}, path, wrapper);
+	}
+
+	@Override
 	public int symlink(final String path, final String target)
 	{
 		return log("symlink", 0, new LoggedMethod<Integer>()
@@ -385,5 +399,19 @@ final class LoggedFuseFilesystem extends FuseFilesystem
 				return filesystem.unlink(path);
 			}
 		}, path);
+	}
+
+	@Override
+	public int write(final String path, final ByteBuffer buf, final long bufSize, final long readOffset,
+			final FileInfoWrapper wrapper)
+	{
+		return log("write", 0, new LoggedMethod<Integer>()
+		{
+			@Override
+			public Integer invoke()
+			{
+				return filesystem.write(path, buf, bufSize, readOffset, wrapper);
+			}
+		}, path, buf, bufSize, readOffset, wrapper);
 	}
 }
