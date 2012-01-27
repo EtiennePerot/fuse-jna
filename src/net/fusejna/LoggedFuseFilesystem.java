@@ -115,6 +115,32 @@ final class LoggedFuseFilesystem extends FuseFilesystem
 	}
 
 	@Override
+	public int flush(final String path, final FileInfoWrapper info)
+	{
+		return log("flush", 0, new LoggedMethod<Integer>()
+		{
+			@Override
+			public Integer invoke()
+			{
+				return filesystem.flush(path, info);
+			}
+		}, path, info);
+	}
+
+	@Override
+	public int fsync(final String path, final FileInfoWrapper info)
+	{
+		return log("flush", 0, new LoggedMethod<Integer>()
+		{
+			@Override
+			public Integer invoke()
+			{
+				return filesystem.fsync(path, info);
+			}
+		}, path, info);
+	}
+
+	@Override
 	public int getattr(final String path, final StatWrapper stat)
 	{
 		return log("getattr", 0, new LoggedMethod<Integer>()
@@ -314,6 +340,19 @@ final class LoggedFuseFilesystem extends FuseFilesystem
 				return filesystem.readlink(path, buffer, size);
 			}
 		}, path, buffer, size);
+	}
+
+	@Override
+	public int release(final String path, final FileInfoWrapper info)
+	{
+		return log("release", 0, new LoggedMethod<Integer>()
+		{
+			@Override
+			public Integer invoke()
+			{
+				return filesystem.release(path, info);
+			}
+		}, path, info);
 	}
 
 	@Override

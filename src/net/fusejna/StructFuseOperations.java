@@ -283,24 +283,21 @@ public class StructFuseOperations extends Structure
 		{
 			public final int callback(final String path, final StructFuseFileInfo.ByReference info)
 			{
-				System.out.println("flush");
-				return 0;
+				return filesystem._flush(path, info);
 			}
 		};
 		release = new Callback()
 		{
 			public final int callback(final String path, final StructFuseFileInfo.ByReference info)
 			{
-				System.out.println("release");
-				return 0;
+				return filesystem._release(path, info);
 			}
 		};
 		fsync = new Callback()
 		{
 			public final int callback(final String path, final StructFuseFileInfo.ByReference info)
 			{
-				System.out.println("fsync");
-				return 0;
+				return filesystem._fsync(path, info);
 			}
 		};
 		setxattr = new Callback()

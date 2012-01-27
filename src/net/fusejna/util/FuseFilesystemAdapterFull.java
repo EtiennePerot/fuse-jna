@@ -47,6 +47,18 @@ public abstract class FuseFilesystemAdapterFull extends FuseFilesystem
 	}
 
 	@Override
+	public int flush(final String path, final FileInfoWrapper info)
+	{
+		return 0;
+	}
+
+	@Override
+	public int fsync(final String path, final FileInfoWrapper info)
+	{
+		return 0;
+	}
+
+	@Override
 	public int getattr(final String path, final StatWrapper stat)
 	{
 		return ErrorCodes.ENOSYS;
@@ -112,6 +124,12 @@ public abstract class FuseFilesystemAdapterFull extends FuseFilesystem
 
 	@Override
 	public int readlink(final String path, final ByteBuffer buffer, final long size)
+	{
+		return 0;
+	}
+
+	@Override
+	public int release(final String path, final FileInfoWrapper info)
 	{
 		return 0;
 	}

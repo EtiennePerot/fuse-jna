@@ -69,6 +69,18 @@ public abstract class FuseFilesystem
 	}
 
 	@FuseMethod
+	final int _flush(final String path, final StructFuseFileInfo info)
+	{
+		return flush(path, new FileInfoWrapper(path, info));
+	}
+
+	@FuseMethod
+	final int _fsync(final String path, final StructFuseFileInfo info)
+	{
+		return fsync(path, new FileInfoWrapper(info));
+	}
+
+	@FuseMethod
 	final int _getattr(final String path, final StructStat stat)
 	{
 		final StatWrapper wrapper = new StatWrapper(path, stat);
@@ -126,7 +138,7 @@ public abstract class FuseFilesystem
 
 	@FuseMethod
 	final int _readdir(final String path, final Pointer buf, final Pointer fillFunction, final TypeOff offset,
-			final net.fusejna.StructFuseFileInfo info)
+			final StructFuseFileInfo info)
 	{
 		return readdir(path, new DirectoryFiller(buf, Function.getFunction(fillFunction)));
 	}
@@ -137,6 +149,12 @@ public abstract class FuseFilesystem
 		final long bufSize = size.longValue();
 		final ByteBuffer buf = buffer.getByteBuffer(0, bufSize);
 		return readlink(path, buf, bufSize);
+	}
+
+	@FuseMethod
+	final int _release(final String path, final StructFuseFileInfo info)
+	{
+		return release(path, new FileInfoWrapper(path, info));
 	}
 
 	@FuseMethod
@@ -180,7 +198,7 @@ public abstract class FuseFilesystem
 
 	@FuseMethod
 	final int _write(final String path, final Pointer buffer, final TypeSize size, final TypeOff offset,
-			final net.fusejna.StructFuseFileInfo.ByReference info)
+			final StructFuseFileInfo info)
 	{
 		final long bufSize = size.longValue();
 		final long readOffset = offset.longValue();
@@ -196,10 +214,10 @@ public abstract class FuseFilesystem
 	public abstract void beforeUnmount(final File mountPoint);
 
 	@UserMethod
-	public abstract int chmod(String path, ModeWrapper modeWrapper);
+	public abstract int chmod(final String path, final ModeWrapper modeWrapper);
 
 	@UserMethod
-	public abstract int chown(String path, long uid, long gid);
+	public abstract int chown(final String path, final long uid, final long gid);
 
 	/**
 	 * Subclasses may override this to customize the default parameters applied to the stat structure, or to prevent such
@@ -219,7 +237,13 @@ public abstract class FuseFilesystem
 	public abstract void destroy();
 
 	@UserMethod
-	public abstract int fgetattr(final String path, final StatWrapper stat, FileInfoWrapper info);
+	public abstract int fgetattr(final String path, final StatWrapper stat, final FileInfoWrapper info);
+
+	@UserMethod
+	public abstract int flush(final String path, final FileInfoWrapper info);
+
+	@UserMethod
+	public abstract int fsync(final String path, final FileInfoWrapper info);
 
 	@UserMethod
 	public abstract int getattr(final String path, final StatWrapper stat);
@@ -283,10 +307,10 @@ public abstract class FuseFilesystem
 	}
 
 	@UserMethod
-	public abstract int mkdir(String path, ModeWrapper modeWrapper);
+	public abstract int mkdir(final String path, final ModeWrapper modeWrapper);
 
 	@UserMethod
-	public abstract int mknod(final String path, ModeWrapper modeWrapper, long dev);
+	public abstract int mknod(final String path, final ModeWrapper modeWrapper, final long dev);
 
 	public final void mount(final File mountPoint) throws FuseException
 	{
@@ -320,19 +344,23 @@ public abstract class FuseFilesystem
 	public abstract int open(final String path, final FileInfoWrapper info);
 
 	@UserMethod
-	public abstract int read(final String path, ByteBuffer buffer, long size, long offset, final FileInfoWrapper info);
+	public abstract int read(final String path, final ByteBuffer buffer, final long size, final long offset,
+			final FileInfoWrapper info);
 
 	@UserMethod
-	public abstract int readdir(final String path, DirectoryFiller filler);
+	public abstract int readdir(final String path, final DirectoryFiller filler);
 
 	@UserMethod
-	public abstract int readlink(final String path, ByteBuffer buffer, long size);
+	public abstract int readlink(final String path, final ByteBuffer buffer, final long size);
 
 	@UserMethod
-	public abstract int rename(String path, String newName);
+	public abstract int release(final String path, final FileInfoWrapper info);
 
 	@UserMethod
-	public abstract int rmdir(String path);
+	public abstract int rename(final String path, final String newName);
+
+	@UserMethod
+	public abstract int rmdir(final String path);
 
 	void setFinalMountPoint(final File mountPoint)
 	{
@@ -342,16 +370,16 @@ public abstract class FuseFilesystem
 	}
 
 	@UserMethod
-	public abstract int statfs(String path, StatvfsWrapper wrapper);
+	public abstract int statfs(final String path, final StatvfsWrapper wrapper);
 
 	@UserMethod
-	public abstract int symlink(String path, String target);
+	public abstract int symlink(final String path, final String target);
 
 	@UserMethod
-	public abstract int truncate(String path, long offset);
+	public abstract int truncate(final String path, final long offset);
 
 	@UserMethod
-	public abstract int unlink(String path);
+	public abstract int unlink(final String path);
 
 	public final void unmount() throws IOException, FuseException
 	{
@@ -369,5 +397,6 @@ public abstract class FuseFilesystem
 	}
 
 	@UserMethod
-	public abstract int write(String path, ByteBuffer buf, long bufSize, long readOffset, FileInfoWrapper wrapper);
+	public abstract int write(final String path, final ByteBuffer buf, final long bufSize, final long readOffset,
+			final FileInfoWrapper info);
 }
