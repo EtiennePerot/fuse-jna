@@ -141,6 +141,19 @@ final class LoggedFuseFilesystem extends FuseFilesystem
 	}
 
 	@Override
+	public int fsyncdir(final String path, final FileInfoWrapper info)
+	{
+		return log("fsyncdir", 0, new LoggedMethod<Integer>()
+		{
+			@Override
+			public Integer invoke()
+			{
+				return filesystem.fsyncdir(path, info);
+			}
+		}, path, info);
+	}
+
+	@Override
 	public int getattr(final String path, final StatWrapper stat)
 	{
 		return log("getattr", 0, new LoggedMethod<Integer>()
@@ -333,6 +346,19 @@ final class LoggedFuseFilesystem extends FuseFilesystem
 	}
 
 	@Override
+	public int opendir(final String path, final FileInfoWrapper info)
+	{
+		return log("opendir", 0, new LoggedMethod<Integer>()
+		{
+			@Override
+			public Integer invoke()
+			{
+				return filesystem.opendir(path, info);
+			}
+		}, path, info);
+	}
+
+	@Override
 	public int read(final String path, final ByteBuffer buffer, final long size, final long offset, final FileInfoWrapper info)
 	{
 		return log("read", 0, new LoggedMethod<Integer>()
@@ -377,6 +403,19 @@ final class LoggedFuseFilesystem extends FuseFilesystem
 			public Integer invoke()
 			{
 				return filesystem.release(path, info);
+			}
+		}, path, info);
+	}
+
+	@Override
+	public int releasedir(final String path, final FileInfoWrapper info)
+	{
+		return log("releasedir", 0, new LoggedMethod<Integer>()
+		{
+			@Override
+			public Integer invoke()
+			{
+				return filesystem.releasedir(path, info);
 			}
 		}, path, info);
 	}

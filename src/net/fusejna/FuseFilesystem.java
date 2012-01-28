@@ -82,6 +82,15 @@ public abstract class FuseFilesystem
 	}
 
 	@FuseMethod
+	final int _fsyncdir(final String path, final StructFuseFileInfo info)
+	{
+		final FileInfoWrapper wrapper = new FileInfoWrapper(info);
+		final int result = fsyncdir(path, wrapper);
+		wrapper.write();
+		return result;
+	}
+
+	@FuseMethod
 	final int _getattr(final String path, final StructStat stat)
 	{
 		final StatWrapper wrapper = new StatWrapper(path, stat);
@@ -142,6 +151,15 @@ public abstract class FuseFilesystem
 	}
 
 	@FuseMethod
+	final int _opendir(final String path, final StructFuseFileInfo info)
+	{
+		final FileInfoWrapper wrapper = new FileInfoWrapper(info);
+		final int result = opendir(path, wrapper);
+		wrapper.write();
+		return result;
+	}
+
+	@FuseMethod
 	final int _read(final String path, final Pointer buffer, final TypeSize size, final TypeOff offset,
 			final StructFuseFileInfo info)
 	{
@@ -173,6 +191,15 @@ public abstract class FuseFilesystem
 	final int _release(final String path, final StructFuseFileInfo info)
 	{
 		return release(path, new FileInfoWrapper(path, info));
+	}
+
+	@FuseMethod
+	final int _releasedir(final String path, final StructFuseFileInfo info)
+	{
+		final FileInfoWrapper wrapper = new FileInfoWrapper(info);
+		final int result = releasedir(path, wrapper);
+		wrapper.write();
+		return result;
 	}
 
 	@FuseMethod
@@ -276,6 +303,9 @@ public abstract class FuseFilesystem
 
 	@UserMethod
 	public abstract int fsync(final String path, final FileInfoWrapper info);
+
+	@UserMethod
+	public abstract int fsyncdir(final String path, final FileInfoWrapper info);
 
 	@UserMethod
 	public abstract int getattr(final String path, final StatWrapper stat);
@@ -383,6 +413,9 @@ public abstract class FuseFilesystem
 	public abstract int open(final String path, final FileInfoWrapper info);
 
 	@UserMethod
+	public abstract int opendir(final String path, final FileInfoWrapper info);
+
+	@UserMethod
 	public abstract int read(final String path, final ByteBuffer buffer, final long size, final long offset,
 			final FileInfoWrapper info);
 
@@ -394,6 +427,9 @@ public abstract class FuseFilesystem
 
 	@UserMethod
 	public abstract int release(final String path, final FileInfoWrapper info);
+
+	@UserMethod
+	public abstract int releasedir(final String path, final FileInfoWrapper info);
 
 	@UserMethod
 	public abstract int removexattr(final String path, final String xattr);

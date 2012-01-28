@@ -356,8 +356,7 @@ public class StructFuseOperations extends Structure
 		{
 			public final int callback(final String path, final StructFuseFileInfo.ByReference info)
 			{
-				System.out.println("opendir");
-				return 0;
+				return filesystem._opendir(path, info);
 			}
 		};
 		readdir = new Callback()
@@ -372,16 +371,14 @@ public class StructFuseOperations extends Structure
 		{
 			public final int callback(final String path, final StructFuseFileInfo.ByReference info)
 			{
-				System.out.println("releasedir");
-				return 0;
+				return filesystem._releasedir(path, info);
 			}
 		};
 		fsyncdir = new Callback()
 		{
 			public final int callback(final String path, final StructFuseFileInfo.ByReference info)
 			{
-				System.out.println("fsyncdir");
-				return 0;
+				return filesystem._fsyncdir(path, info);
 			}
 		};
 		init = new Callback()
