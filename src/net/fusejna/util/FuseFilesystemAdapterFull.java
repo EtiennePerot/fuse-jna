@@ -5,7 +5,9 @@ import java.nio.ByteBuffer;
 
 import net.fusejna.DirectoryFiller;
 import net.fusejna.ErrorCodes;
+import net.fusejna.FlockCommand;
 import net.fusejna.FuseFilesystem;
+import net.fusejna.StructFlock.FlockWrapper;
 import net.fusejna.StructFuseFileInfo.FileInfoWrapper;
 import net.fusejna.StructStat.StatWrapper;
 import net.fusejna.StructStatvfs.StatvfsWrapper;
@@ -126,6 +128,12 @@ public abstract class FuseFilesystemAdapterFull extends FuseFilesystem
 
 	@Override
 	public int listxattr(final String path, final XattrListFiller filler)
+	{
+		return 0;
+	}
+
+	@Override
+	public int lock(final String path, final FileInfoWrapper info, final FlockCommand command, final FlockWrapper flock)
 	{
 		return 0;
 	}

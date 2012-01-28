@@ -417,14 +417,19 @@ public class StructFuseOperations extends Structure
 				return filesystem._ftruncate(path, offset, info);
 			}
 		};
-		lock = new Callback()
-		{
-			public final int callback(final String path, final Pointer info, final int cmd, final Pointer flock)
-			{
-				System.out.println("lock");
-				return 0;
-			}
-		};
+		switch (Platform.platform()) {
+			case FREEBSD:
+			case MAC:
+			case MAC_MACFUSE:
+				lock = new Callback()
+				{
+					public final int callback(final String path, final StructFuseFileInfo.ByReference info, final int cmd,
+							final StructFlock.FreeBSD.ByReference flock)
+					{
+						return filesystem._lock(path, info, cmd, flock);
+					}
+				};
+		}
 		utimens = new Callback()
 		{
 			public final int callback(final String path, final Pointer timespec)

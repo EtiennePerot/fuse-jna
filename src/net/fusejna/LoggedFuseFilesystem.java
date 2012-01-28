@@ -5,6 +5,7 @@ import java.nio.ByteBuffer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import net.fusejna.StructFlock.FlockWrapper;
 import net.fusejna.StructFuseFileInfo.FileInfoWrapper;
 import net.fusejna.StructStat.StatWrapper;
 import net.fusejna.StructStatvfs.StatvfsWrapper;
@@ -294,6 +295,19 @@ final class LoggedFuseFilesystem extends FuseFilesystem
 				return filesystem.listxattr(path, filler);
 			}
 		}, path, filler);
+	}
+
+	@Override
+	public int lock(final String path, final FileInfoWrapper info, final FlockCommand command, final FlockWrapper flock)
+	{
+		return log("lock", 0, new LoggedMethod<Integer>()
+		{
+			@Override
+			public Integer invoke()
+			{
+				return filesystem.lock(path, info, command, flock);
+			}
+		}, path, info, command, flock);
 	}
 
 	private void log(final String methodName, final LoggedVoidMethod method)

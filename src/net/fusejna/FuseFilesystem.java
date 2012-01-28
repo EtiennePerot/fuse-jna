@@ -7,6 +7,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
+import net.fusejna.StructFlock.FlockWrapper;
 import net.fusejna.StructFuseFileInfo.FileInfoWrapper;
 import net.fusejna.StructStat.StatWrapper;
 import net.fusejna.StructStatvfs.StatvfsWrapper;
@@ -48,7 +49,7 @@ public abstract class FuseFilesystem
 	@FuseMethod
 	final int _bmap(final String path, final StructFuseFileInfo info)
 	{
-		final FileInfoWrapper wrapper = new FileInfoWrapper(info);
+		final FileInfoWrapper wrapper = new FileInfoWrapper(path, info);
 		final int result = bmap(path, wrapper);
 		wrapper.write();
 		return result;
@@ -69,7 +70,7 @@ public abstract class FuseFilesystem
 	@FuseMethod
 	final int _create(final String path, final TypeMode mode, final StructFuseFileInfo info)
 	{
-		final FileInfoWrapper wrapper = new FileInfoWrapper(info);
+		final FileInfoWrapper wrapper = new FileInfoWrapper(path, info);
 		final int result = create(path, new ModeWrapper(mode), wrapper);
 		wrapper.write();
 		return result;
@@ -102,13 +103,13 @@ public abstract class FuseFilesystem
 	@FuseMethod
 	final int _fsync(final String path, final StructFuseFileInfo info)
 	{
-		return fsync(path, new FileInfoWrapper(info));
+		return fsync(path, new FileInfoWrapper(path, info));
 	}
 
 	@FuseMethod
 	final int _fsyncdir(final String path, final StructFuseFileInfo info)
 	{
-		final FileInfoWrapper wrapper = new FileInfoWrapper(info);
+		final FileInfoWrapper wrapper = new FileInfoWrapper(path, info);
 		final int result = fsyncdir(path, wrapper);
 		wrapper.write();
 		return result;
@@ -117,7 +118,7 @@ public abstract class FuseFilesystem
 	@FuseMethod
 	final int _ftruncate(final String path, final TypeOff offset, final StructFuseFileInfo info)
 	{
-		final FileInfoWrapper wrapper = new FileInfoWrapper(info);
+		final FileInfoWrapper wrapper = new FileInfoWrapper(path, info);
 		final int result = ftruncate(path, offset.longValue(), wrapper);
 		wrapper.write();
 		return result;
@@ -163,6 +164,17 @@ public abstract class FuseFilesystem
 	}
 
 	@FuseMethod
+	final int _lock(final String path, final StructFuseFileInfo info, final int cmd, final StructFlock flock)
+	{
+		final FileInfoWrapper fileWrapper = new FileInfoWrapper(path, info);
+		final FlockWrapper flockWrapper = new FlockWrapper(path, flock);
+		final int result = lock(path, fileWrapper, FlockCommand.fromBits(cmd), flockWrapper);
+		fileWrapper.write();
+		flockWrapper.write();
+		return result;
+	}
+
+	@FuseMethod
 	final int _mkdir(final String path, final TypeMode mode)
 	{
 		return mkdir(path, new ModeWrapper(mode));
@@ -186,7 +198,7 @@ public abstract class FuseFilesystem
 	@FuseMethod
 	final int _opendir(final String path, final StructFuseFileInfo info)
 	{
-		final FileInfoWrapper wrapper = new FileInfoWrapper(info);
+		final FileInfoWrapper wrapper = new FileInfoWrapper(path, info);
 		final int result = opendir(path, wrapper);
 		wrapper.write();
 		return result;
@@ -229,7 +241,7 @@ public abstract class FuseFilesystem
 	@FuseMethod
 	final int _releasedir(final String path, final StructFuseFileInfo info)
 	{
-		final FileInfoWrapper wrapper = new FileInfoWrapper(info);
+		final FileInfoWrapper wrapper = new FileInfoWrapper(path, info);
 		final int result = releasedir(path, wrapper);
 		wrapper.write();
 		return result;
@@ -402,6 +414,9 @@ public abstract class FuseFilesystem
 
 	@UserMethod
 	public abstract int listxattr(final String path, XattrListFiller filler);
+
+	@UserMethod
+	public abstract int lock(final String path, final FileInfoWrapper info, final FlockCommand command, final FlockWrapper flock);
 
 	protected final FuseFilesystem log(final boolean logging)
 	{
