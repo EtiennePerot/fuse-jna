@@ -11,6 +11,7 @@ import net.fusejna.StructFlock.FlockWrapper;
 import net.fusejna.StructFuseFileInfo.FileInfoWrapper;
 import net.fusejna.StructStat.StatWrapper;
 import net.fusejna.StructStatvfs.StatvfsWrapper;
+import net.fusejna.StructTimeBuffer.TimeBufferWrapper;
 import net.fusejna.types.TypeDev;
 import net.fusejna.types.TypeGid;
 import net.fusejna.types.TypeMode;
@@ -301,6 +302,15 @@ public abstract class FuseFilesystem
 	}
 
 	@FuseMethod
+	final int _utimens(final String path, final StructTimeBuffer timebuffer)
+	{
+		final TimeBufferWrapper wrapper = new TimeBufferWrapper(timebuffer);
+		final int result = utimens(path, wrapper);
+		wrapper.write();
+		return result;
+	}
+
+	@FuseMethod
 	final int _write(final String path, final Pointer buffer, final TypeSize size, final TypeOff offset,
 			final StructFuseFileInfo info)
 	{
@@ -536,6 +546,9 @@ public abstract class FuseFilesystem
 			mountLock.unlock();
 		}
 	}
+
+	@UserMethod
+	public abstract int utimens(final String path, final TimeBufferWrapper wrapper);
 
 	@UserMethod
 	public abstract int write(final String path, final ByteBuffer buf, final long bufSize, final long readOffset,

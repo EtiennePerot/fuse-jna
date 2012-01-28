@@ -16,12 +16,12 @@ public class StructTimespec extends Structure
 	public NativeLong tv_sec;
 	public NativeLong tv_nsec;
 
-	public long nsec()
+	public final long nsec()
 	{
 		return tv_nsec.longValue();
 	}
 
-	public long sec()
+	public final long sec()
 	{
 		return tv_sec.longValue();
 	}

@@ -11,6 +11,7 @@ import net.fusejna.StructFlock.FlockWrapper;
 import net.fusejna.StructFuseFileInfo.FileInfoWrapper;
 import net.fusejna.StructStat.StatWrapper;
 import net.fusejna.StructStatvfs.StatvfsWrapper;
+import net.fusejna.StructTimeBuffer.TimeBufferWrapper;
 import net.fusejna.XattrListFiller;
 import net.fusejna.types.TypeMode.ModeWrapper;
 
@@ -241,6 +242,12 @@ public abstract class FuseFilesystemAdapterFull extends FuseFilesystem
 
 	@Override
 	public int unlink(final String path)
+	{
+		return 0;
+	}
+
+	@Override
+	public int utimens(final String path, final TimeBufferWrapper wrapper)
 	{
 		return 0;
 	}

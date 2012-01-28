@@ -9,6 +9,7 @@ import net.fusejna.StructFlock.FlockWrapper;
 import net.fusejna.StructFuseFileInfo.FileInfoWrapper;
 import net.fusejna.StructStat.StatWrapper;
 import net.fusejna.StructStatvfs.StatvfsWrapper;
+import net.fusejna.StructTimeBuffer.TimeBufferWrapper;
 import net.fusejna.types.TypeMode.ModeWrapper;
 
 final class LoggedFuseFilesystem extends FuseFilesystem
@@ -595,6 +596,19 @@ final class LoggedFuseFilesystem extends FuseFilesystem
 				return filesystem.unlink(path);
 			}
 		}, path);
+	}
+
+	@Override
+	public int utimens(final String path, final TimeBufferWrapper wrapper)
+	{
+		return log("utimens", 0, new LoggedMethod<Integer>()
+		{
+			@Override
+			public Integer invoke()
+			{
+				return filesystem.utimens(path, wrapper);
+			}
+		}, path, wrapper);
 	}
 
 	@Override

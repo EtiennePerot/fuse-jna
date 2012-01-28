@@ -429,13 +429,22 @@ public class StructFuseOperations extends Structure
 						return filesystem._lock(path, info, cmd, flock);
 					}
 				};
+				break;
+			default:
+				lock = new Callback()
+				{
+					public final int callback(final String path, final StructFuseFileInfo.ByReference info, final int cmd,
+							final StructFlock.NotFreeBSD.ByReference flock)
+					{
+						return filesystem._lock(path, info, cmd, flock);
+					}
+				};
 		}
 		utimens = new Callback()
 		{
-			public final int callback(final String path, final Pointer timespec)
-			{ // Has two timespecs
-				System.out.println("utimens");
-				return 0;
+			public final int callback(final String path, final StructTimeBuffer.ByReference timebuffer)
+			{
+				return filesystem._utimens(path, timebuffer);
 			}
 		};
 		bmap = new Callback()
