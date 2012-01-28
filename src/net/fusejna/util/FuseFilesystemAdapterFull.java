@@ -9,6 +9,7 @@ import net.fusejna.FuseFilesystem;
 import net.fusejna.StructFuseFileInfo.FileInfoWrapper;
 import net.fusejna.StructStat.StatWrapper;
 import net.fusejna.StructStatvfs.StatvfsWrapper;
+import net.fusejna.XattrListFiller;
 import net.fusejna.types.TypeMode.ModeWrapper;
 
 public abstract class FuseFilesystemAdapterFull extends FuseFilesystem
@@ -77,12 +78,24 @@ public abstract class FuseFilesystemAdapterFull extends FuseFilesystem
 	}
 
 	@Override
+	public int getxattr(final String path, final String xattr, final ByteBuffer buf, final long size, final long position)
+	{
+		return 0;
+	}
+
+	@Override
 	public void init()
 	{
 	}
 
 	@Override
 	public int link(final String path, final String target)
+	{
+		return 0;
+	}
+
+	@Override
+	public int listxattr(final String path, final XattrListFiller filler)
 	{
 		return 0;
 	}
@@ -135,6 +148,12 @@ public abstract class FuseFilesystemAdapterFull extends FuseFilesystem
 	}
 
 	@Override
+	public int removexattr(final String path, final String xattr)
+	{
+		return 0;
+	}
+
+	@Override
 	public int rename(final String path, final String newName)
 	{
 		return 0;
@@ -142,6 +161,12 @@ public abstract class FuseFilesystemAdapterFull extends FuseFilesystem
 
 	@Override
 	public int rmdir(final String path)
+	{
+		return 0;
+	}
+
+	@Override
+	public int setxattr(final String path, final ByteBuffer buf, final long size, final int flags, final long position)
 	{
 		return 0;
 	}

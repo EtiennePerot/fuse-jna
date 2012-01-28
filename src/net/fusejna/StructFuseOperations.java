@@ -5,6 +5,7 @@ import net.fusejna.types.TypeGid;
 import net.fusejna.types.TypeMode;
 import net.fusejna.types.TypeOff;
 import net.fusejna.types.TypeSize;
+import net.fusejna.types.TypeUInt32;
 import net.fusejna.types.TypeUid;
 
 import com.sun.jna.Callback;
@@ -300,37 +301,55 @@ public class StructFuseOperations extends Structure
 				return filesystem._fsync(path, info);
 			}
 		};
-		setxattr = new Callback()
-		{
-			public final int callback(final String path, final String xattr, final String value, final TypeSize size,
-					final int flags)
-			{ // xattr stuff has extra stuff on OS X
-				System.out.println("setxattr");
-				return 0;
-			}
-		};
-		getxattr = new Callback()
-		{
-			public final int callback(final String path, final String xattr, final Pointer target, final TypeSize size)
-			{
-				System.out.println("getxattr");
-				return 0;
-			}
-		};
+		switch (Platform.platform()) {
+			case MAC:
+			case MAC_MACFUSE:
+				setxattr = new Callback()
+				{
+					public final int callback(final String path, final String xattr, final Pointer buffer, final TypeSize size,
+							final int flags, final TypeUInt32 position)
+					{
+						return filesystem._setxattr(path, buffer, size, flags, position);
+					}
+				};
+				getxattr = new Callback()
+				{
+					public final int callback(final String path, final String xattr, final Pointer buffer, final TypeSize size,
+							final TypeUInt32 position)
+					{
+						return filesystem._getxattr(path, xattr, buffer, size, position);
+					}
+				};
+				break;
+			default:
+				setxattr = new Callback()
+				{
+					public final int callback(final String path, final String xattr, final Pointer buffer, final TypeSize size,
+							final int flags)
+					{
+						return filesystem._setxattr(path, buffer, size, flags, null);
+					}
+				};
+				getxattr = new Callback()
+				{
+					public final int callback(final String path, final String xattr, final Pointer buffer, final TypeSize size)
+					{
+						return filesystem._getxattr(path, xattr, buffer, size, null);
+					}
+				};
+		}
 		listxattr = new Callback()
 		{
-			public final int callback(final String path, final Pointer target, final TypeSize size)
+			public final int callback(final String path, final Pointer buffer, final TypeSize size)
 			{
-				System.out.println("listxattr");
-				return 0;
+				return filesystem._listxattr(path, buffer, size);
 			}
 		};
 		removexattr = new Callback()
 		{
 			public final int callback(final String path, final String xattr)
 			{
-				System.out.println("removexattr");
-				return 0;
+				return filesystem._removexattr(path, xattr);
 			}
 		};
 		opendir = new Callback()

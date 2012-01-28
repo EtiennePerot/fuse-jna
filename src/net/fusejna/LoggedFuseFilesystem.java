@@ -180,6 +180,19 @@ final class LoggedFuseFilesystem extends FuseFilesystem
 	}
 
 	@Override
+	public int getxattr(final String path, final String xattr, final ByteBuffer buf, final long size, final long position)
+	{
+		return log("getxattr", 0, new LoggedMethod<Integer>()
+		{
+			@Override
+			public Integer invoke()
+			{
+				return filesystem.getxattr(path, xattr, buf, size, position);
+			}
+		}, path, xattr, buf, size, position);
+	}
+
+	@Override
 	public void init()
 	{
 		log("init", new LoggedVoidMethod()
@@ -203,6 +216,19 @@ final class LoggedFuseFilesystem extends FuseFilesystem
 				return filesystem.link(path, target);
 			}
 		}, path, target);
+	}
+
+	@Override
+	public int listxattr(final String path, final XattrListFiller filler)
+	{
+		return log("listxattr", 0, new LoggedMethod<Integer>()
+		{
+			@Override
+			public Integer invoke()
+			{
+				return filesystem.listxattr(path, filler);
+			}
+		}, path, filler);
 	}
 
 	private void log(final String methodName, final LoggedVoidMethod method)
@@ -356,6 +382,19 @@ final class LoggedFuseFilesystem extends FuseFilesystem
 	}
 
 	@Override
+	public int removexattr(final String path, final String xattr)
+	{
+		return log("remtoexattr", 0, new LoggedMethod<Integer>()
+		{
+			@Override
+			public Integer invoke()
+			{
+				return filesystem.removexattr(path, xattr);
+			}
+		}, path, xattr);
+	}
+
+	@Override
 	public int rename(final String path, final String newName)
 	{
 		return log("rename", 0, new LoggedMethod<Integer>()
@@ -386,6 +425,19 @@ final class LoggedFuseFilesystem extends FuseFilesystem
 	{
 		super.setFinalMountPoint(mountPoint);
 		filesystem.setFinalMountPoint(mountPoint);
+	}
+
+	@Override
+	public int setxattr(final String path, final ByteBuffer buf, final long size, final int flags, final long position)
+	{
+		return log("setxattr", 0, new LoggedMethod<Integer>()
+		{
+			@Override
+			public Integer invoke()
+			{
+				return filesystem.setxattr(path, buf, size, flags, position);
+			}
+		}, path, buf, size, flags, position);
 	}
 
 	@Override

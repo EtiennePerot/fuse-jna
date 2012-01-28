@@ -17,6 +17,7 @@ import net.fusejna.types.TypeMode.ModeWrapper;
 import net.fusejna.types.TypeMode.NodeType;
 import net.fusejna.types.TypeOff;
 import net.fusejna.types.TypeSize;
+import net.fusejna.types.TypeUInt32;
 import net.fusejna.types.TypeUid;
 
 import com.sun.jna.Function;
@@ -91,6 +92,15 @@ public abstract class FuseFilesystem
 	}
 
 	@FuseMethod
+	final int _getxattr(final String path, final String xattr, final Pointer buffer, final TypeSize size,
+			final TypeUInt32 position)
+	{
+		final long sizeValue = size.longValue();
+		final ByteBuffer buf = buffer.getByteBuffer(0, sizeValue);
+		return getxattr(path, xattr, buf, sizeValue, position == null ? 0L : position.longValue());
+	}
+
+	@FuseMethod
 	final void _init()
 	{
 		init();
@@ -100,6 +110,14 @@ public abstract class FuseFilesystem
 	final int _link(final String path, final String target)
 	{
 		return link(path, target);
+	}
+
+	@FuseMethod
+	final int _listxattr(final String path, final Pointer buffer, final TypeSize size)
+	{
+		final long sizeValue = size.longValue();
+		final XattrListFiller filler = new XattrListFiller(buffer.getByteBuffer(0, sizeValue), sizeValue);
+		return listxattr(path, filler);
 	}
 
 	@FuseMethod
@@ -158,6 +176,12 @@ public abstract class FuseFilesystem
 	}
 
 	@FuseMethod
+	final int _removexattr(final String path, final String xattr)
+	{
+		return removexattr(path, xattr);
+	}
+
+	@FuseMethod
 	final int _rename(final String path, final String newName)
 	{
 		return rename(path, newName);
@@ -167,6 +191,14 @@ public abstract class FuseFilesystem
 	final int _rmdir(final String path)
 	{
 		return rmdir(path);
+	}
+
+	@FuseMethod
+	final int _setxattr(final String path, final Pointer buffer, final TypeSize size, final int flags, final TypeUInt32 position)
+	{
+		final long sizeValue = size.longValue();
+		final ByteBuffer buf = buffer.getByteBuffer(0, sizeValue);
+		return setxattr(path, buf, sizeValue, flags, position == null ? 0L : position.longValue());
 	}
 
 	@FuseMethod
@@ -278,6 +310,10 @@ public abstract class FuseFilesystem
 
 	protected abstract String[] getOptions();
 
+	@UserMethod
+	public abstract int getxattr(final String path, final String xattr, final ByteBuffer buf, final long size,
+			final long position);
+
 	@FuseMethod
 	public abstract void init();
 
@@ -288,6 +324,9 @@ public abstract class FuseFilesystem
 
 	@UserMethod
 	public abstract int link(String path, String target);
+
+	@UserMethod
+	public abstract int listxattr(final String path, XattrListFiller filler);
 
 	protected final FuseFilesystem log(final boolean logging)
 	{
@@ -357,6 +396,9 @@ public abstract class FuseFilesystem
 	public abstract int release(final String path, final FileInfoWrapper info);
 
 	@UserMethod
+	public abstract int removexattr(final String path, final String xattr);
+
+	@UserMethod
 	public abstract int rename(final String path, final String newName);
 
 	@UserMethod
@@ -368,6 +410,9 @@ public abstract class FuseFilesystem
 		this.mountPoint = mountPoint;
 		mountLock.unlock();
 	}
+
+	@UserMethod
+	public abstract int setxattr(final String path, final ByteBuffer buf, final long size, final int flags, final long position);
 
 	@UserMethod
 	public abstract int statfs(final String path, final StatvfsWrapper wrapper);

@@ -41,4 +41,19 @@ public final class DirectoryFiller
 	{
 		return add(Arrays.asList(files));
 	}
+
+	@Override
+	public String toString()
+	{
+		final StringBuilder output = new StringBuilder();
+		int count = 0;
+		for (final String file : addedFiles) {
+			output.append(file);
+			if (count < addedFiles.size() - 1) {
+				output.append(", ");
+			}
+			count++;
+		}
+		return output.toString();
+	}
 }
