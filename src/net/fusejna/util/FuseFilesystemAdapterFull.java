@@ -40,7 +40,7 @@ public abstract class FuseFilesystemAdapterFull extends FuseFilesystem
 	}
 
 	@Override
-	public int chmod(final String path, final ModeWrapper modeWrapper)
+	public int chmod(final String path, final ModeWrapper mode)
 	{
 		return 0;
 	}
@@ -52,7 +52,7 @@ public abstract class FuseFilesystemAdapterFull extends FuseFilesystem
 	}
 
 	@Override
-	public int create(final String path, final ModeWrapper modeWrapper, final FileInfoWrapper info)
+	public int create(final String path, final ModeWrapper mode, final FileInfoWrapper info)
 	{
 		return ErrorCodes.ENOSYS;
 	}
@@ -140,13 +140,13 @@ public abstract class FuseFilesystemAdapterFull extends FuseFilesystem
 	}
 
 	@Override
-	public int mkdir(final String path, final ModeWrapper modeWrapper)
+	public int mkdir(final String path, final ModeWrapper mode)
 	{
 		return 0;
 	}
 
 	@Override
-	public int mknod(final String path, final ModeWrapper modeWrapper, final long dev)
+	public int mknod(final String path, final ModeWrapper mode, final long dev)
 	{
 		return 0;
 	}

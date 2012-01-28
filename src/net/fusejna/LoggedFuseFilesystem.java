@@ -91,16 +91,16 @@ final class LoggedFuseFilesystem extends FuseFilesystem
 	}
 
 	@Override
-	public int chmod(final String path, final ModeWrapper modeWrapper)
+	public int chmod(final String path, final ModeWrapper mode)
 	{
 		return log("chmod", 0, new LoggedMethod<Integer>()
 		{
 			@Override
 			public Integer invoke()
 			{
-				return filesystem.chmod(path, modeWrapper);
+				return filesystem.chmod(path, mode);
 			}
-		}, path, modeWrapper);
+		}, path, mode);
 	}
 
 	@Override
@@ -117,16 +117,16 @@ final class LoggedFuseFilesystem extends FuseFilesystem
 	}
 
 	@Override
-	public int create(final String path, final ModeWrapper modeWrapper, final FileInfoWrapper info)
+	public int create(final String path, final ModeWrapper mode, final FileInfoWrapper info)
 	{
 		return log("create", 0, new LoggedMethod<Integer>()
 		{
 			@Override
 			public Integer invoke()
 			{
-				return filesystem.create(path, modeWrapper, info);
+				return filesystem.create(path, mode, info);
 			}
-		}, path, modeWrapper, info);
+		}, path, mode, info);
 	}
 
 	@Override
@@ -362,28 +362,28 @@ final class LoggedFuseFilesystem extends FuseFilesystem
 	}
 
 	@Override
-	public int mkdir(final String path, final ModeWrapper modeWrapper)
+	public int mkdir(final String path, final ModeWrapper mode)
 	{
 		return log("mkdir", 0, new LoggedMethod<Integer>()
 		{
 			@Override
 			public Integer invoke()
 			{
-				return filesystem.mkdir(path, modeWrapper);
+				return filesystem.mkdir(path, mode);
 			}
-		}, path, modeWrapper);
+		}, path, mode);
 	}
 
 	@Override
-	public int mknod(final String path, final ModeWrapper modeWrapper, final long dev)
+	public int mknod(final String path, final ModeWrapper mode, final long dev)
 	{
 		return log("mknod", 0, new LoggedMethod<Integer>()
 		{
 			public Integer invoke()
 			{
-				return filesystem.mknod(path, modeWrapper, dev);
+				return filesystem.mknod(path, mode, dev);
 			}
-		}, path, modeWrapper, dev);
+		}, path, mode, dev);
 	}
 
 	@Override

@@ -334,13 +334,13 @@ public abstract class FuseFilesystem
 	public abstract int bmap(final String path, final FileInfoWrapper info);
 
 	@UserMethod
-	public abstract int chmod(final String path, final ModeWrapper modeWrapper);
+	public abstract int chmod(final String path, final ModeWrapper mode);
 
 	@UserMethod
 	public abstract int chown(final String path, final long uid, final long gid);
 
 	@UserMethod
-	public abstract int create(final String path, final ModeWrapper modeWrapper, final FileInfoWrapper info);
+	public abstract int create(final String path, final ModeWrapper mode, final FileInfoWrapper info);
 
 	/**
 	 * Subclasses may override this to customize the default parameters applied to the stat structure, or to prevent such
@@ -420,10 +420,10 @@ public abstract class FuseFilesystem
 	}
 
 	@UserMethod
-	public abstract int link(String path, String target);
+	public abstract int link(final String path, final String target);
 
 	@UserMethod
-	public abstract int listxattr(final String path, XattrListFiller filler);
+	public abstract int listxattr(final String path, final XattrListFiller filler);
 
 	@UserMethod
 	public abstract int lock(final String path, final FileInfoWrapper info, final FlockCommand command, final FlockWrapper flock);
@@ -446,10 +446,10 @@ public abstract class FuseFilesystem
 	}
 
 	@UserMethod
-	public abstract int mkdir(final String path, final ModeWrapper modeWrapper);
+	public abstract int mkdir(final String path, final ModeWrapper mode);
 
 	@UserMethod
-	public abstract int mknod(final String path, final ModeWrapper modeWrapper, final long dev);
+	public abstract int mknod(final String path, final ModeWrapper mode, final long dev);
 
 	public final void mount(final File mountPoint) throws FuseException
 	{
