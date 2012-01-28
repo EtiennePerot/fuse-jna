@@ -35,6 +35,11 @@ public class TypeMode extends IntegerType
 			this.bits = bits;
 		}
 
+		public ModeWrapper(final TypeMode mode)
+		{
+			this(mode.longValue());
+		}
+
 		@Override
 		public final long mode()
 		{

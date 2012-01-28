@@ -115,6 +115,19 @@ final class LoggedFuseFilesystem extends FuseFilesystem
 	}
 
 	@Override
+	public int create(final String path, final ModeWrapper modeWrapper, final FileInfoWrapper info)
+	{
+		return log("create", 0, new LoggedMethod<Integer>()
+		{
+			@Override
+			public Integer invoke()
+			{
+				return filesystem.create(path, modeWrapper, info);
+			}
+		}, path, modeWrapper, info);
+	}
+
+	@Override
 	public void destroy()
 	{
 		log("destroy", new LoggedVoidMethod()

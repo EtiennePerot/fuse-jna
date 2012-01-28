@@ -407,8 +407,7 @@ public class StructFuseOperations extends Structure
 		{
 			public final int callback(final String path, final TypeMode mode, final StructFuseFileInfo.ByReference info)
 			{
-				System.out.println("create");
-				return 0;
+				return filesystem._create(path, mode, info);
 			}
 		};
 		ftruncate = new Callback()

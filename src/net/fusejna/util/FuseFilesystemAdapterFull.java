@@ -49,6 +49,12 @@ public abstract class FuseFilesystemAdapterFull extends FuseFilesystem
 	}
 
 	@Override
+	public int create(final String path, final ModeWrapper modeWrapper, final FileInfoWrapper info)
+	{
+		return ErrorCodes.ENOSYS;
+	}
+
+	@Override
 	public void destroy()
 	{
 	}

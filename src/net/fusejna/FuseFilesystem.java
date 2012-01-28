@@ -57,13 +57,22 @@ public abstract class FuseFilesystem
 	@FuseMethod
 	final int _chmod(final String path, final TypeMode mode)
 	{
-		return chmod(path, new ModeWrapper(mode.longValue()));
+		return chmod(path, new ModeWrapper(mode));
 	}
 
 	@FuseMethod
 	final int _chown(final String path, final TypeUid uid, final TypeGid gid)
 	{
 		return chown(path, uid.longValue(), gid.longValue());
+	}
+
+	@FuseMethod
+	final int _create(final String path, final TypeMode mode, final StructFuseFileInfo info)
+	{
+		final FileInfoWrapper wrapper = new FileInfoWrapper(info);
+		final int result = create(path, new ModeWrapper(mode), wrapper);
+		wrapper.write();
+		return result;
 	}
 
 	@FuseMethod
@@ -156,13 +165,13 @@ public abstract class FuseFilesystem
 	@FuseMethod
 	final int _mkdir(final String path, final TypeMode mode)
 	{
-		return mkdir(path, new ModeWrapper(mode.longValue()));
+		return mkdir(path, new ModeWrapper(mode));
 	}
 
 	@FuseMethod
 	final int _mknod(final String path, final TypeMode mode, final TypeDev dev)
 	{
-		return mknod(path, new ModeWrapper(mode.longValue()), dev.longValue());
+		return mknod(path, new ModeWrapper(mode), dev.longValue());
 	}
 
 	@FuseMethod
@@ -307,6 +316,9 @@ public abstract class FuseFilesystem
 
 	@UserMethod
 	public abstract int chown(final String path, final long uid, final long gid);
+
+	@UserMethod
+	public abstract int create(final String path, final ModeWrapper modeWrapper, final FileInfoWrapper info);
 
 	/**
 	 * Subclasses may override this to customize the default parameters applied to the stat structure, or to prevent such
