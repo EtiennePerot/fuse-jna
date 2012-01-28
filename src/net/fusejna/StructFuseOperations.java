@@ -385,7 +385,7 @@ public class StructFuseOperations extends Structure
 		{
 			public final Pointer callback(final StructFuseConnInfo.ByReference conn)
 			{
-				filesystem._init();
+				filesystem._init(conn);
 				return null;
 			}
 		};
@@ -400,8 +400,7 @@ public class StructFuseOperations extends Structure
 		{
 			public final int callback(final String path, final int access)
 			{
-				System.out.println("access");
-				return 0;
+				return filesystem._access(path, access);
 			}
 		};
 		create = new Callback()
@@ -416,8 +415,7 @@ public class StructFuseOperations extends Structure
 		{
 			public final int callback(final String path, final TypeOff offset, final StructFuseFileInfo.ByReference info)
 			{
-				System.out.println("ftruncate");
-				return 0;
+				return filesystem._ftruncate(path, offset, info);
 			}
 		};
 		lock = new Callback()
@@ -440,8 +438,7 @@ public class StructFuseOperations extends Structure
 		{
 			public final int callback(final String path, final StructFuseFileInfo.ByReference info)
 			{
-				System.out.println("bmap");
-				return 0;
+				return filesystem._bmap(path, info);
 			}
 		};
 	}

@@ -15,6 +15,12 @@ import net.fusejna.types.TypeMode.ModeWrapper;
 public abstract class FuseFilesystemAdapterFull extends FuseFilesystem
 {
 	@Override
+	public int access(final String path, final int access)
+	{
+		return 0;
+	}
+
+	@Override
 	public void afterUnmount(final File mountPoint)
 	{
 	}
@@ -22,6 +28,12 @@ public abstract class FuseFilesystemAdapterFull extends FuseFilesystem
 	@Override
 	public void beforeUnmount(final File mountPoint)
 	{
+	}
+
+	@Override
+	public int bmap(final String path, final FileInfoWrapper info)
+	{
+		return 0;
 	}
 
 	@Override
@@ -63,6 +75,12 @@ public abstract class FuseFilesystemAdapterFull extends FuseFilesystem
 	public int fsyncdir(final String path, final FileInfoWrapper info)
 	{
 		return 0;
+	}
+
+	@Override
+	public int ftruncate(final String path, final long offset, final FileInfoWrapper info)
+	{
+		return truncate(path, offset);
 	}
 
 	@Override

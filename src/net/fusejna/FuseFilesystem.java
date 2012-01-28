@@ -40,6 +40,21 @@ public abstract class FuseFilesystem
 	private Logger logger = null;
 
 	@FuseMethod
+	final int _access(final String path, final int access)
+	{
+		return access(path, access);
+	}
+
+	@FuseMethod
+	final int _bmap(final String path, final StructFuseFileInfo info)
+	{
+		final FileInfoWrapper wrapper = new FileInfoWrapper(info);
+		final int result = bmap(path, wrapper);
+		wrapper.write();
+		return result;
+	}
+
+	@FuseMethod
 	final int _chmod(final String path, final TypeMode mode)
 	{
 		return chmod(path, new ModeWrapper(mode.longValue()));
@@ -91,6 +106,15 @@ public abstract class FuseFilesystem
 	}
 
 	@FuseMethod
+	final int _ftruncate(final String path, final TypeOff offset, final StructFuseFileInfo info)
+	{
+		final FileInfoWrapper wrapper = new FileInfoWrapper(info);
+		final int result = ftruncate(path, offset.longValue(), wrapper);
+		wrapper.write();
+		return result;
+	}
+
+	@FuseMethod
 	final int _getattr(final String path, final StructStat stat)
 	{
 		final StatWrapper wrapper = new StatWrapper(path, stat);
@@ -110,7 +134,7 @@ public abstract class FuseFilesystem
 	}
 
 	@FuseMethod
-	final void _init()
+	final void _init(final StructFuseConnInfo conn)
 	{
 		init();
 	}
@@ -268,9 +292,15 @@ public abstract class FuseFilesystem
 		return result;
 	}
 
+	@UserMethod
+	public abstract int access(final String path, final int access);
+
 	public abstract void afterUnmount(final File mountPoint);
 
 	public abstract void beforeUnmount(final File mountPoint);
+
+	@UserMethod
+	public abstract int bmap(final String path, final FileInfoWrapper info);
 
 	@UserMethod
 	public abstract int chmod(final String path, final ModeWrapper modeWrapper);
@@ -306,6 +336,9 @@ public abstract class FuseFilesystem
 
 	@UserMethod
 	public abstract int fsyncdir(final String path, final FileInfoWrapper info);
+
+	@UserMethod
+	public abstract int ftruncate(final String path, final long offset, final FileInfoWrapper info);
 
 	@UserMethod
 	public abstract int getattr(final String path, final StatWrapper stat);
