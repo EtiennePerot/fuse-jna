@@ -315,10 +315,10 @@ public abstract class FuseFilesystem
 			final StructFuseFileInfo info)
 	{
 		final long bufSize = size.longValue();
-		final long readOffset = offset.longValue();
+		final long writeOffset = offset.longValue();
 		final ByteBuffer buf = buffer.getByteBuffer(0, bufSize);
 		final FileInfoWrapper wrapper = new FileInfoWrapper(path, info);
-		final int result = write(path, buf, bufSize, readOffset, wrapper);
+		final int result = write(path, buf, bufSize, writeOffset, wrapper);
 		wrapper.write();
 		return result;
 	}
@@ -551,6 +551,6 @@ public abstract class FuseFilesystem
 	public abstract int utimens(final String path, final TimeBufferWrapper wrapper);
 
 	@UserMethod
-	public abstract int write(final String path, final ByteBuffer buf, final long bufSize, final long readOffset,
+	public abstract int write(final String path, final ByteBuffer buf, final long bufSize, final long writeOffset,
 			final FileInfoWrapper info);
 }

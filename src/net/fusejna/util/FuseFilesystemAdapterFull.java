@@ -148,7 +148,7 @@ public abstract class FuseFilesystemAdapterFull extends FuseFilesystem
 	@Override
 	public int mknod(final String path, final ModeWrapper mode, final long dev)
 	{
-		return 0;
+		return create(path, mode, null);
 	}
 
 	@Override
@@ -253,7 +253,7 @@ public abstract class FuseFilesystemAdapterFull extends FuseFilesystem
 	}
 
 	@Override
-	public int write(final String path, final ByteBuffer buf, final long bufSize, final long readOffset,
+	public int write(final String path, final ByteBuffer buf, final long bufSize, final long writeOffset,
 			final FileInfoWrapper wrapper)
 	{
 		return 0;

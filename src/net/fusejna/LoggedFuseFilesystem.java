@@ -612,7 +612,7 @@ final class LoggedFuseFilesystem extends FuseFilesystem
 	}
 
 	@Override
-	public int write(final String path, final ByteBuffer buf, final long bufSize, final long readOffset,
+	public int write(final String path, final ByteBuffer buf, final long bufSize, final long writeOffset,
 			final FileInfoWrapper wrapper)
 	{
 		return log("write", 0, new LoggedMethod<Integer>()
@@ -620,8 +620,8 @@ final class LoggedFuseFilesystem extends FuseFilesystem
 			@Override
 			public Integer invoke()
 			{
-				return filesystem.write(path, buf, bufSize, readOffset, wrapper);
+				return filesystem.write(path, buf, bufSize, writeOffset, wrapper);
 			}
-		}, path, buf, bufSize, readOffset, wrapper);
+		}, path, buf, bufSize, writeOffset, wrapper);
 	}
 }
