@@ -140,6 +140,9 @@ public abstract class FuseFilesystem
 			final TypeUInt32 position)
 	{
 		final long sizeValue = size.longValue();
+		if (buffer == null || sizeValue == 0L) {
+			return 0;
+		}
 		final ByteBuffer buf = buffer.getByteBuffer(0, sizeValue);
 		return getxattr(path, xattr, buf, sizeValue, position == null ? 0L : position.longValue());
 	}
