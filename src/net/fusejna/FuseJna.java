@@ -186,7 +186,7 @@ final class FuseJna
 		final File mountPoint = fuseFilesystem.getMountPoint();
 		ProcessGobbler fusermount;
 		try {
-			fusermount = new ProcessGobbler(FuseJna.fusermount, "-l", "-u", mountPoint.toString());
+			fusermount = new ProcessGobbler(FuseJna.fusermount, "-z", "-u", mountPoint.toString());
 		}
 		catch (final IOException e) {
 			fusermount = new ProcessGobbler(FuseJna.umount, mountPoint.toString());
