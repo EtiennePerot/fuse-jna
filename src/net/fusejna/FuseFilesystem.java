@@ -462,14 +462,10 @@ public abstract class FuseFilesystem
 		if (isMounted()) {
 			throw new IllegalStateException(getFuseName() + " is already mounted at " + this.mountPoint);
 		}
-		try {
-			FuseJna.mount(this, mountPoint, blocking);
-			this.mountPoint = mountPoint;
-			onMount(mountPoint);
-		}
-		finally {
-			mountLock.unlock();
-		}
+		this.mountPoint = mountPoint;
+		mountLock.unlock();
+		FuseJna.mount(this, mountPoint, blocking);
+		onMount(mountPoint);
 	}
 
 	public final void mount(final String mountPoint) throws FuseException
