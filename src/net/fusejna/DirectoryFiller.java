@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import net.fusejna.types.TypeOff;
+
 import com.sun.jna.Function;
 import com.sun.jna.Pointer;
 
@@ -27,11 +29,14 @@ public final class DirectoryFiller
 	{
 		int result;
 		for (String file : files) {
+			if (file == null) {
+				continue;
+			}
 			if (file.contains(File.separator)) {
 				file = new File(file).getName(); // Keep only the name component
 			}
 			if (addedFiles.add(file)) {
-				final Object[] args = { buf, file, null, 0 };
+				final Object[] args = { buf, file, null, new TypeOff(0L) };
 				result = nativeFunction.invokeInt(args);
 				if (result != 0) {
 					return false;
