@@ -1,5 +1,6 @@
 package net.fusejna;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -25,7 +26,10 @@ public final class DirectoryFiller
 	public final boolean add(final Iterable<String> files)
 	{
 		int result;
-		for (final String file : files) {
+		for (String file : files) {
+			if (file.contains(File.separator)) {
+				file = new File(file).getName(); // Keep only the name component
+			}
 			if (addedFiles.add(file)) {
 				final Object[] args = { buf, file, null, 0 };
 				result = nativeFunction.invokeInt(args);

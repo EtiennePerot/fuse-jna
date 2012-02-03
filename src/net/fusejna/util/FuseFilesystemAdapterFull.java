@@ -20,7 +20,7 @@ public abstract class FuseFilesystemAdapterFull extends FuseFilesystem
 	@Override
 	public int access(final String path, final int access)
 	{
-		return 0;
+		return -ErrorCodes.ENOSYS;
 	}
 
 	@Override
@@ -113,7 +113,7 @@ public abstract class FuseFilesystemAdapterFull extends FuseFilesystem
 	@Override
 	public int getxattr(final String path, final String xattr, final ByteBuffer buf, final long size, final long position)
 	{
-		return 0;
+		return -ErrorCodes.ENOSYS;
 	}
 
 	@Override
@@ -130,13 +130,13 @@ public abstract class FuseFilesystemAdapterFull extends FuseFilesystem
 	@Override
 	public int listxattr(final String path, final XattrListFiller filler)
 	{
-		return 0;
+		return -ErrorCodes.ENOSYS;
 	}
 
 	@Override
 	public int lock(final String path, final FileInfoWrapper info, final FlockCommand command, final FlockWrapper flock)
 	{
-		return 0;
+		return -ErrorCodes.ENOSYS;
 	}
 
 	@Override
@@ -201,7 +201,7 @@ public abstract class FuseFilesystemAdapterFull extends FuseFilesystem
 	@Override
 	public int removexattr(final String path, final String xattr)
 	{
-		return 0;
+		return -ErrorCodes.ENOSYS;
 	}
 
 	@Override
@@ -219,7 +219,7 @@ public abstract class FuseFilesystemAdapterFull extends FuseFilesystem
 	@Override
 	public int setxattr(final String path, final ByteBuffer buf, final long size, final int flags, final long position)
 	{
-		return 0;
+		return -ErrorCodes.ENOSYS;
 	}
 
 	@Override
@@ -249,7 +249,7 @@ public abstract class FuseFilesystemAdapterFull extends FuseFilesystem
 	@Override
 	public int utimens(final String path, final TimeBufferWrapper wrapper)
 	{
-		return 0;
+		return -ErrorCodes.ENOSYS;
 	}
 
 	@Override

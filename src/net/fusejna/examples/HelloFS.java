@@ -1,8 +1,10 @@
 package net.fusejna.examples;
 
+import java.io.File;
 import java.nio.ByteBuffer;
 
 import net.fusejna.DirectoryFiller;
+import net.fusejna.ErrorCodes;
 import net.fusejna.StructFuseFileInfo.FileInfoWrapper;
 import net.fusejna.StructStat.StatWrapper;
 import net.fusejna.types.TypeMode.NodeType;
@@ -24,16 +26,21 @@ public class HelloFS extends FuseFilesystemAdapterFull
 		}
 	}
 
-	private final String filename = "/hello";
+	private final String filename = "/hello.txt";
 	private final String contents = "Hello World!";
 
 	@Override
 	public int getattr(final String path, final StatWrapper stat)
 	{
-		if (path.equals(filename)) {
-			stat.setMode(NodeType.FILE).size(contents.length());
+		if (path.equals(File.separator)) { // Root directory
+			stat.setMode(NodeType.DIRECTORY);
+			return 0;
 		}
-		return 0;
+		if (path.equals(filename)) { // hello.txt
+			stat.setMode(NodeType.FILE).size(contents.length());
+			return 0;
+		}
+		return -ErrorCodes.ENOENT;
 	}
 
 	@Override
@@ -49,7 +56,7 @@ public class HelloFS extends FuseFilesystemAdapterFull
 	@Override
 	public int readdir(final String path, final DirectoryFiller filler)
 	{
-		filler.add("hello");
+		filler.add(filename);
 		return 0;
 	}
 }
