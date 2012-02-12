@@ -54,31 +54,55 @@ public final class Platform
 						return;
 					}
 					catch (final Throwable e) {
-						try {
-							probe = (LibFuseProbe) Native.loadLibrary("fuse4x", LibFuseProbe.class);
-							// FUSE-compatible fuse4x
-							platform = PlatformEnum.MAC;
-							libFuse = (LibFuse) Native.loadLibrary("fuse4x", LibFuse.class);
-							return;
-						}
-						catch (final Throwable e2) {
-							try {
-								probe = (LibMacFuseProbe) Native.loadLibrary("fuse", LibMacFuseProbe.class);
-								((LibMacFuseProbe) probe).macfuse_version();
-								// MacFUSE
-								platform = PlatformEnum.MAC_MACFUSE;
-								libFuse = (LibFuse) Native.loadLibrary("fuse", LibFuse.class);
-								return;
-							}
-							catch (final Throwable e3) {
-								probe = (LibFuseProbe) Native.loadLibrary("fuse", LibFuseProbe.class);
-								// Some other FUSE-compatible library
-								platform = PlatformEnum.MAC;
-								libFuse = (LibFuse) Native.loadLibrary("fuse", LibFuse.class);
-								return;
-							}
-						}
+						e.printStackTrace();
 					}
+					try {
+						probe = (LibFuseProbe) Native.loadLibrary("fuse4x", LibFuseProbe.class);
+						// FUSE-compatible fuse4x
+						platform = PlatformEnum.MAC;
+						libFuse = (LibFuse) Native.loadLibrary("fuse4x", LibFuse.class);
+						return;
+					}
+					catch (final Throwable e) {
+						e.printStackTrace();
+					}
+					try {
+						probe = (LibFuseProbe) Native.loadLibrary("osxfuse", LibMacFuseProbe.class);
+						((LibMacFuseProbe) probe).macfuse_version();
+						// MacFUSE
+						platform = PlatformEnum.MAC_MACFUSE;
+						libFuse = (LibFuse) Native.loadLibrary("osxfuse", LibFuse.class);
+						return;
+					}
+					catch (final Throwable e) {
+						e.printStackTrace();
+					}
+					try {
+						probe = (LibFuseProbe) Native.loadLibrary("osxfuse", LibFuseProbe.class);
+						// FUSE-compatible osx-fuse
+						platform = PlatformEnum.MAC;
+						libFuse = (LibFuse) Native.loadLibrary("osxfuse", LibFuse.class);
+						return;
+					}
+					catch (final Throwable e) {
+						e.printStackTrace();
+					}
+					try {
+						probe = (LibMacFuseProbe) Native.loadLibrary("fuse", LibMacFuseProbe.class);
+						((LibMacFuseProbe) probe).macfuse_version();
+						// MacFUSE
+						platform = PlatformEnum.MAC_MACFUSE;
+						libFuse = (LibFuse) Native.loadLibrary("fuse", LibFuse.class);
+						return;
+					}
+					catch (final Throwable e) {
+						e.printStackTrace();
+					}
+					probe = (LibFuseProbe) Native.loadLibrary("fuse", LibFuseProbe.class);
+					// Some other FUSE-compatible library
+					platform = PlatformEnum.MAC;
+					libFuse = (LibFuse) Native.loadLibrary("fuse", LibFuse.class);
+					return;
 				default:
 					if (com.sun.jna.Platform.isIntel()) {
 						platform = com.sun.jna.Platform.is64Bit() ? PlatformEnum.LINUX_X86_64 : PlatformEnum.LINUX_I686;
