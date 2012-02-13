@@ -9,15 +9,6 @@ final class AutoUnmountHook extends Thread
 		this.filesystem = filesystem;
 	}
 
-	/**
-	 * Used when the filesystem is unmounted by the user without our help. Clean up reference so that the filesystem object may
-	 * be garbage-collected.
-	 */
-	final void invalidate()
-	{
-		filesystem = null;
-	}
-
 	@Override
 	public final void run()
 	{
