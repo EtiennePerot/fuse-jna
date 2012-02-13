@@ -15,7 +15,7 @@ public class HelloFS extends FuseFilesystemAdapterFull
 	public static void main(final String... args)
 	{
 		if (args.length != 1) {
-			System.err.println("Usage: NullFS <mountpoint>");
+			System.err.println("Usage: HelloFS <mountpoint>");
 			System.exit(1);
 		}
 		try {
@@ -27,7 +27,7 @@ public class HelloFS extends FuseFilesystemAdapterFull
 	}
 
 	private final String filename = "/hello.txt";
-	private final String contents = "Hello World!";
+	private final String contents = "Hello World!\n";
 
 	@Override
 	public int getattr(final String path, final StatWrapper stat)

@@ -82,6 +82,21 @@ final class FuseJna
 		return currentUid;
 	}
 
+	private static final boolean handleShutdownHooks()
+	{
+		final SecurityManager security = System.getSecurityManager();
+		if (security == null) {
+			return true;
+		}
+		try {
+			security.checkPermission(new RuntimePermission("shutdownHooks"));
+			return true;
+		}
+		catch (final SecurityException e) {
+			return false;
+		}
+	}
+
 	static final LibFuse init() throws UnsatisfiedLinkError
 	{
 		if (libFuse != null) {
@@ -152,6 +167,9 @@ final class FuseJna
 		final LibFuse fuse = init();
 		final StructFuseOperations operations = new StructFuseOperations(filesystem);
 		final Integer result;
+		if (handleShutdownHooks()) {
+			Runtime.getRuntime().addShutdownHook(filesystem.getUnmountHook());
+		}
 		if (blocking) {
 			result = fuse.fuse_main_real(argv.length, argv, operations, new TypeSize(operations), null);
 			unregisterFilesystemName(mountPoint);
@@ -183,6 +201,14 @@ final class FuseJna
 
 	static void unmount(final FuseFilesystem fuseFilesystem) throws IOException, FuseException
 	{
+		if (handleShutdownHooks()) {
+			try {
+				Runtime.getRuntime().removeShutdownHook(fuseFilesystem.getUnmountHook());
+			}
+			catch (final IllegalStateException e) {
+				// Already shutting down; this is fine and expected, ignore the exception.
+			}
+		}
 		final File mountPoint = fuseFilesystem.getMountPoint();
 		ProcessGobbler fusermount;
 		try {

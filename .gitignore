@@ -2,3 +2,4 @@ bin
 *.log
 *.so
 *.dll
+*.class

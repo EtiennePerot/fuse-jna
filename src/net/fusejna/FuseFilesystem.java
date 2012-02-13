@@ -38,6 +38,7 @@ public abstract class FuseFilesystem
 	private static final String defaultFilesystemName = "userfs-";
 	private static final Pattern regexNormalizeFilesystemName = Pattern.compile("[a-zA-Z]");
 	private final ReentrantLock mountLock = new ReentrantLock();
+	private final AutoUnmountHook unmountHook = new AutoUnmountHook(this);
 	private File mountPoint = null;
 	private Logger logger = null;
 
@@ -410,6 +411,11 @@ public abstract class FuseFilesystem
 
 	protected abstract String[] getOptions();
 
+	final AutoUnmountHook getUnmountHook()
+	{
+		return unmountHook;
+	}
+
 	@UserMethod
 	public abstract int getxattr(final String path, final String xattr, final ByteBuffer buf, final long size,
 			final long position);
@@ -534,12 +540,15 @@ public abstract class FuseFilesystem
 	public final void unmount() throws IOException, FuseException
 	{
 		mountLock.lock();
+		if (!isMounted()) {
+			return;
+		}
 		try {
 			beforeUnmount(mountPoint);
 			FuseJna.unmount(this);
 			final File oldMountPoint = mountPoint;
 			mountPoint = null;
-			beforeUnmount(oldMountPoint);
+			afterUnmount(oldMountPoint);
 		}
 		finally {
 			mountLock.unlock();
