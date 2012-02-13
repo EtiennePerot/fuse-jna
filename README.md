@@ -15,6 +15,8 @@ You'll find a file called `hello.txt` in there.
 
 3. The filesystem will be unmounted automatically at JVM shutdown time if possible. You can unmount it at runtime using `.unmount()`.
 
+4. (Bonus) You can get logging for free by calling `.log(true)` on the filesystem instance.
+
 ## The longer stuff
 #### The idea
 fuse-jna was born out of the desire for no-compilation-required, no-bullshit, actually-working bindings to the FUSE library.
