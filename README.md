@@ -1,13 +1,13 @@
-# The straight dope
-## Grab it
+## The straight dope
+#### Grab it
 `git clone git://github.com/EtiennePerot/fuse-jna.git`
-## Run it
+#### Run it
 `./fuse-jna/examples/hellofs.sh ~/hellofs`
 
 You now have a test filesystem in `~/hellofs`.
 You'll find a file called `hello.txt` in there.
 
-## Make your own filesystem
+#### Make your own filesystem
 
 1. Subclass `net.fusejna.FuseFilesystem` and override the methods you need (For convenience, there is an adapter called `FuseFilesystemAdapterFull`).
 
@@ -15,8 +15,8 @@ You'll find a file called `hello.txt` in there.
 
 3. The filesystem will be unmounted automatically at JVM shutdown time if possible. You can unmount it at runtime using `.unmount()`.
 
-# The longer stuff
-## The idea
+## The longer stuff
+#### The idea
 fuse-jna was born out of the desire for no-compilation-required, no-bullshit, actually-working bindings to the FUSE library.
 
 Originally built to make the OS X/Linux port of [SrcDemo²] possible, it was separated into its own library because I figured others would benefit from it.
@@ -26,7 +26,7 @@ The goal of fuse-jna is to bring FUSE bindings to Java with the same simplicity.
 
 To do that, it uses [JNA], which was inspired by Python's ctypes in terms of ease-of-use.
 
-## Compatibility
+#### Compatibility
 
 Following [fuse.py], fuse-jna should work with:
 
@@ -34,7 +34,7 @@ Following [fuse.py], fuse-jna should work with:
 * Linux with [FUSE][Linux-Fuse] on Intel and PowerPC architectures
 * FreeBSD with [FUSE][FreeBSD-Fuse] on Intel architectures
 
-## Licensing
+#### Licensing
 fuse-jna is licensed under the [BSD 2-Clause License].
 JNA is licensed under the [LGPL v2.1].
 
