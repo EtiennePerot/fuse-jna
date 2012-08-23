@@ -28,13 +28,13 @@ final class LoggedFuseFilesystem extends FuseFilesystem
 	private static final String methodFailure = "Exception thrown: ";
 	private static final String methodResult = " Result: ";
 	private final String className;
-	private final Logger logger;
+	private final Logger actualLogger;
 	private final FuseFilesystem filesystem;
 
 	LoggedFuseFilesystem(final FuseFilesystem filesystem, final Logger logger)
 	{
 		this.filesystem = filesystem;
-		this.logger = logger;
+		actualLogger = logger;
 		className = filesystem.getClass().getName();
 	}
 
@@ -319,10 +319,10 @@ final class LoggedFuseFilesystem extends FuseFilesystem
 	private void log(final String methodName, final LoggedVoidMethod method, final String path, final Object... args)
 	{
 		try {
-			logger.entering(className, methodName, args);
+			actualLogger.entering(className, methodName, args);
 			method.invoke();
-			logger.logp(Level.INFO, className, methodName, (path == null ? "" : "[" + path + "] ") + methodSuccess, args);
-			logger.exiting(className, methodName, args);
+			actualLogger.logp(Level.INFO, className, methodName, (path == null ? "" : "[" + path + "] ") + methodSuccess, args);
+			actualLogger.exiting(className, methodName, args);
 		}
 		catch (final Throwable e) {
 			logException(e, methodName, null, args);
@@ -338,11 +338,11 @@ final class LoggedFuseFilesystem extends FuseFilesystem
 			final Object... args)
 	{
 		try {
-			logger.entering(className, methodName, args);
+			actualLogger.entering(className, methodName, args);
 			final T result = method.invoke();
-			logger.logp(Level.INFO, className, methodName, (path == null ? "" : "[" + path + "] ") + methodSuccess
+			actualLogger.logp(Level.INFO, className, methodName, (path == null ? "" : "[" + path + "] ") + methodSuccess
 					+ methodResult + result, args);
-			logger.exiting(className, methodName, args);
+			actualLogger.exiting(className, methodName, args);
 			return result;
 		}
 		catch (final Throwable e) {
@@ -357,7 +357,7 @@ final class LoggedFuseFilesystem extends FuseFilesystem
 		for (final StackTraceElement element : stack) {
 			builder.append("\n" + element);
 		}
-		logger.logp(Level.SEVERE, className, methodName, methodFailure + e + builder.toString(), args);
+		actualLogger.logp(Level.SEVERE, className, methodName, methodFailure + e + builder.toString(), args);
 		return defaultValue;
 	}
 

@@ -15,6 +15,10 @@ import net.fusejna.StructTimeBuffer.TimeBufferWrapper;
 import net.fusejna.XattrListFiller;
 import net.fusejna.types.TypeMode.ModeWrapper;
 
+/**
+ * An adapter that tries to put sane defaults for default return values. Will silently pretend that most non-critical operations
+ * have succeeded, but return ENOSYS on non-implemented important operations.
+ */
 public abstract class FuseFilesystemAdapterFull extends FuseFilesystem
 {
 	@Override
