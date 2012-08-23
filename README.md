@@ -1,11 +1,18 @@
 ## The straight dope
 #### Grab it
-`git clone git://github.com/EtiennePerot/fuse-jna.git`
+
+    git clone git://github.com/EtiennePerot/fuse-jna.git
+
 #### Run it
-`./fuse-jna/examples/hellofs.sh ~/hellofs`
+
+    fuse-jna/examples/hellofs.sh ~/hellofs
 
 You now have a test filesystem in `~/hellofs`.
 You'll find a file called `hello.txt` in there.
+
+There's another example filesystem that you can use, which is writable:
+
+    fuse-jna/examples/memoryfs.sh ~/memoryfs
 
 #### Make your own filesystem
 

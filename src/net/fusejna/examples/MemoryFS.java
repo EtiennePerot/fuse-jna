@@ -1,5 +1,6 @@
 package net.fusejna.examples;
 
+import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,11 @@ public final class MemoryFS extends FuseFilesystemAdapterAssumeImplemented
 	private final class MemoryDirectory extends MemoryPath
 	{
 		private final List<MemoryPath> contents = new ArrayList<MemoryPath>();
+
+		private MemoryDirectory(final String name)
+		{
+			super(name);
+		}
 
 		private MemoryDirectory(final String name, final MemoryDirectory parent)
 		{
@@ -84,9 +90,26 @@ public final class MemoryFS extends FuseFilesystemAdapterAssumeImplemented
 	{
 		private ByteBuffer contents = ByteBuffer.allocate(0);
 
+		private MemoryFile(final String name)
+		{
+			super(name);
+		}
+
 		private MemoryFile(final String name, final MemoryDirectory parent)
 		{
 			super(name, parent);
+		}
+
+		public MemoryFile(final String name, final String text)
+		{
+			super(name);
+			try {
+				final byte[] contentBytes = text.getBytes("UTF-8");
+				contents = ByteBuffer.wrap(contentBytes);
+			}
+			catch (final UnsupportedEncodingException e) {
+				// Not going to happen
+			}
 		}
 
 		@Override
@@ -141,6 +164,11 @@ public final class MemoryFS extends FuseFilesystemAdapterAssumeImplemented
 		private final String name;
 		private MemoryDirectory parent;
 
+		private MemoryPath(final String name)
+		{
+			this(name, null);
+		}
+
 		private MemoryPath(final String name, final MemoryDirectory parent)
 		{
 			this.name = name;
@@ -183,11 +211,20 @@ public final class MemoryFS extends FuseFilesystemAdapterAssumeImplemented
 		}
 	}
 
-	private final MemoryDirectory rootDirectory = new MemoryDirectory("", null);
+	private final MemoryDirectory rootDirectory = new MemoryDirectory("");
 
 	public MemoryFS()
 	{
-		// Nothing
+		// Sprinkle some files around
+		rootDirectory.add(new MemoryFile("Sample file.txt", "Hello there, feel free to look around.\n"));
+		rootDirectory.add(new MemoryDirectory("Sample directory"));
+		final MemoryDirectory dirWithFiles = new MemoryDirectory("Directory with files");
+		rootDirectory.add(dirWithFiles);
+		dirWithFiles.add(new MemoryFile("hello.txt", "This is some sample text.\n"));
+		dirWithFiles.add(new MemoryFile("hello again.txt", "This another file with text in it! Oh my!\n"));
+		final MemoryDirectory nestedDirectory = new MemoryDirectory("Sample nested directory");
+		dirWithFiles.add(nestedDirectory);
+		nestedDirectory.add(new MemoryFile("So deep.txt", "Man, I'm like, so deep in this here file structure.\n"));
 	}
 
 	@Override
