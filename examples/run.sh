@@ -10,6 +10,7 @@ if [ ! -e "$javaFile" ]; then
 	echo "Cannot find class $1." >&2
 	exit 1
 fi
+mkdir -p ../bin
 javac -cp ../lib/jna/jna.jar:../src/ -d ../bin "$javaFile" || exit 1
 mountPoint="${@: -1}"
 if [ ! -d "$mountPoint" ]; then
