@@ -30,6 +30,14 @@ public class TypeMode extends IntegerType
 	{
 		private long bits;
 
+		public String toLogStr()
+		  {
+		  return "<"+this.getClass().getName()
+		        +"@"+Integer.toHexString(System.identityHashCode(this))
+		        +" bits="+Long.toHexString(bits)
+		        ;
+		  };
+
 		public ModeWrapper(final long bits)
 		{
 			this.bits = bits;
