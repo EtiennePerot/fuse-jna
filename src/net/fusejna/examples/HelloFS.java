@@ -5,6 +5,7 @@ import java.nio.ByteBuffer;
 
 import net.fusejna.DirectoryFiller;
 import net.fusejna.ErrorCodes;
+import net.fusejna.FuseException;
 import net.fusejna.StructFuseFileInfo.FileInfoWrapper;
 import net.fusejna.StructStat.StatWrapper;
 import net.fusejna.types.TypeMode.NodeType;
@@ -12,18 +13,13 @@ import net.fusejna.util.FuseFilesystemAdapterFull;
 
 public class HelloFS extends FuseFilesystemAdapterFull
 {
-	public static void main(final String... args)
+	public static void main(final String... args) throws FuseException
 	{
 		if (args.length != 1) {
 			System.err.println("Usage: HelloFS <mountpoint>");
 			System.exit(1);
 		}
-		try {
-			new HelloFS().log(true).mount(args[0]);
-		}
-		catch (final Throwable e) {
-			System.err.println(e);
-		}
+		new HelloFS().log(true).mount(args[0]);
 	}
 
 	private final String filename = "/hello.txt";

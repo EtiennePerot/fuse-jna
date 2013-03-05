@@ -7,6 +7,7 @@ import java.util.List;
 
 import net.fusejna.DirectoryFiller;
 import net.fusejna.ErrorCodes;
+import net.fusejna.FuseException;
 import net.fusejna.StructFuseFileInfo.FileInfoWrapper;
 import net.fusejna.StructStat.StatWrapper;
 import net.fusejna.types.TypeMode.ModeWrapper;
@@ -197,18 +198,13 @@ public final class MemoryFS extends FuseFilesystemAdapterAssumeImplemented
 		protected abstract void getattr(StatWrapper stat);
 	}
 
-	public static void main(final String... args)
+	public static void main(final String... args) throws FuseException
 	{
 		if (args.length != 1) {
 			System.err.println("Usage: MemoryFS <mountpoint>");
 			System.exit(1);
 		}
-		try {
-			new MemoryFS().log(true).mount(args[0]);
-		}
-		catch (final Throwable e) {
-			System.err.println(e);
-		}
+		new MemoryFS().log(true).mount(args[0]);
 	}
 
 	private final MemoryDirectory rootDirectory = new MemoryDirectory("");
