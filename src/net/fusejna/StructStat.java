@@ -20,8 +20,30 @@ import com.sun.jna.Structure;
 
 public abstract class StructStat extends Structure
 {
+	abstract public String toLogStr();
+
 	public static class BSD extends StructStat
 	{
+		public String toLogStr()
+		  {
+		  return "<"+this.getClass().getName()
+		        +"@"+Integer.toHexString(System.identityHashCode(this))
+		        +" dev="       +st_dev.toString()
+		        +" ino="       +st_ino.toString()
+		        +" mode="     +st_mode.toString()
+		        +" nlink="     +st_nlink.toString()
+		        +" uid="       +st_uid.toString()
+		        +" gid="       +st_gid.toString()
+		        +" rdev="      +st_rdev.toString()
+		        +" size="      +st_size.toString()
+		        +" atime="     +st_atime.sec()
+		        +" mtime="     +st_mtime.sec()
+		        +" ctime="     +st_ctime.sec()
+		        +" blksize="   +st_blksize.toString()
+		        +" blocks="    +st_blocks.toString()
+		        ;
+		  };
+
 		public static final class ByReference extends BSD implements Structure.ByReference
 		{
 		}
@@ -275,6 +297,26 @@ public abstract class StructStat extends Structure
 
 	public static class I686 extends StructStat
 	{
+		public String toLogStr()
+		  {
+		  return "<"+this.getClass().getName()
+		        +"@"+Integer.toHexString(System.identityHashCode(this))
+		        +" dev="       +st_dev.toString()
+		        +" ino="       +st_ino.toString()
+		        +" mode="     +st_mode.toString()
+		        +" nlink="     +st_nlink.toString()
+		        +" uid="       +st_uid.toString()
+		        +" gid="       +st_gid.toString()
+		        +" rdev="      +st_rdev.toString()
+		        +" size="      +st_size.toString()
+		        +" atime="     +st_atime.sec()
+		        +" mtime="     +st_mtime.sec()
+		        +" ctime="     +st_ctime.sec()
+		        +" blksize="   +st_blksize.toString()
+		        +" blocks="    +st_blocks.toString()
+		        ;
+		  };
+
 		public static final class ByReference extends I686 implements Structure.ByReference
 		{
 		}
@@ -557,6 +599,26 @@ public abstract class StructStat extends Structure
 		public TypeLspare st_lspare;
 		public TypeQspare st_qspare;
 
+		public String toLogStr()
+		  {
+		  return "<"+this.getClass().getName()
+		        +"@"+Integer.toHexString(System.identityHashCode(this))
+		        +" dev="       +st_dev.toString()
+		        +" ino="       +st_ino.toString()
+		        +" mode="     +st_mode.toString()
+		        +" nlink="     +st_nlink.toString()
+		        +" uid="       +st_uid.toString()
+		        +" gid="       +st_gid.toString()
+		        +" rdev="      +st_rdev.toString()
+		        +" size="      +st_size.toString()
+		        +" atime="     +st_atime.sec()
+		        +" mtime="     +st_mtime.sec()
+		        +" ctime="     +st_ctime.sec()
+		        +" blksize="   +st_blksize.toString()
+		        +" blocks="    +st_blocks.toString()
+		        ;
+		  };
+
 		@Override
 		final void st_atime(final long sec, final long nsec)
 		{
@@ -788,6 +850,26 @@ public abstract class StructStat extends Structure
 
 	public static class PowerPC extends StructStat
 	{
+		public String toLogStr()
+		  {
+		  return "<"+this.getClass().getName()
+		        +"@"+Integer.toHexString(System.identityHashCode(this))
+		        +" dev="       +st_dev.toString()
+		        +" ino="       +st_ino.toString()
+		        +" mode="     +st_mode.toString()
+		        +" nlink="     +st_nlink.toString()
+		        +" uid="       +st_uid.toString()
+		        +" gid="       +st_gid.toString()
+		        +" rdev="      +st_rdev.toString()
+		        +" size="      +st_size.toString()
+		        +" atime="     +st_atime.sec()
+		        +" mtime="     +st_mtime.sec()
+		        +" ctime="     +st_ctime.sec()
+		        +" blksize="   +st_blksize.toString()
+		        +" blocks="    +st_blocks.toString()
+		        ;
+		  };
+
 		public static final class ByReference extends PowerPC implements Structure.ByReference
 		{
 		}
@@ -1046,6 +1128,9 @@ public abstract class StructStat extends Structure
 		private final String path;
 		private final ModeWrapper modeWrapper;
 
+		public String toLogStr()
+		  { return structStat.toLogStr(); };
+		
 		StatWrapper(final String path, final StructStat structStat)
 		{
 			this.path = path;
@@ -1271,6 +1356,27 @@ public abstract class StructStat extends Structure
 
 	public static class X86_64 extends StructStat
 	{
+		public String toLogStr()
+		  {
+		  return "<"+this.getClass().getName()
+		        +"@"+Integer.toHexString(System.identityHashCode(this))
+		        +" dev="       +st_dev.toString()
+		        +" ino="       +st_ino.toString()
+		        +" mode="      +st_mode.toString()
+		        +" nlink="     +st_nlink.toString()
+		        +" uid="       +st_uid.toString()
+		        +" gid="       +st_gid.toString()
+		        +" rdev="      +st_rdev.toString()
+		        +" size="      +st_size.toString()
+		        +" atime="     +st_atime.sec()
+		        +" mtime="     +st_mtime.sec()
+		        +" ctime="     +st_ctime.sec()
+		        +" blksize="   +st_blksize.toString()
+		        +" blocks="    +st_blocks.toString()
+		        +">"
+		        ;
+		  };
+
 		public static final class ByReference extends X86_64 implements Structure.ByReference
 		{
 		}
