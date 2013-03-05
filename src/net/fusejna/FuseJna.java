@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 
 import net.fusejna.types.TypeSize;
 
-final class FuseJna
+public final class FuseJna
 {
 	private static final class MountThread extends Thread
 	{
@@ -55,6 +55,11 @@ final class FuseJna
 	private static String umount = "umount";
 	private static int currentUid = 0;
 	private static int currentGid = 0;
+
+	static StructFuseContext getFuseContext()
+	{
+		return init().fuse_get_context();
+	}
 
 	private static final String getFilesystemName(final File mountPoint, final String fuseName)
 	{

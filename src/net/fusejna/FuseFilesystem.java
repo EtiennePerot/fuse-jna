@@ -18,6 +18,7 @@ import net.fusejna.types.TypeMode;
 import net.fusejna.types.TypeMode.ModeWrapper;
 import net.fusejna.types.TypeMode.NodeType;
 import net.fusejna.types.TypeOff;
+import net.fusejna.types.TypePid;
 import net.fusejna.types.TypeSize;
 import net.fusejna.types.TypeUInt32;
 import net.fusejna.types.TypeUid;
@@ -383,6 +384,49 @@ public abstract class FuseFilesystem
 
 	@UserMethod
 	public abstract int getattr(final String path, final StatWrapper stat);
+
+	/**
+	 * Returns the raw fuse_context structure. Only valid when called while a filesystem operation is taking place.
+	 * 
+	 * @return The fuse_context structure by reference.
+	 */
+	protected final StructFuseContext getFuseContext()
+	{
+		if (!isMounted()) {
+			throw new IllegalStateException("Cannot get FUSE context if the filesystem is not mounted.");
+		}
+		return FuseJna.getFuseContext();
+	}
+
+	/**
+	 * Returns the gid field of the fuse context. Only valid when called while a filesystem operation is taking place.
+	 * 
+	 * @return The group ID of the process executing an operation on this filesystem.
+	 */
+	protected TypeGid getFuseContextGid()
+	{
+		return getFuseContext().gid;
+	}
+
+	/**
+	 * Returns the pid field of the fuse context. Only valid when called while a filesystem operation is taking place.
+	 * 
+	 * @return The process ID of the process executing an operation on this filesystem.
+	 */
+	protected TypePid getFuseContextPid()
+	{
+		return getFuseContext().pid;
+	}
+
+	/**
+	 * Returns the uid field of the fuse context. Only valid when called while a filesystem operation is taking place.
+	 * 
+	 * @return The user ID of the user running the process executing an operation of this filesystem.
+	 */
+	protected TypeUid getFuseContextUid()
+	{
+		return getFuseContext().uid;
+	}
 
 	final String getFuseName()
 	{
