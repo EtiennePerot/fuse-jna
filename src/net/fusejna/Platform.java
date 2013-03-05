@@ -28,6 +28,14 @@ public final class Platform
 		return libFuse;
 	}
 
+	public static final StructFuseContext.ByReference fuse_get_context()
+	{
+		if (libFuse == null) {
+			init();
+		}
+		return libFuse.fuse_get_context();
+	}
+
 	private static final void init()
 	{
 		if (libFuse != null) {
