@@ -163,9 +163,10 @@ public abstract class FuseFilesystem
 	@FuseMethod
 	final int _listxattr(final String path, final Pointer buffer, final TypeSize size)
 	{
-		if (buffer == null)
-			{ return 0; };
 		final long sizeValue = size.longValue();
+		if (buffer == null || sizeValue == 0L) {
+			return 0;
+		}
 		final XattrListFiller filler = new XattrListFiller(buffer.getByteBuffer(0, sizeValue), sizeValue);
 		return listxattr(path, filler);
 	}
