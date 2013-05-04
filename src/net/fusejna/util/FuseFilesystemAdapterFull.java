@@ -79,13 +79,13 @@ public abstract class FuseFilesystemAdapterFull extends FuseFilesystem
 	}
 
 	@Override
-	public int fsync(final String path, final FileInfoWrapper info)
+	public int fsync(final String path, final int datasync, final FileInfoWrapper info)
 	{
 		return 0;
 	}
 
 	@Override
-	public int fsyncdir(final String path, final FileInfoWrapper info)
+	public int fsyncdir(final String path, final int datasync, final FileInfoWrapper info)
 	{
 		return 0;
 	}

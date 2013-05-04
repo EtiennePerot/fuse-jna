@@ -14,6 +14,7 @@ import net.fusejna.types.TypeMode.NodeType;
 import net.fusejna.types.TypeNLink;
 import net.fusejna.types.TypeOff;
 import net.fusejna.types.TypeQspare;
+import net.fusejna.types.TypeUInt32;
 import net.fusejna.types.TypeUid;
 
 import com.sun.jna.Structure;
@@ -284,8 +285,8 @@ public abstract class StructStat extends Structure
 		}
 
 		public TypeDev st_dev;
-		public short __pad0;
-		public TypeIno __pad1;
+		public short __pad1;
+		public TypeUInt32 __st_ino;
 		public TypeMode st_mode;
 		public TypeNLink st_nlink;
 		public TypeUid st_uid;

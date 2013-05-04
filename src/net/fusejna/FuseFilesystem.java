@@ -104,16 +104,16 @@ public abstract class FuseFilesystem
 	}
 
 	@FuseMethod
-	final int _fsync(final String path, final StructFuseFileInfo info)
+	final int _fsync(final String path, final int datasync, final StructFuseFileInfo info)
 	{
-		return fsync(path, new FileInfoWrapper(path, info));
+		return fsync(path, datasync, new FileInfoWrapper(path, info));
 	}
 
 	@FuseMethod
-	final int _fsyncdir(final String path, final StructFuseFileInfo info)
+	final int _fsyncdir(final String path, final int datasync, final StructFuseFileInfo info)
 	{
 		final FileInfoWrapper wrapper = new FileInfoWrapper(path, info);
-		final int result = fsyncdir(path, wrapper);
+		final int result = fsyncdir(path, datasync, wrapper);
 		wrapper.write();
 		return result;
 	}
@@ -374,10 +374,10 @@ public abstract class FuseFilesystem
 	public abstract int flush(final String path, final FileInfoWrapper info);
 
 	@UserMethod
-	public abstract int fsync(final String path, final FileInfoWrapper info);
+	public abstract int fsync(final String path, int datasync, final FileInfoWrapper info);
 
 	@UserMethod
-	public abstract int fsyncdir(final String path, final FileInfoWrapper info);
+	public abstract int fsyncdir(final String path, int datasync, final FileInfoWrapper info);
 
 	@UserMethod
 	public abstract int ftruncate(final String path, final long offset, final FileInfoWrapper info);

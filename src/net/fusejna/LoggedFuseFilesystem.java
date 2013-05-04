@@ -169,27 +169,27 @@ final class LoggedFuseFilesystem extends FuseFilesystem
 	}
 
 	@Override
-	public int fsync(final String path, final FileInfoWrapper info)
+	public int fsync(final String path, final int datasync, final FileInfoWrapper info)
 	{
 		return log("flush", 0, new LoggedMethod<Integer>()
 		{
 			@Override
 			public Integer invoke()
 			{
-				return filesystem.fsync(path, info);
+				return filesystem.fsync(path, datasync, info);
 			}
 		}, path, info);
 	}
 
 	@Override
-	public int fsyncdir(final String path, final FileInfoWrapper info)
+	public int fsyncdir(final String path, final int datasync, final FileInfoWrapper info)
 	{
 		return log("fsyncdir", 0, new LoggedMethod<Integer>()
 		{
 			@Override
 			public Integer invoke()
 			{
-				return filesystem.fsyncdir(path, info);
+				return filesystem.fsyncdir(path, datasync, info);
 			}
 		}, path, info);
 	}

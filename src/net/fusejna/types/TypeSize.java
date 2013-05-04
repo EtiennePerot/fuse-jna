@@ -17,6 +17,8 @@ public class TypeSize extends IntegerType
 				size = 8;
 				break;
 			case LINUX_I686:
+				size = 4;
+				break;
 			case LINUX_PPC:
 			case LINUX_X86_64:
 				size = Platform.size(TypeLongLong.class);

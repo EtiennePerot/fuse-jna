@@ -296,9 +296,9 @@ public class StructFuseOperations extends Structure
 		};
 		fsync = new Callback()
 		{
-			public final int callback(final String path, final StructFuseFileInfo.ByReference info)
+			public final int callback(final String path, final int datasync, final StructFuseFileInfo.ByReference info)
 			{
-				return filesystem._fsync(path, info);
+				return filesystem._fsync(path, datasync, info);
 			}
 		};
 		switch (Platform.platform()) {
@@ -376,9 +376,9 @@ public class StructFuseOperations extends Structure
 		};
 		fsyncdir = new Callback()
 		{
-			public final int callback(final String path, final StructFuseFileInfo.ByReference info)
+			public final int callback(final String path, final int datasync, final StructFuseFileInfo.ByReference info)
 			{
-				return filesystem._fsyncdir(path, info);
+				return filesystem._fsyncdir(path, datasync, info);
 			}
 		};
 		init = new Callback()
