@@ -6,7 +6,7 @@
   <packaging>jar</packaging>
   <version>0.0.1-SNAPSHOT</version>
   <name>FUSE java bindings</name>
-  <url>http://maven.apache.org</url>
+  <url>https://github.com/EtiennePerot/fuse-jna</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
