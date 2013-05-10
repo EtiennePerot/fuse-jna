@@ -1,5 +1,7 @@
 package net.fusejna;
 
+import java.util.List;
+
 import com.sun.jna.Structure;
 
 public class StructTimeBuffer extends Structure
@@ -131,4 +133,10 @@ public class StructTimeBuffer extends Structure
 
 	public StructTimespec.ByValue actime;
 	public StructTimespec.ByValue modtime;
+
+	@Override
+	protected List getFieldOrder()
+	{
+		throw new UnsupportedOperationException();
+	}
 }

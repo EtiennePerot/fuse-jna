@@ -1,5 +1,7 @@
 package net.fusejna;
 
+import java.util.List;
+
 import com.sun.jna.NativeLong;
 import com.sun.jna.Structure;
 
@@ -15,6 +17,12 @@ public class StructTimespec extends Structure
 
 	public NativeLong tv_sec;
 	public NativeLong tv_nsec;
+
+	@Override
+	protected List getFieldOrder()
+	{
+		throw new UnsupportedOperationException();
+	}
 
 	public final long nsec()
 	{

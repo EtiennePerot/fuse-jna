@@ -1,5 +1,7 @@
 package net.fusejna;
 
+import java.util.List;
+
 import net.fusejna.types.TypeGid;
 import net.fusejna.types.TypePid;
 import net.fusejna.types.TypeUid;
@@ -22,4 +24,10 @@ public abstract class StructFuseContext extends Structure
 	public TypeGid gid;
 	public TypePid pid;
 	public Pointer private_data;
+
+	@Override
+	protected List getFieldOrder()
+	{
+		throw new UnsupportedOperationException();
+	}
 }

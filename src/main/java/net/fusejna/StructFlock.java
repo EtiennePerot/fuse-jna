@@ -1,5 +1,7 @@
 package net.fusejna;
 
+import java.util.List;
+
 import net.fusejna.types.TypeOff;
 import net.fusejna.types.TypePid;
 
@@ -295,7 +297,7 @@ public abstract class StructFlock extends Structure
 		@Override
 		final void l_sysid(final long l_sysid)
 		{
-			// Not implemented
+			throw new UnsupportedOperationException();
 		}
 
 		@Override
@@ -326,6 +328,12 @@ public abstract class StructFlock extends Structure
 	public static final int F_RDLCK = 0;
 	public static final int F_WRLCK = 1;
 	public static final int F_UNLCK = 2;
+
+	@Override
+	protected List getFieldOrder()
+	{
+		throw new UnsupportedOperationException();
+	}
 
 	abstract long l_len();
 

@@ -1,5 +1,7 @@
 package net.fusejna;
 
+import java.util.List;
+
 import net.fusejna.types.TypeUInt64;
 
 import com.sun.jna.NativeLong;
@@ -270,4 +272,10 @@ public class StructFuseFileInfo extends Structure
 	public int padding = 28;
 	public TypeUInt64 fh;
 	public TypeUInt64 lock_owner;
+
+	@Override
+	protected List getFieldOrder()
+	{
+		throw new UnsupportedOperationException();
+	}
 }

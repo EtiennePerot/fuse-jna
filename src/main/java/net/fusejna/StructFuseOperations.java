@@ -1,5 +1,7 @@
 package net.fusejna;
 
+import java.util.List;
+
 import net.fusejna.types.TypeDev;
 import net.fusejna.types.TypeGid;
 import net.fusejna.types.TypeMode;
@@ -454,5 +456,11 @@ public class StructFuseOperations extends Structure
 				return filesystem._bmap(path, info);
 			}
 		};
+	}
+
+	@Override
+	protected List getFieldOrder()
+	{
+		throw new UnsupportedOperationException();
 	}
 }
