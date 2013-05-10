@@ -13,8 +13,8 @@ final class ProcessGobbler
 	private static final class Gobbler extends Thread
 	{
 		private final InputStream stream;
-		private String contents = null;
-		private boolean failed = false;
+		private String contents;
+		private boolean failed;
 
 		Gobbler(final InputStream stream)
 		{

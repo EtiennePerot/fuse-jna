@@ -15,7 +15,7 @@ public final class FuseJna
 {
 	private static final class MountThread extends Thread
 	{
-		private Integer result = null;
+		private Integer result;
 		private final String[] args;
 		private final StructFuseOperations operations;
 		private final LibFuse fuse;
@@ -45,7 +45,7 @@ public final class FuseJna
 		}
 	}
 
-	private static LibFuse libFuse = null;
+	private static LibFuse libFuse;
 	private static Lock initLock = new ReentrantLock();
 	private static Lock filesystemNameLock = new ReentrantLock();
 	private static final Random defaultFilesystemRandom = new Random();
@@ -53,13 +53,8 @@ public final class FuseJna
 	private static final long errorSleepDuration = 750;
 	private static String fusermount = "fusermount";
 	private static String umount = "umount";
-	private static int currentUid = 0;
-	private static int currentGid = 0;
-
-	static StructFuseContext getFuseContext()
-	{
-		return init().fuse_get_context();
-	}
+	private static int currentUid;
+	private static int currentGid;
 
 	private static final String getFilesystemName(final File mountPoint, final String fuseName)
 	{
@@ -75,6 +70,11 @@ public final class FuseJna
 		while (filesystemNames.put(mountPoint, fuseName + suffix) != null);
 		filesystemNameLock.unlock();
 		return fuseName + suffix;
+	}
+
+	static StructFuseContext getFuseContext()
+	{
+		return init().fuse_get_context();
 	}
 
 	static final int getGid()
@@ -104,22 +104,24 @@ public final class FuseJna
 
 	static final LibFuse init() throws UnsatisfiedLinkError
 	{
-		if (libFuse != null) {
-			// No need to lock if everything is fine already
-			return libFuse;
-		}
-		initLock.lock();
-		if (libFuse == null) {
-			libFuse = Platform.fuse();
-		}
 		try {
+			initLock.lock();
+			if (libFuse != null) {
+				return libFuse;
+			}
+			if (libFuse == null) {
+				libFuse = Platform.fuse();
+			}
 			currentUid = Integer.parseInt(new ProcessGobbler("id", "-u").getStdout());
 			currentGid = Integer.parseInt(new ProcessGobbler("id", "-g").getStdout());
 		}
 		catch (final Exception e) {
+			// FIXME:
 			// Oh well, keep default values
 		}
-		initLock.unlock();
+		finally {
+			initLock.unlock();
+		}
 		return libFuse;
 	}
 

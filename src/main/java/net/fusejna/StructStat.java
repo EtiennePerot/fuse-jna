@@ -1,5 +1,7 @@
 package net.fusejna;
 
+import java.util.List;
+
 import net.fusejna.types.TypeBlkCnt;
 import net.fusejna.types.TypeBlkSize;
 import net.fusejna.types.TypeDev;
@@ -1522,6 +1524,12 @@ public abstract class StructStat extends Structure
 		{
 			this.st_uid.setValue(st_uid);
 		}
+	}
+
+	@Override
+	protected List getFieldOrder()
+	{
+		throw new UnsupportedOperationException();
 	}
 
 	abstract void st_atime(long sec, long nsec);

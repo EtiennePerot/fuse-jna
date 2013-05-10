@@ -22,20 +22,25 @@ public final class Platform
 
 	static final LibFuse fuse()
 	{
-		if (libFuse == null) {
-			init();
+		try {
+			initLock.lock();
+			if (libFuse == null) {
+				init();
+			}
+			return libFuse;
 		}
-		return libFuse;
+		finally {
+			initLock.unlock();
+		}
 	}
 
 	private static final void init()
 	{
-		if (libFuse != null) {
-			return;
-		}
-		initLock.lock();
-		// Need to recheck
-		if (libFuse == null) {
+		try {
+			initLock.lock();
+			if (libFuse != null) {
+				return;
+			}
 			switch (com.sun.jna.Platform.getOSType()) {
 				case com.sun.jna.Platform.FREEBSD:
 					platform = PlatformEnum.FREEBSD;
@@ -88,15 +93,24 @@ public final class Platform
 					break;
 			}
 		}
-		initLock.unlock();
+		finally {
+			initLock.unlock();
+		}
 	}
 
 	public static final PlatformEnum platform()
 	{
-		if (platform == null) {
-			init();
+		// FIXME: check lock
+		try {
+			initLock.lock();
+			if (platform == null) {
+				init();
+			}
+			return platform;
 		}
-		return platform;
+		finally {
+			initLock.unlock();
+		}
 	}
 
 	public static final int size(@SuppressWarnings("rawtypes") final Class cls)

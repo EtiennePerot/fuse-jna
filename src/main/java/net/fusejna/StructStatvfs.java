@@ -1,5 +1,7 @@
 package net.fusejna;
 
+import java.util.List;
+
 import net.fusejna.types.TypeBlkCnt;
 import net.fusejna.types.TypeFsFilCnt;
 
@@ -414,4 +416,10 @@ public abstract class StructStatvfs extends Structure
 	abstract long f_frsize();
 
 	abstract void f_frsize(long f_frsize);
+
+	@Override
+	protected List getFieldOrder()
+	{
+		throw new UnsupportedOperationException();
+	}
 }

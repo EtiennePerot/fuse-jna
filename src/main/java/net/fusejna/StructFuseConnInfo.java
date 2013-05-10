@@ -1,5 +1,7 @@
 package net.fusejna;
 
+import java.util.List;
+
 import com.sun.jna.Structure;
 
 public abstract class StructFuseConnInfo extends Structure
@@ -20,6 +22,12 @@ public abstract class StructFuseConnInfo extends Structure
 	public int enable;
 	public int want;
 	public int[] reserved = new int[25];
+
+	@Override
+	protected List getFieldOrder()
+	{
+		throw new UnsupportedOperationException();
+	}
 
 	public final void setOptions(final boolean setVolumeName, final boolean caseInsensitive)
 	{

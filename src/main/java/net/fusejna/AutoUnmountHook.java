@@ -2,7 +2,7 @@ package net.fusejna;
 
 final class AutoUnmountHook extends Thread
 {
-	private FuseFilesystem filesystem = null;
+	private final FuseFilesystem filesystem;
 
 	AutoUnmountHook(final FuseFilesystem filesystem)
 	{
@@ -17,6 +17,7 @@ final class AutoUnmountHook extends Thread
 				filesystem.unmount();
 			}
 			catch (final Exception e) {
+				// FIXME: Never ignore an exception, at least log it somewhere
 				// Can't do much here in a shutdown hook. Silently ignore.
 			}
 		}
