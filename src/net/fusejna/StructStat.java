@@ -1143,7 +1143,7 @@ public abstract class StructStat extends Structure
 
 		public final StatWrapper mtime(final long sec, final long nsec)
 		{
-			structStat.st_atime(sec, nsec);
+			structStat.st_mtime(sec, nsec);
 			return this;
 		}
 
@@ -1228,8 +1228,8 @@ public abstract class StructStat extends Structure
 				final long birthtime_nsec)
 		{
 			structStat.st_atime(atime_sec, atime_nsec);
-			structStat.st_mtime(mtime_sec, atime_nsec);
-			structStat.st_ctime(ctime_sec, atime_nsec);
+			structStat.st_mtime(mtime_sec, mtime_nsec);
+			structStat.st_ctime(ctime_sec, ctime_nsec);
 			structStat.st_birthtime(birthtime_sec, birthtime_nsec);
 			return this;
 		}
