@@ -215,6 +215,15 @@ public final class FuseJna
 			}
 		}
 		final File mountPoint = fuseFilesystem.getMountPoint();
+		final int result = unmount(mountPoint);
+		if (result != 0) {
+			throw new FuseException(result);
+		}
+		unregisterFilesystemName(fuseFilesystem.getMountPoint());
+	}
+
+	public static int unmount(final File mountPoint) throws IOException
+	{
 		ProcessGobbler fusermount;
 		try {
 			fusermount = new ProcessGobbler(FuseJna.fusermount, "-z", "-u", mountPoint.toString());
@@ -223,10 +232,7 @@ public final class FuseJna
 			fusermount = new ProcessGobbler(FuseJna.umount, mountPoint.toString());
 		}
 		final int result = fusermount.getReturnCode();
-		if (result != 0) {
-			throw new FuseException(result);
-		}
-		unregisterFilesystemName(fuseFilesystem.getMountPoint());
+		return result;
 	}
 
 	private static final void unregisterFilesystemName(final File mountPoint)
