@@ -162,7 +162,7 @@ public final class MemoryFS extends FuseFilesystemAdapterAssumeImplemented
 
 	private abstract class MemoryPath
 	{
-		private final String name;
+		private String name;
 		private MemoryDirectory parent;
 
 		private MemoryPath(final String name)
@@ -196,6 +196,14 @@ public final class MemoryFS extends FuseFilesystemAdapterAssumeImplemented
 		}
 
 		protected abstract void getattr(StatWrapper stat);
+
+		private void rename(String newName)
+		{
+			while (newName.startsWith("/")) {
+				newName = newName.substring(1);
+			}
+			name = newName;
+		}
 	}
 
 	public static void main(final String... args) throws FuseException
@@ -330,13 +338,14 @@ public final class MemoryFS extends FuseFilesystemAdapterAssumeImplemented
 			return -ErrorCodes.ENOENT;
 		}
 		final MemoryPath newParent = getParentPath(newName);
-		if (newParent != null) {
+		if (newParent == null) {
 			return -ErrorCodes.ENOENT;
 		}
 		if (!(newParent instanceof MemoryDirectory)) {
 			return -ErrorCodes.ENOTDIR;
 		}
 		p.delete();
+		p.rename(newName.substring(newName.lastIndexOf("/")));
 		((MemoryDirectory) newParent).add(p);
 		return 0;
 	}
