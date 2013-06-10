@@ -124,7 +124,8 @@ public final class MemoryFS extends FuseFilesystemAdapterAssumeImplemented
 		{
 			final int bytesToRead = (int) Math.min(contents.capacity() - offset, size);
 			final byte[] bytesRead = new byte[bytesToRead];
-			contents.get(bytesRead, (int) offset, bytesToRead);
+			contents.position((int) offset);
+			contents.get(bytesRead, 0, bytesToRead);
 			buffer.put(bytesRead);
 			contents.position(0); // Rewind
 			return bytesToRead;
