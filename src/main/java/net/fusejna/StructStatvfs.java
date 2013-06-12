@@ -6,6 +6,9 @@ import net.fusejna.types.TypeFsFilCnt;
 import com.sun.jna.NativeLong;
 import com.sun.jna.Structure;
 
+import java.util.Arrays;
+import java.util.List;
+
 public abstract class StructStatvfs extends Structure
 {
 	public static class FreeBSD extends StructStatvfs
@@ -27,6 +30,10 @@ public abstract class StructStatvfs extends Structure
 		public NativeLong f_bsize;
 		public NativeLong __pad0;
 		public NativeLong f_frsize;
+
+        @Override protected List getFieldOrder() {
+            throw new UnsupportedOperationException();
+        }
 
 		@Override
 		final long f_bavail()
@@ -144,7 +151,13 @@ public abstract class StructStatvfs extends Structure
 		public TypeFsFilCnt f_ffree;
 		public TypeFsFilCnt f_favail;
 
-		@Override
+        @Override protected List getFieldOrder() {
+            return Arrays.asList(
+                    "f_bsize", "f_frsize", "f_blocks", "f_bfree",
+                    "f_bavail", "f_files", "f_ffree", "f_favail");
+        }
+
+        @Override
 		final long f_bavail()
 		{
 			return f_bavail.longValue();

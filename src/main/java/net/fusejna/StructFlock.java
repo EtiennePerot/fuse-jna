@@ -5,6 +5,9 @@ import net.fusejna.types.TypePid;
 
 import com.sun.jna.Structure;
 
+import java.util.Arrays;
+import java.util.List;
+
 public abstract class StructFlock extends Structure
 {
 	public static enum FlockType
@@ -146,7 +149,7 @@ public abstract class StructFlock extends Structure
 
 	public static class FreeBSD extends StructFlock
 	{
-		public static final class ByReference extends FreeBSD implements Structure.ByReference
+        public static final class ByReference extends FreeBSD implements Structure.ByReference
 		{
 		}
 
@@ -232,11 +235,15 @@ public abstract class StructFlock extends Structure
 		{
 			this.l_whence = (short) l_whence;
 		}
-	}
+
+        @Override protected List getFieldOrder() {
+            return Arrays.asList("l_start", "l_len", "l_pid", "l_type", "l_whence", "l_sysid");
+        }
+    }
 
 	public static class NotFreeBSD extends StructFlock
 	{
-		public static final class ByReference extends FreeBSD implements Structure.ByReference
+        public static final class ByReference extends FreeBSD implements Structure.ByReference
 		{
 		}
 
@@ -321,7 +328,11 @@ public abstract class StructFlock extends Structure
 		{
 			this.l_whence = (short) l_whence;
 		}
-	}
+
+        @Override protected List getFieldOrder() {
+            return Arrays.asList("l_type", "l_whence", "l_start", "l_len", "l_pid");
+        }
+    }
 
 	public static final int F_RDLCK = 0;
 	public static final int F_WRLCK = 1;

@@ -5,9 +5,12 @@ import net.fusejna.types.TypeUInt64;
 import com.sun.jna.NativeLong;
 import com.sun.jna.Structure;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class StructFuseFileInfo extends Structure
 {
-	public static final class ByReference extends StructFuseFileInfo implements Structure.ByReference
+    public static final class ByReference extends StructFuseFileInfo implements Structure.ByReference
 	{
 	}
 
@@ -270,4 +273,10 @@ public class StructFuseFileInfo extends Structure
 	public int padding = 28;
 	public TypeUInt64 fh;
 	public TypeUInt64 lock_owner;
+
+    @Override protected List getFieldOrder() {
+        return Arrays.asList(
+                "flags", "fh_old", "writepage", "direct_io", "keep_cache",
+                "flush", "nonseekable", "padding", "fh", "lock_owner");
+    }
 }

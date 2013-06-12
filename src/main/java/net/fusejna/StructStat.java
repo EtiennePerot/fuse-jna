@@ -19,11 +19,14 @@ import net.fusejna.types.TypeUid;
 
 import com.sun.jna.Structure;
 
+import java.util.Arrays;
+import java.util.List;
+
 public abstract class StructStat extends Structure
 {
 	public static class BSD extends StructStat
 	{
-		public static final class ByReference extends BSD implements Structure.ByReference
+        public static final class ByReference extends BSD implements Structure.ByReference
 		{
 		}
 
@@ -272,7 +275,11 @@ public abstract class StructStat extends Structure
 		{
 			this.st_uid.setValue(st_uid);
 		}
-	}
+
+        @Override protected List getFieldOrder() {
+            throw new UnsupportedOperationException();
+        }
+    }
 
 	public static class I686 extends StructStat
 	{
@@ -300,6 +307,10 @@ public abstract class StructStat extends Structure
 		public StructTimespec.ByValue st_mtime;
 		public StructTimespec.ByValue st_ctime;
 		public TypeIno st_ino;
+
+        @Override protected List getFieldOrder() {
+            throw new UnsupportedOperationException();
+        }
 
 		@Override
 		final void st_atime(final long sec, final long nsec)
@@ -558,6 +569,26 @@ public abstract class StructStat extends Structure
 		public TypeLspare st_lspare;
 		public TypeQspare st_qspare;
 
+        @Override protected List getFieldOrder() {
+            return Arrays.asList("st_dev",
+                    "st_mode",
+                    "st_nlink",
+                    "st_ino",
+                    "st_uid",
+                    "st_gid",
+                    "st_rdev",
+                    "st_atime",
+                    "st_mtime",
+                    "st_ctime",
+                    "st_birthtime",
+                    "st_size",
+                    "st_blocks",
+                    "st_blksize",
+                    "st_gen",
+                    "st_lspare",
+                    "st_qspare");
+        }
+
 		@Override
 		final void st_atime(final long sec, final long nsec)
 		{
@@ -811,6 +842,10 @@ public abstract class StructStat extends Structure
 		public StructTimespec.ByValue st_atime;
 		public StructTimespec.ByValue st_mtime;
 		public StructTimespec.ByValue st_ctime;
+
+        @Override protected List getFieldOrder() {
+            throw new UnsupportedOperationException();
+        }
 
 		@Override
 		final void st_atime(final long sec, final long nsec)
@@ -1294,6 +1329,23 @@ public abstract class StructStat extends Structure
 		public StructTimespec.ByValue st_atime;
 		public StructTimespec.ByValue st_mtime;
 		public StructTimespec.ByValue st_ctime;
+
+        @Override protected List getFieldOrder() {
+            return Arrays.asList("st_dev",
+                    "st_ino",
+                    "st_nlink",
+                    "st_mode",
+                    "st_uid",
+                    "st_gid",
+                    "__pad0",
+                    "st_rdev",
+                    "st_size",
+                    "st_blksize",
+                    "st_blocks",
+                    "st_atime",
+                    "st_mtime",
+                    "st_ctime");
+        }
 
 		@Override
 		final void st_atime(final long sec, final long nsec)

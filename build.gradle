@@ -1,0 +1,10 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  compile "net.java.dev.jna:jna:3.5.2"
+}

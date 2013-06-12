@@ -12,6 +12,9 @@ import com.sun.jna.Callback;
 import com.sun.jna.Pointer;
 import com.sun.jna.Structure;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class StructFuseOperations extends Structure
 {
 	public static final class ByReference extends StructFuseOperations implements Structure.ByReference
@@ -68,6 +71,47 @@ public class StructFuseOperations extends Structure
 	public Callback lock;
 	public Callback utimens;
 	public Callback bmap;
+
+    @Override protected List getFieldOrder() {
+        return Arrays.asList("getattr",
+                "readlink",
+                "getdir",
+                "mknod",
+                "mkdir",
+                "unlink",
+                "rmdir",
+                "symlink",
+                "rename",
+                "link",
+                "chmod",
+                "chown",
+                "truncate",
+                "utime",
+                "open",
+                "read",
+                "write",
+                "statfs",
+                "flush",
+                "release",
+                "fsync",
+                "setxattr",
+                "getxattr",
+                "listxattr",
+                "removexattr",
+                "opendir",
+                "readdir",
+                "releasedir",
+                "fsyncdir",
+                "init",
+                "destroy",
+                "access",
+                "create",
+                "ftruncate",
+                "fgetattr",
+                "lock",
+                "utimens",
+                "bmap");
+    }
 
 	@SuppressWarnings("unused")
 	public StructFuseOperations(final FuseFilesystem filesystem)

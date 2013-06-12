@@ -2,6 +2,9 @@ package net.fusejna;
 
 import com.sun.jna.Structure;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class StructTimeBuffer extends Structure
 {
 	public static final class ByReference extends StructTimeBuffer implements Structure.ByReference
@@ -131,4 +134,8 @@ public class StructTimeBuffer extends Structure
 
 	public StructTimespec.ByValue actime;
 	public StructTimespec.ByValue modtime;
+
+    @Override protected List getFieldOrder() {
+        return Arrays.asList("actime", "modtime");
+    }
 }
