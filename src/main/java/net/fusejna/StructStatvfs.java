@@ -32,7 +32,15 @@ public abstract class StructStatvfs extends Structure
 		public NativeLong f_frsize;
 
         @Override protected List getFieldOrder() {
-            throw new UnsupportedOperationException();
+            return Arrays.asList("f_bavail",
+                    "f_bfree",
+                    "f_blocks",
+                    "f_ffree",
+                    "f_favail",
+                    "f_files",
+                    "f_bsize",
+                    "__pad0",
+                    "f_frsize");
         }
 
 		@Override

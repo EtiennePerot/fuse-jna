@@ -48,6 +48,22 @@ public abstract class StructStat extends Structure
 		public TypeBlkCnt st_blocks;
 		public TypeBlkSize st_blksize;
 
+        @Override protected List getFieldOrder() {
+            return Arrays.asList("st_dev",
+                    "st_ino",
+                    "st_mode",
+                    "st_nlink",
+                    "st_uid",
+                    "st_gid",
+                    "st_rdev",
+                    "st_atime",
+                    "st_mtime",
+                    "st_ctime",
+                    "st_size",
+                    "st_blocks",
+                    "st_blksize");
+        }
+
 		@Override
 		final void st_atime(final long sec, final long nsec)
 		{
@@ -275,10 +291,6 @@ public abstract class StructStat extends Structure
 		{
 			this.st_uid.setValue(st_uid);
 		}
-
-        @Override protected List getFieldOrder() {
-            throw new UnsupportedOperationException();
-        }
     }
 
 	public static class I686 extends StructStat
@@ -309,7 +321,22 @@ public abstract class StructStat extends Structure
 		public TypeIno st_ino;
 
         @Override protected List getFieldOrder() {
-            throw new UnsupportedOperationException();
+            return Arrays.asList("st_dev",
+                    "__pad1",
+                    "__st_ino",
+                    "st_mode",
+                    "st_nlink",
+                    "st_uid",
+                    "st_gid",
+                    "st_rdev",
+                    "__pad2",
+                    "st_size",
+                    "st_blksize",
+                    "st_blocks",
+                    "st_atime",
+                    "st_mtime",
+                    "st_ctime",
+                    "st_ino");
         }
 
 		@Override
@@ -844,7 +871,22 @@ public abstract class StructStat extends Structure
 		public StructTimespec.ByValue st_ctime;
 
         @Override protected List getFieldOrder() {
-            throw new UnsupportedOperationException();
+            return Arrays.asList(
+                    "st_dev",
+                    "st_ino",
+                    "st_mode",
+                    "st_nlink",
+                    "st_uid",
+                    "st_gid",
+                    "st_rdev",
+                    "__pad0",
+                    "st_size",
+                    "st_blksize",
+                    "st_blocks",
+                    "st_atime",
+                    "st_mtime",
+                    "st_ctime"
+            );
         }
 
 		@Override
