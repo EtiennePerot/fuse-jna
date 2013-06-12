@@ -8,6 +8,8 @@ import java.util.List;
 
 public class StructTimespec extends Structure
 {
+	public static final List<String> FIELD_ORDER = Arrays.asList("tv_sec", "tv_nsec");
+
 	public static final class ByReference extends StructTimespec implements Structure.ByReference
 	{
 	}
@@ -19,9 +21,11 @@ public class StructTimespec extends Structure
 	public NativeLong tv_sec;
 	public NativeLong tv_nsec;
 
-    @Override protected List getFieldOrder() {
-        return Arrays.asList("tv_sec", "tv_nsec");
-    }
+	@Override
+	protected List getFieldOrder()
+	{
+		return FIELD_ORDER;
+	}
 
 	public final long nsec()
 	{

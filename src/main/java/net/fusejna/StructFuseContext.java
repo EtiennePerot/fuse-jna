@@ -12,6 +12,9 @@ import java.util.List;
 
 public abstract class StructFuseContext extends Structure
 {
+	public static final List<String> FIELD_ORDER = Arrays.asList(
+			"fuse", "uid", "gid", "pid", "private_data");
+
 	public static final class ByReference extends StructFuseContext implements Structure.ByReference
 	{
 	}
@@ -26,7 +29,9 @@ public abstract class StructFuseContext extends Structure
 	public TypePid pid;
 	public Pointer private_data;
 
-    @Override protected List getFieldOrder() {
-        return Arrays.asList("fuse", "uid", "gid", "pid", "private_data");
-    }
+	@Override
+	protected List getFieldOrder()
+	{
+		return FIELD_ORDER;
+	}
 }
