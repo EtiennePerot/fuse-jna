@@ -277,7 +277,7 @@ public class StructFuseFileInfo extends Structure
 	public TypeUInt64 lock_owner;
 
 	@Override
-	protected List getFieldOrder()
+	protected List<String> getFieldOrder()
 	{
 		return FIELD_ORDER;
 	}

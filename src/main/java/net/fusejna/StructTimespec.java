@@ -21,7 +21,7 @@ public class StructTimespec extends Structure
 	public NativeLong tv_nsec;
 
 	@Override
-	protected List getFieldOrder()
+	protected List<String> getFieldOrder()
 	{
 		return FIELD_ORDER;
 	}

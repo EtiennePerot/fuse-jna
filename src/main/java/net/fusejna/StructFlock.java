@@ -167,7 +167,7 @@ public abstract class StructFlock extends Structure
 		public int l_sysid;
 
 		@Override
-		protected List getFieldOrder()
+		protected List<String> getFieldOrder()
 		{
 			return FIELD_ORDER;
 		}
@@ -263,7 +263,7 @@ public abstract class StructFlock extends Structure
 		public TypePid l_pid;
 
 		@Override
-		protected List getFieldOrder()
+		protected List<String> getFieldOrder()
 		{
 			return FIELD_ORDER;
 		}

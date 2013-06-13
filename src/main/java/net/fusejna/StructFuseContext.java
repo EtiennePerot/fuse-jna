@@ -28,7 +28,7 @@ public abstract class StructFuseContext extends Structure
 	public Pointer private_data;
 
 	@Override
-	protected List getFieldOrder()
+	protected List<String> getFieldOrder()
 	{
 		return FIELD_ORDER;
 	}

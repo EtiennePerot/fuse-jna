@@ -137,7 +137,7 @@ public class StructTimeBuffer extends Structure
 	public StructTimespec.ByValue modtime;
 
 	@Override
-	protected List getFieldOrder()
+	protected List<String> getFieldOrder()
 	{
 		return FIELD_ORDER;
 	}

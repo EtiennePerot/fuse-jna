@@ -27,7 +27,7 @@ public abstract class StructFuseConnInfo extends Structure
 	public int[] reserved = new int[25];
 
 	@Override
-	protected List getFieldOrder()
+	protected List<String> getFieldOrder()
 	{
 		return FIELD_ORDER;
 	}

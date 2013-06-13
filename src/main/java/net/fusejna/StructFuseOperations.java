@@ -465,7 +465,7 @@ public class StructFuseOperations extends Structure
 	}
 
 	@Override
-	protected List getFieldOrder()
+	protected List<String> getFieldOrder()
 	{
 		return FIELD_ORDER;
 	}

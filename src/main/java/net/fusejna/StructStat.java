@@ -51,7 +51,7 @@ public abstract class StructStat extends Structure
 		public TypeBlkSize st_blksize;
 
 		@Override
-		protected List getFieldOrder()
+		protected List<String> getFieldOrder()
 		{
 			return FIELD_ORDER;
 		}
@@ -316,7 +316,7 @@ public abstract class StructStat extends Structure
 		public TypeIno st_ino;
 
 		@Override
-		protected List getFieldOrder()
+		protected List<String> getFieldOrder()
 		{
 			return FIELD_ORDER;
 		}
@@ -582,7 +582,7 @@ public abstract class StructStat extends Structure
 		public TypeQspare st_qspare;
 
 		@Override
-		protected List getFieldOrder()
+		protected List<String> getFieldOrder()
 		{
 			return FIELD_ORDER;
 		}
@@ -844,7 +844,7 @@ public abstract class StructStat extends Structure
 		public StructTimespec.ByValue st_ctime;
 
 		@Override
-		protected List getFieldOrder()
+		protected List<String> getFieldOrder()
 		{
 			return FIELD_ORDER;
 		}
@@ -1335,7 +1335,7 @@ public abstract class StructStat extends Structure
 		public StructTimespec.ByValue st_ctime;
 
 		@Override
-		protected List getFieldOrder()
+		protected List<String> getFieldOrder()
 		{
 			return FIELD_ORDER;
 		}

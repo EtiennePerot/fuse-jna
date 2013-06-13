@@ -130,7 +130,7 @@ public abstract class StructStatvfs extends Structure
 		}
 
 		@Override
-		protected List getFieldOrder()
+		protected List<String> getFieldOrder()
 		{
 			return FIELD_ORDER;
 		}
@@ -254,7 +254,7 @@ public abstract class StructStatvfs extends Structure
 		}
 
 		@Override
-		protected List getFieldOrder()
+		protected List<String> getFieldOrder()
 		{
 			return FIELD_ORDER;
 		}
