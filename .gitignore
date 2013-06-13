@@ -4,3 +4,8 @@ bin
 *.dll
 *.class
 *~
+.gradle
+*.ipr
+*.iws
+*.iml
+build
