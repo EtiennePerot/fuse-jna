@@ -2,9 +2,9 @@ apply plugin: 'java'
 apply plugin: 'idea'
 
 repositories {
-  mavenCentral()
+  flatDir { dir 'lib' }
 }
 
 dependencies {
-  compile "net.java.dev.jna:jna:3.5.2"
+  compile name: "jna-3.5.2"
 }
