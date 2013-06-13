@@ -19,10 +19,17 @@ import net.fusejna.types.TypeUid;
 
 import com.sun.jna.Structure;
 
+import java.util.Arrays;
+import java.util.List;
+
 public abstract class StructStat extends Structure
 {
 	public static class BSD extends StructStat
 	{
+		public static final List<String> FIELD_ORDER = Arrays.asList(
+				"st_dev", "st_ino", "st_mode", "st_nlink", "st_uid", "st_gid", "st_rdev",
+				"st_atime", "st_mtime", "st_ctime", "st_size", "st_blocks", "st_blksize");
+
 		public static final class ByReference extends BSD implements Structure.ByReference
 		{
 		}
@@ -44,6 +51,12 @@ public abstract class StructStat extends Structure
 		public TypeOff st_size;
 		public TypeBlkCnt st_blocks;
 		public TypeBlkSize st_blksize;
+
+		@Override
+		protected List getFieldOrder()
+		{
+			return FIELD_ORDER;
+		}
 
 		@Override
 		final void st_atime(final long sec, final long nsec)
@@ -276,6 +289,11 @@ public abstract class StructStat extends Structure
 
 	public static class I686 extends StructStat
 	{
+		public static final List<String> FIELD_ORDER = Arrays.asList(
+				"st_dev", "__pad1", "__st_ino", "st_mode", "st_nlink", "st_uid",
+				"st_gid", "st_rdev", "__pad2", "st_size", "st_blksize", "st_blocks",
+				"st_atime", "st_mtime", "st_ctime", "st_ino");
+
 		public static final class ByReference extends I686 implements Structure.ByReference
 		{
 		}
@@ -300,6 +318,12 @@ public abstract class StructStat extends Structure
 		public StructTimespec.ByValue st_mtime;
 		public StructTimespec.ByValue st_ctime;
 		public TypeIno st_ino;
+
+		@Override
+		protected List getFieldOrder()
+		{
+			return FIELD_ORDER;
+		}
 
 		@Override
 		final void st_atime(final long sec, final long nsec)
@@ -532,6 +556,11 @@ public abstract class StructStat extends Structure
 
 	public static class Mac extends StructStat
 	{
+		public static final List<String> FIELD_ORDER = Arrays.asList(
+				"st_dev", "st_mode", "st_nlink", "st_ino", "st_uid", "st_gid",
+				"st_rdev", "st_atime", "st_mtime", "st_ctime", "st_birthtime",
+				"st_size", "st_blocks", "st_blksize", "st_gen", "st_lspare", "st_qspare");
+
 		public static final class ByReference extends Mac implements Structure.ByReference
 		{
 		}
@@ -557,6 +586,12 @@ public abstract class StructStat extends Structure
 		public TypeGen st_gen;
 		public TypeLspare st_lspare;
 		public TypeQspare st_qspare;
+
+		@Override
+		protected List getFieldOrder()
+		{
+			return FIELD_ORDER;
+		}
 
 		@Override
 		final void st_atime(final long sec, final long nsec)
@@ -789,6 +824,11 @@ public abstract class StructStat extends Structure
 
 	public static class PowerPC extends StructStat
 	{
+		public static final List<String> FIELD_ORDER = Arrays.asList(
+				"st_dev", "st_ino", "st_mode", "st_nlink", "st_uid",
+				"st_gid", "st_rdev", "__pad0", "st_size", "st_blksize",
+				"st_blocks", "st_atime", "st_mtime", "st_ctime");
+
 		public static final class ByReference extends PowerPC implements Structure.ByReference
 		{
 		}
@@ -811,6 +851,12 @@ public abstract class StructStat extends Structure
 		public StructTimespec.ByValue st_atime;
 		public StructTimespec.ByValue st_mtime;
 		public StructTimespec.ByValue st_ctime;
+
+		@Override
+		protected List getFieldOrder()
+		{
+			return FIELD_ORDER;
+		}
 
 		@Override
 		final void st_atime(final long sec, final long nsec)
@@ -1272,6 +1318,11 @@ public abstract class StructStat extends Structure
 
 	public static class X86_64 extends StructStat
 	{
+		public static final List<String> FIELD_ORDER = Arrays.asList(
+				"st_dev", "st_ino", "st_nlink", "st_mode", "st_uid",
+				"st_gid", "__pad0", "st_rdev", "st_size", "st_blksize",
+				"st_blocks", "st_atime", "st_mtime", "st_ctime");
+
 		public static final class ByReference extends X86_64 implements Structure.ByReference
 		{
 		}
@@ -1294,6 +1345,12 @@ public abstract class StructStat extends Structure
 		public StructTimespec.ByValue st_atime;
 		public StructTimespec.ByValue st_mtime;
 		public StructTimespec.ByValue st_ctime;
+
+		@Override
+		protected List getFieldOrder()
+		{
+			return FIELD_ORDER;
+		}
 
 		@Override
 		final void st_atime(final long sec, final long nsec)

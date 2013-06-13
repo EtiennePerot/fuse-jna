@@ -2,8 +2,15 @@ package net.fusejna;
 
 import com.sun.jna.Structure;
 
+import java.util.Arrays;
+import java.util.List;
+
 public abstract class StructFuseConnInfo extends Structure
 {
+	public static final List<String> FIELD_ORDER = Arrays.asList(
+			"proto_major", "proto_minor", "async_read", "max_write",
+			"max_readahead", "enable", "want", "reserved");
+
 	public static final class ByReference extends StructFuseConnInfo implements Structure.ByReference
 	{
 	}
@@ -20,6 +27,12 @@ public abstract class StructFuseConnInfo extends Structure
 	public int enable;
 	public int want;
 	public int[] reserved = new int[25];
+
+	@Override
+	protected List getFieldOrder()
+	{
+		return FIELD_ORDER;
+	}
 
 	public final void setOptions(final boolean setVolumeName, final boolean caseInsensitive)
 	{
