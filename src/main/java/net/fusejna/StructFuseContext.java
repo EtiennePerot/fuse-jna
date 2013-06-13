@@ -1,5 +1,8 @@
 package net.fusejna;
 
+import java.util.Arrays;
+import java.util.List;
+
 import net.fusejna.types.TypeGid;
 import net.fusejna.types.TypePid;
 import net.fusejna.types.TypeUid;
@@ -7,14 +10,8 @@ import net.fusejna.types.TypeUid;
 import com.sun.jna.Pointer;
 import com.sun.jna.Structure;
 
-import java.util.Arrays;
-import java.util.List;
-
 public abstract class StructFuseContext extends Structure
 {
-	public static final List<String> FIELD_ORDER = Arrays.asList(
-			"fuse", "uid", "gid", "pid", "private_data");
-
 	public static final class ByReference extends StructFuseContext implements Structure.ByReference
 	{
 	}
@@ -23,6 +20,7 @@ public abstract class StructFuseContext extends Structure
 	{
 	}
 
+	public static final List<String> FIELD_ORDER = Arrays.asList("fuse", "uid", "gid", "pid", "private_data");
 	public Pointer fuse;
 	public TypeUid uid;
 	public TypeGid gid;

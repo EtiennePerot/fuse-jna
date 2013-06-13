@@ -1,16 +1,12 @@
 package net.fusejna;
 
-import com.sun.jna.Structure;
-
 import java.util.Arrays;
 import java.util.List;
 
+import com.sun.jna.Structure;
+
 public abstract class StructFuseConnInfo extends Structure
 {
-	public static final List<String> FIELD_ORDER = Arrays.asList(
-			"proto_major", "proto_minor", "async_read", "max_write",
-			"max_readahead", "enable", "want", "reserved");
-
 	public static final class ByReference extends StructFuseConnInfo implements Structure.ByReference
 	{
 	}
@@ -19,6 +15,8 @@ public abstract class StructFuseConnInfo extends Structure
 	{
 	}
 
+	public static final List<String> FIELD_ORDER = Arrays.asList("proto_major", "proto_minor", "async_read", "max_write",
+			"max_readahead", "enable", "want", "reserved");
 	public int proto_major;
 	public int proto_minor;
 	public int async_read;

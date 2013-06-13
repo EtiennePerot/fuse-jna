@@ -1,15 +1,13 @@
 package net.fusejna;
 
-import com.sun.jna.NativeLong;
-import com.sun.jna.Structure;
-
 import java.util.Arrays;
 import java.util.List;
 
+import com.sun.jna.NativeLong;
+import com.sun.jna.Structure;
+
 public class StructTimespec extends Structure
 {
-	public static final List<String> FIELD_ORDER = Arrays.asList("tv_sec", "tv_nsec");
-
 	public static final class ByReference extends StructTimespec implements Structure.ByReference
 	{
 	}
@@ -18,6 +16,7 @@ public class StructTimespec extends Structure
 	{
 	}
 
+	public static final List<String> FIELD_ORDER = Arrays.asList("tv_sec", "tv_nsec");
 	public NativeLong tv_sec;
 	public NativeLong tv_nsec;
 

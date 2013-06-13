@@ -53,17 +53,20 @@ public class TypeMode extends IntegerType
 			return this;
 		}
 
+		@Override
 		public final ModeWrapper setMode(final NodeType type)
 		{
 			return setMode(type, true, true, true, true, true, true, true, true, true);
 		}
 
+		@Override
 		public final ModeWrapper setMode(final NodeType type, final boolean readable, final boolean writable,
 				final boolean executable)
 		{
 			return setMode(type, readable, writable, executable, readable, writable, executable, readable, writable, executable);
 		}
 
+		@Override
 		public final ModeWrapper setMode(final NodeType type, final boolean ownerReadable, final boolean ownerWritable,
 				final boolean ownerExecutable, final boolean groupReadable, final boolean groupWritable,
 				final boolean groupExecutable, final boolean otherReadable, final boolean otherWritable,

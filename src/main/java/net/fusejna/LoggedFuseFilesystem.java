@@ -379,6 +379,7 @@ final class LoggedFuseFilesystem extends FuseFilesystem
 	{
 		return log("mknod", 0, new LoggedMethod<Integer>()
 		{
+			@Override
 			public Integer invoke()
 			{
 				return filesystem.mknod(path, mode, dev);
@@ -430,6 +431,7 @@ final class LoggedFuseFilesystem extends FuseFilesystem
 	{
 		return log("read", 0, new LoggedMethod<Integer>()
 		{
+			@Override
 			public Integer invoke()
 			{
 				return filesystem.read(path, buffer, size, offset, info);
@@ -442,6 +444,7 @@ final class LoggedFuseFilesystem extends FuseFilesystem
 	{
 		return log("readdir", 0, new LoggedMethod<Integer>()
 		{
+			@Override
 			public Integer invoke()
 			{
 				return filesystem.readdir(path, filler);
@@ -454,6 +457,7 @@ final class LoggedFuseFilesystem extends FuseFilesystem
 	{
 		return log("readlink", 0, new LoggedMethod<Integer>()
 		{
+			@Override
 			public Integer invoke()
 			{
 				return filesystem.readlink(path, buffer, size);

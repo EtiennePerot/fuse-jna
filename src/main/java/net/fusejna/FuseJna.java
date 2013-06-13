@@ -56,11 +56,6 @@ public final class FuseJna
 	private static int currentUid = 0;
 	private static int currentGid = 0;
 
-	static StructFuseContext getFuseContext()
-	{
-		return init().fuse_get_context();
-	}
-
 	private static final String getFilesystemName(final File mountPoint, final String fuseName)
 	{
 		filesystemNameLock.lock();
@@ -75,6 +70,11 @@ public final class FuseJna
 		while (filesystemNames.put(mountPoint, fuseName + suffix) != null);
 		filesystemNameLock.unlock();
 		return fuseName + suffix;
+	}
+
+	static StructFuseContext getFuseContext()
+	{
+		return init().fuse_get_context();
 	}
 
 	static final int getGid()
