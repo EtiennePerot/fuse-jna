@@ -19,4 +19,4 @@ if [ ! -d "$mountPoint" ]; then
 fi
 
 gradle build
-java -cp lib/\*:build/libs/\* "$@"
+java -cp lib/jna/\*:build/libs/\* "$@"
