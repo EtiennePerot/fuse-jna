@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/EtiennePerot/fuse-jna.png)](https://travis-ci.org/EtiennePerot/fuse-jna)
+
 ## The straight dope
 #### Grab it
 
