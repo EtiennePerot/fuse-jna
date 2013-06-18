@@ -242,14 +242,14 @@ public final class MemoryFS extends FuseFilesystemAdapterAssumeImplemented
 	public int create(final String path, final ModeWrapper mode, final FileInfoWrapper info)
 	{
 		if (getPath(path) != null) {
-			return -ErrorCodes.EEXIST;
+			return -ErrorCodes.EEXIST();
 		}
 		final MemoryPath parent = getParentPath(path);
 		if (parent instanceof MemoryDirectory) {
 			((MemoryDirectory) parent).mkfile(getLastComponent(path));
 			return 0;
 		}
-		return -ErrorCodes.ENOENT;
+		return -ErrorCodes.ENOENT();
 	}
 
 	@Override
@@ -260,7 +260,7 @@ public final class MemoryFS extends FuseFilesystemAdapterAssumeImplemented
 			p.getattr(stat);
 			return 0;
 		}
-		return -ErrorCodes.ENOENT;
+		return -ErrorCodes.ENOENT();
 	}
 
 	private String getLastComponent(String path)
@@ -288,14 +288,14 @@ public final class MemoryFS extends FuseFilesystemAdapterAssumeImplemented
 	public int mkdir(final String path, final ModeWrapper mode)
 	{
 		if (getPath(path) != null) {
-			return -ErrorCodes.EEXIST;
+			return -ErrorCodes.EEXIST();
 		}
 		final MemoryPath parent = getParentPath(path);
 		if (parent instanceof MemoryDirectory) {
 			((MemoryDirectory) parent).mkdir(getLastComponent(path));
 			return 0;
 		}
-		return -ErrorCodes.ENOENT;
+		return -ErrorCodes.ENOENT();
 	}
 
 	@Override
@@ -309,10 +309,10 @@ public final class MemoryFS extends FuseFilesystemAdapterAssumeImplemented
 	{
 		final MemoryPath p = getPath(path);
 		if (p == null) {
-			return -ErrorCodes.ENOENT;
+			return -ErrorCodes.ENOENT();
 		}
 		if (!(p instanceof MemoryFile)) {
-			return -ErrorCodes.EISDIR;
+			return -ErrorCodes.EISDIR();
 		}
 		return ((MemoryFile) p).read(buffer, size, offset);
 	}
@@ -322,10 +322,10 @@ public final class MemoryFS extends FuseFilesystemAdapterAssumeImplemented
 	{
 		final MemoryPath p = getPath(path);
 		if (p == null) {
-			return -ErrorCodes.ENOENT;
+			return -ErrorCodes.ENOENT();
 		}
 		if (!(p instanceof MemoryDirectory)) {
-			return -ErrorCodes.ENOTDIR;
+			return -ErrorCodes.ENOTDIR();
 		}
 		((MemoryDirectory) p).read(filler);
 		return 0;
@@ -336,14 +336,14 @@ public final class MemoryFS extends FuseFilesystemAdapterAssumeImplemented
 	{
 		final MemoryPath p = getPath(path);
 		if (p == null) {
-			return -ErrorCodes.ENOENT;
+			return -ErrorCodes.ENOENT();
 		}
 		final MemoryPath newParent = getParentPath(newName);
 		if (newParent == null) {
-			return -ErrorCodes.ENOENT;
+			return -ErrorCodes.ENOENT();
 		}
 		if (!(newParent instanceof MemoryDirectory)) {
-			return -ErrorCodes.ENOTDIR;
+			return -ErrorCodes.ENOTDIR();
 		}
 		p.delete();
 		p.rename(newName.substring(newName.lastIndexOf("/")));
@@ -356,10 +356,10 @@ public final class MemoryFS extends FuseFilesystemAdapterAssumeImplemented
 	{
 		final MemoryPath p = getPath(path);
 		if (p == null) {
-			return -ErrorCodes.ENOENT;
+			return -ErrorCodes.ENOENT();
 		}
 		if (!(p instanceof MemoryDirectory)) {
-			return -ErrorCodes.ENOTDIR;
+			return -ErrorCodes.ENOTDIR();
 		}
 		p.delete();
 		return 0;
@@ -370,10 +370,10 @@ public final class MemoryFS extends FuseFilesystemAdapterAssumeImplemented
 	{
 		final MemoryPath p = getPath(path);
 		if (p == null) {
-			return -ErrorCodes.ENOENT;
+			return -ErrorCodes.ENOENT();
 		}
 		if (!(p instanceof MemoryFile)) {
-			return -ErrorCodes.EISDIR;
+			return -ErrorCodes.EISDIR();
 		}
 		((MemoryFile) p).truncate(offset);
 		return 0;
@@ -384,7 +384,7 @@ public final class MemoryFS extends FuseFilesystemAdapterAssumeImplemented
 	{
 		final MemoryPath p = getPath(path);
 		if (p == null) {
-			return -ErrorCodes.ENOENT;
+			return -ErrorCodes.ENOENT();
 		}
 		p.delete();
 		return 0;
@@ -396,10 +396,10 @@ public final class MemoryFS extends FuseFilesystemAdapterAssumeImplemented
 	{
 		final MemoryPath p = getPath(path);
 		if (p == null) {
-			return -ErrorCodes.ENOENT;
+			return -ErrorCodes.ENOENT();
 		}
 		if (!(p instanceof MemoryFile)) {
-			return -ErrorCodes.EISDIR;
+			return -ErrorCodes.EISDIR();
 		}
 		return ((MemoryFile) p).write(buf, bufSize, writeOffset);
 	}
