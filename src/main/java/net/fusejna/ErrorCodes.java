@@ -2,6 +2,14 @@ package net.fusejna;
 
 public interface ErrorCodes
 {
+	// error codes are different on BSD and Linux, therefore we try to detect BSD and handle the difference correctly here
+	// Note: this code is "borrowed" from Apache Commons Lang class SystemUtils...
+	public static final String OS_NAME = System.getProperty("os.name");
+	public static final boolean IS_OS_FREE_BSD = OS_NAME != null && OS_NAME.startsWith("FreeBSD");
+	public static final boolean IS_OS_OPEN_BSD = OS_NAME != null && OS_NAME.startsWith("OpenBSD");
+	public static final boolean IS_OS_NET_BSD = OS_NAME != null && OS_NAME.startsWith("NetBSD");
+	public static final boolean IS_OS_MAC_OSX = OS_NAME != null && OS_NAME.startsWith("Mac OS X");
+	public static final boolean IS_OS_BSD_DERIVATIVE = IS_OS_FREE_BSD || IS_OS_NET_BSD || IS_OS_OPEN_BSD || IS_OS_MAC_OSX;
 	/**
 	 * Operation not permitted
 	 */
@@ -45,7 +53,7 @@ public interface ErrorCodes
 	/**
 	 * Resource deadlock avoided
 	 */
-	public static final int EDEADLK = 11;
+	public static final int EDEADLK = IS_OS_BSD_DERIVATIVE ? 11 : 35;
 	/**
 	 * Cannot allocate memory
 	 */
@@ -141,7 +149,7 @@ public interface ErrorCodes
 	/**
 	 * Resource temporarily unavailable
 	 */
-	public static final int EAGAIN = 35;
+	public static final int EAGAIN = IS_OS_BSD_DERIVATIVE ? 35 : 11;
 	/**
 	 * Operation would block
 	 */
@@ -253,11 +261,11 @@ public interface ErrorCodes
 	/**
 	 * Too many levels of symbolic links
 	 */
-	public static final int ELOOP = 62;
+	public static final int ELOOP = IS_OS_BSD_DERIVATIVE ? 62 : 40;
 	/**
 	 * File name too long
 	 */
-	public static final int ENAMETOOLONG = 63;
+	public static final int ENAMETOOLONG = IS_OS_BSD_DERIVATIVE ? 63 : 36;
 	/**
 	 * Host is down
 	 */
@@ -269,7 +277,7 @@ public interface ErrorCodes
 	/**
 	 * Directory not empty
 	 */
-	public static final int ENOTEMPTY = 66;
+	public static final int ENOTEMPTY = IS_OS_BSD_DERIVATIVE ? 66 : 39;
 	/**
 	 * Too many processes
 	 */
@@ -313,11 +321,11 @@ public interface ErrorCodes
 	/**
 	 * No locks available
 	 */
-	public static final int ENOLCK = 77;
+	public static final int ENOLCK = IS_OS_BSD_DERIVATIVE ? 77 : 37;
 	/**
 	 * Function not implemented
 	 */
-	public static final int ENOSYS = 78;
+	public static final int ENOSYS = IS_OS_BSD_DERIVATIVE ? 78 : 38;
 	/**
 	 * Inappropriate file type or format
 	 */
@@ -333,11 +341,11 @@ public interface ErrorCodes
 	/**
 	 * Identifier removed
 	 */
-	public static final int EIDRM = 82;
+	public static final int EIDRM = IS_OS_BSD_DERIVATIVE ? 82 : 43;
 	/**
 	 * No message of desired type
 	 */
-	public static final int ENOMSG = 83;
+	public static final int ENOMSG = IS_OS_BSD_DERIVATIVE ? 83 : 42;
 	/**
 	 * Value too large to be stored in data type
 	 */
