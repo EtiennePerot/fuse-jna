@@ -205,14 +205,15 @@ public final class FuseJna
 	}
 
 	/**
-	 * Try to unmount an existing FUSE mountpoint. NOTE: This is usually done by the FuseFilesystem itself, either via close()
-	 * or via a shutdown hook for cases where Java exists unexpectedly. This method is only available for special cases, e.g.
-	 * where mountpoints were left over from previous invocations and need to be unmounted before the filesystem can be mounted
-	 * again.
+	 * Try to unmount an existing FUSE mountpoint. NOTE: You should use {@link FuseFilesystem#unmount FuseFilesystem.unmount()}
+	 * for unmounting the FuseFilesystem (or let the shutdown hook take care unmounting during shutdown of the application).
+	 * This method is available for special cases, e.g. where mountpoints were left over from previous invocations and need to
+	 * be unmounted before the filesystem can be mounted again.
 	 * 
 	 * @param mountPoint
 	 *            The location where the filesystem is mounted.
-	 * @return returns the result of calling "fusermount", 0 indicates success.
+	 * @return The exit code from running `fusermount` or `umount`, 0 indicates success. You can change the location of these
+	 *         utilities using `setFusermount` and `setUmount`.
 	 * @throws IOException
 	 *             thrown if an error occurs while starting the external process.
 	 */
@@ -225,8 +226,7 @@ public final class FuseJna
 		catch (final IOException e) {
 			process = new ProcessGobbler(FuseJna.umount, mountPoint.toString());
 		}
-		final int result = process.getReturnCode();
-		return result;
+		return process.getReturnCode();
 	}
 
 	static void unmount(final FuseFilesystem fuseFilesystem) throws IOException, FuseException
