@@ -96,13 +96,22 @@ public class StructFuseFileInfo extends Structure
 
 		public final boolean direct_io()
 		{
-			return fileinfo.direct_io != 0;
+			return (fileinfo.flags_bitfield & BIT_DIRECT_IO) != 0;
 		}
 
 		public final FileInfoWrapper direct_io(final boolean direct_io)
 		{
 			modified = true;
-			fileinfo.direct_io = direct_io ? 1 : 0;
+
+			if (direct_io)
+			{
+				fileinfo.flags_bitfield |= BIT_DIRECT_IO;
+			}
+			else
+			{
+				fileinfo.flags_bitfield &= ~BIT_DIRECT_IO;
+			}
+
 			return this;
 		}
 
@@ -144,25 +153,43 @@ public class StructFuseFileInfo extends Structure
 
 		public final boolean flush()
 		{
-			return fileinfo.flush != 0;
+			return (fileinfo.flags_bitfield & BIT_FLUSH) != 0;
 		}
 
 		public final FileInfoWrapper flush(final boolean flush)
 		{
 			modified = true;
-			fileinfo.flush = flush ? 1 : 0;
+
+			if (flush)
+			{
+				fileinfo.flags_bitfield |= BIT_FLUSH;
+			}
+			else
+			{
+				fileinfo.flags_bitfield &= ~BIT_FLUSH;
+			}
+
 			return this;
 		}
 
 		public final boolean keep_cache()
 		{
-			return fileinfo.keep_cache != 0;
+			return (fileinfo.flags_bitfield & BIT_KEEP_CACHE) != 0;
 		}
 
 		public final FileInfoWrapper keep_cache(final boolean keep_cache)
 		{
 			modified = true;
-			fileinfo.keep_cache = keep_cache ? 1 : 0;
+
+			if (keep_cache)
+			{
+				fileinfo.flags_bitfield |= BIT_KEEP_CACHE;
+			}
+			else
+			{
+				fileinfo.flags_bitfield &= ~BIT_KEEP_CACHE;
+			}
+
 			return this;
 		}
 
@@ -180,13 +207,42 @@ public class StructFuseFileInfo extends Structure
 
 		public final boolean nonseekable()
 		{
-			return fileinfo.nonseekable != 0;
+			return (fileinfo.flags_bitfield & BIT_NONSEEKABLE) != 0;
 		}
 
 		public final FileInfoWrapper nonseekable(final boolean nonseekable)
 		{
 			modified = true;
-			fileinfo.nonseekable = nonseekable ? 1 : 0;
+
+			if (nonseekable)
+			{
+				fileinfo.flags_bitfield |= BIT_NONSEEKABLE;
+			}
+			else
+			{
+				fileinfo.flags_bitfield &= ~BIT_NONSEEKABLE;
+			}
+			return this;
+		}
+
+
+		public final boolean flockrelease()
+		{
+			return (fileinfo.flags_bitfield & BIT_FLOCKRELEASE) != 0;
+		}
+
+		public final FileInfoWrapper flockrelease(final boolean flockrelease)
+		{
+			modified = true;
+
+			if (flockrelease)
+			{
+				fileinfo.flags_bitfield |= BIT_FLOCKRELEASE;
+			}
+			else
+			{
+				fileinfo.flags_bitfield &= ~BIT_FLOCKRELEASE;
+			}
 			return this;
 		}
 
@@ -245,8 +301,8 @@ public class StructFuseFileInfo extends Structure
 		}
 	}
 
-	public static final List<String> FIELD_ORDER = Arrays.asList("flags", "fh_old", "writepage", "direct_io", "keep_cache",
-			"flush", "nonseekable", "padding", "fh", "lock_owner");
+	public static final List<String> FIELD_ORDER = Arrays.asList("flags", "fh_old", "writepage", "flags_bitfield",
+					"fh", "lock_owner");
 	public static final int openMask = 03;
 	public static final int O_RDONLY = 00;
 	public static final int O_WRONLY = 01;
@@ -268,11 +324,14 @@ public class StructFuseFileInfo extends Structure
 	public int flags;
 	public NativeLong fh_old;
 	public int writepage;
-	public int direct_io = 1;
-	public int keep_cache = 1;
-	public int flush = 1;
-	public int nonseekable = 1;
-	public int padding = 28;
+
+	private static final int BIT_DIRECT_IO = 1 << 0;
+	private static final int BIT_KEEP_CACHE = 1 << 1;
+	private static final int BIT_FLUSH = 1 << 2;
+	private static final int BIT_NONSEEKABLE = 1 << 3;
+	private static final int BIT_FLOCKRELEASE = 1 << 4;
+	public int flags_bitfield;
+
 	public TypeUInt64 fh;
 	public TypeUInt64 lock_owner;
 
