@@ -103,12 +103,9 @@ public class StructFuseFileInfo extends Structure
 		{
 			modified = true;
 
-			if (direct_io)
-			{
+			if (direct_io) {
 				fileinfo.flags_bitfield |= BIT_DIRECT_IO;
-			}
-			else
-			{
+			} else {
 				fileinfo.flags_bitfield &= ~BIT_DIRECT_IO;
 			}
 
@@ -151,6 +148,23 @@ public class StructFuseFileInfo extends Structure
 			return this;
 		}
 
+		public final boolean flockrelease()
+		{
+			return (fileinfo.flags_bitfield & BIT_FLOCKRELEASE) != 0;
+		}
+
+		public final FileInfoWrapper flockrelease(final boolean flockrelease)
+		{
+			modified = true;
+
+			if (flockrelease) {
+				fileinfo.flags_bitfield |= BIT_FLOCKRELEASE;
+			} else {
+				fileinfo.flags_bitfield &= ~BIT_FLOCKRELEASE;
+			}
+			return this;
+		}
+
 		public final boolean flush()
 		{
 			return (fileinfo.flags_bitfield & BIT_FLUSH) != 0;
@@ -160,12 +174,9 @@ public class StructFuseFileInfo extends Structure
 		{
 			modified = true;
 
-			if (flush)
-			{
+			if (flush) {
 				fileinfo.flags_bitfield |= BIT_FLUSH;
-			}
-			else
-			{
+			} else {
 				fileinfo.flags_bitfield &= ~BIT_FLUSH;
 			}
 
@@ -181,12 +192,9 @@ public class StructFuseFileInfo extends Structure
 		{
 			modified = true;
 
-			if (keep_cache)
-			{
+			if (keep_cache) {
 				fileinfo.flags_bitfield |= BIT_KEEP_CACHE;
-			}
-			else
-			{
+			} else {
 				fileinfo.flags_bitfield &= ~BIT_KEEP_CACHE;
 			}
 
@@ -214,34 +222,10 @@ public class StructFuseFileInfo extends Structure
 		{
 			modified = true;
 
-			if (nonseekable)
-			{
+			if (nonseekable) {
 				fileinfo.flags_bitfield |= BIT_NONSEEKABLE;
-			}
-			else
-			{
+			} else {
 				fileinfo.flags_bitfield &= ~BIT_NONSEEKABLE;
-			}
-			return this;
-		}
-
-
-		public final boolean flockrelease()
-		{
-			return (fileinfo.flags_bitfield & BIT_FLOCKRELEASE) != 0;
-		}
-
-		public final FileInfoWrapper flockrelease(final boolean flockrelease)
-		{
-			modified = true;
-
-			if (flockrelease)
-			{
-				fileinfo.flags_bitfield |= BIT_FLOCKRELEASE;
-			}
-			else
-			{
-				fileinfo.flags_bitfield &= ~BIT_FLOCKRELEASE;
 			}
 			return this;
 		}
