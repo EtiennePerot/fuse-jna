@@ -12,16 +12,9 @@ import net.fusejna.StructFuseFileInfo.FileInfoWrapper;
 import net.fusejna.StructStat.StatWrapper;
 import net.fusejna.StructStatvfs.StatvfsWrapper;
 import net.fusejna.StructTimeBuffer.TimeBufferWrapper;
-import net.fusejna.types.TypeDev;
-import net.fusejna.types.TypeGid;
-import net.fusejna.types.TypeMode;
+import net.fusejna.types.*;
 import net.fusejna.types.TypeMode.ModeWrapper;
 import net.fusejna.types.TypeMode.NodeType;
-import net.fusejna.types.TypeOff;
-import net.fusejna.types.TypePid;
-import net.fusejna.types.TypeSize;
-import net.fusejna.types.TypeUInt32;
-import net.fusejna.types.TypeUid;
 
 import com.sun.jna.Function;
 import com.sun.jna.Pointer;
@@ -230,7 +223,7 @@ public abstract class FuseFilesystem
 	final int _readdir(final String path, final Pointer buf, final Pointer fillFunction, final TypeOff offset,
 			final StructFuseFileInfo info)
 	{
-		return readdir(path, new DirectoryFiller(buf, Function.getFunction(fillFunction)));
+		return readdir(path, new DirectoryFillerImpl(buf, Function.getFunction(fillFunction)));
 	}
 
 	@FuseMethod
