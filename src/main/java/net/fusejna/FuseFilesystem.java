@@ -139,7 +139,16 @@ public abstract class FuseFilesystem
 			return 0;
 		}
 		final ByteBuffer buf = buffer.getByteBuffer(0, sizeValue);
-		return getxattr(path, xattr, buf, sizeValue, position == null ? 0L : position.longValue());
+		final int result = getxattr(path, xattr, buf, sizeValue, position == null ? 0L : position.longValue());
+		if (result == 0) {
+			try {
+				buf.put((byte) 0);
+			}
+			catch (final BufferOverflowException e) {
+				return ErrorCodes.ERANGE();
+			}
+		}
+		return result;
 	}
 
 	@FuseMethod
@@ -231,7 +240,16 @@ public abstract class FuseFilesystem
 	{
 		final long bufSize = size.longValue();
 		final ByteBuffer buf = buffer.getByteBuffer(0, bufSize);
-		return readlink(path, buf, bufSize);
+		final int result = readlink(path, buf, bufSize);
+		if (result == 0) {
+			try {
+				buf.put((byte) 0);
+			}
+			catch (final BufferOverflowException e) {
+				return ErrorCodes.EFAULT();
+			}
+		}
+		return result;
 	}
 
 	@FuseMethod
