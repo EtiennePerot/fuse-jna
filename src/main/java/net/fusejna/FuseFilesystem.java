@@ -146,7 +146,7 @@ public abstract class FuseFilesystem
 				buf.put((byte) 0);
 			}
 			catch (final BufferOverflowException e) {
-				return ErrorCodes.ERANGE();
+				((ByteBuffer) buf.position(buf.limit() - 1)).put((byte) 0);
 			}
 		}
 		return result;
@@ -247,7 +247,7 @@ public abstract class FuseFilesystem
 				buf.put((byte) 0);
 			}
 			catch (final BufferOverflowException e) {
-				return ErrorCodes.EFAULT();
+				((ByteBuffer) buf.position(buf.limit() - 1)).put((byte) 0);
 			}
 		}
 		return result;
