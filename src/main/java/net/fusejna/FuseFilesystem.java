@@ -3,6 +3,7 @@ package net.fusejna;
 import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.nio.BufferOverflowException;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
@@ -139,7 +140,16 @@ public abstract class FuseFilesystem
 			return 0;
 		}
 		final ByteBuffer buf = buffer.getByteBuffer(0, sizeValue);
-		return getxattr(path, xattr, buf, sizeValue, position == null ? 0L : position.longValue());
+		final int result = getxattr(path, xattr, buf, sizeValue, position == null ? 0L : position.longValue());
+		if (result == 0) {
+			try {
+				buf.put((byte) 0);
+			}
+			catch (final BufferOverflowException e) {
+				((ByteBuffer) buf.position(buf.limit() - 1)).put((byte) 0);
+			}
+		}
+		return result;
 	}
 
 	@FuseMethod
@@ -231,7 +241,16 @@ public abstract class FuseFilesystem
 	{
 		final long bufSize = size.longValue();
 		final ByteBuffer buf = buffer.getByteBuffer(0, bufSize);
-		return readlink(path, buf, bufSize);
+		final int result = readlink(path, buf, bufSize);
+		if (result == 0) {
+			try {
+				buf.put((byte) 0);
+			}
+			catch (final BufferOverflowException e) {
+				((ByteBuffer) buf.position(buf.limit() - 1)).put((byte) 0);
+			}
+		}
+		return result;
 	}
 
 	@FuseMethod
