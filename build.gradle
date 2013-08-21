@@ -12,7 +12,6 @@ dependencies {
 task uberJar(type: Jar) {
 	description = 'Make JAR with all the dependencies included'
 	classifier = 'uber'
-	dependsOn jar
 	dependsOn configurations.runtime
 	from sourceSets.main.output
 	from { configurations.runtime.collect { it.isDirectory() ? it : zipTree(it) } }
