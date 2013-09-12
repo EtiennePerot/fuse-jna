@@ -2,9 +2,17 @@ apply plugin: 'java'
 apply plugin: 'idea'
 
 repositories {
-  flatDir { dir 'lib/jna' }
+	mavenCentral()
 }
 
 dependencies {
-  compile name: "jna-3.5.2"
+	compile 'net.java.dev.jna:jna:3.5.2'
+}
+
+task uberJar(type: Jar) {
+	description = 'Make JAR with all the dependencies included'
+	classifier = 'uber'
+	dependsOn configurations.runtime
+	from sourceSets.main.output
+	from { configurations.runtime.collect { it.isDirectory() ? it : zipTree(it) } }
 }
