@@ -18,5 +18,5 @@ if [ ! -d "$mountPoint" ]; then
 	mkdir -p "$mountPoint" || exit 1
 fi
 
-gradle build
-java -cp lib/jna/\*:build/libs/\* "$@"
+gradle uberJar
+java -cp build/libs/\* "$@"
