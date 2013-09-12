@@ -36,7 +36,7 @@ public class HelloFS extends FuseFilesystemAdapterFull
 			stat.setMode(NodeType.FILE).size(contents.length());
 			return 0;
 		}
-		return -ErrorCodes.ENEEDAUTH();
+		return -ErrorCodes.ENOENT();
 	}
 
 	@Override
