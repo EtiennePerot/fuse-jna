@@ -31,7 +31,7 @@ public abstract class FuseFilesystem
 	}
 
 	private static final String defaultFilesystemName = "userfs-";
-	private static final Pattern regexNormalizeFilesystemName = Pattern.compile("[a-zA-Z]");
+	private static final Pattern regexNormalizeFilesystemName = Pattern.compile("[^a-zA-Z]");
 	private final ReentrantLock mountLock = new ReentrantLock();
 	private final AutoUnmountHook unmountHook = new AutoUnmountHook(this);
 	private File mountPoint = null;
