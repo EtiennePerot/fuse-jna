@@ -2,6 +2,6 @@
 <classpath>
 	<classpathentry kind="src" path="src/main/java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
-	<classpathentry kind="lib" path="lib/jna/jna-3.5.2.jar" sourcepath="lib/jna/jna-3.5.2-sources.jar"/>
+	<classpathentry kind="lib" path="gradle/caches/artifacts-26/filestore/net.java.dev.jna/jna/3.5.2/jar/f1bf9fe267e17c1a8f7d1aa2c985e7fe81a06da6/jna-3.5.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -12,11 +12,14 @@ if ! which gradle &> /dev/null; then
   exit 1
 fi
 
-cd "`dirname "$0"`/.."
 mountPoint="${@: -1}"
 if [ ! -d "$mountPoint" ]; then
-	mkdir -p "$mountPoint" || exit 1
+	mkdir -p "$mountPoint"
 fi
+absoluteMountpoint="$(cd "$mountPoint" && pwd)"
+set -- "${@:1:$(expr "$#" - 1)}" "$absoluteMountpoint"
 
-gradle uberJar
+cd "$(dirname "$BASH_SOURCE")/.."
+
+GRADLE_USER_HOME=gradle gradle uberJar
 java -cp build/libs/\* "$@"
