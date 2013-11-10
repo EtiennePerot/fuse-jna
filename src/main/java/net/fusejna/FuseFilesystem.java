@@ -13,9 +13,16 @@ import net.fusejna.StructFuseFileInfo.FileInfoWrapper;
 import net.fusejna.StructStat.StatWrapper;
 import net.fusejna.StructStatvfs.StatvfsWrapper;
 import net.fusejna.StructTimeBuffer.TimeBufferWrapper;
-import net.fusejna.types.*;
+import net.fusejna.types.TypeDev;
+import net.fusejna.types.TypeGid;
+import net.fusejna.types.TypeMode;
 import net.fusejna.types.TypeMode.ModeWrapper;
 import net.fusejna.types.TypeMode.NodeType;
+import net.fusejna.types.TypeOff;
+import net.fusejna.types.TypePid;
+import net.fusejna.types.TypeSize;
+import net.fusejna.types.TypeUInt32;
+import net.fusejna.types.TypeUid;
 
 import com.sun.jna.Function;
 import com.sun.jna.Pointer;
@@ -348,6 +355,8 @@ public abstract class FuseFilesystem
 
 	public abstract void afterUnmount(final File mountPoint);
 
+	public abstract void beforeMount(final File mountPoint);
+
 	public abstract void beforeUnmount(final File mountPoint);
 
 	@UserMethod
@@ -532,16 +541,14 @@ public abstract class FuseFilesystem
 		}
 		this.mountPoint = mountPoint;
 		mountLock.unlock();
+		beforeMount(mountPoint);
 		FuseJna.mount(this, mountPoint, blocking);
-		onMount(mountPoint);
 	}
 
 	public final void mount(final String mountPoint) throws FuseException
 	{
 		mount(new File(mountPoint), true);
 	}
-
-	public abstract void onMount(final File mountPoint);
 
 	@UserMethod
 	public abstract int open(final String path, final FileInfoWrapper info);
@@ -599,13 +606,13 @@ public abstract class FuseFilesystem
 	public final void unmount() throws IOException, FuseException
 	{
 		mountLock.lock();
-		if (!isMounted()) {
-			return;
-		}
 		try {
+			if (!isMounted()) {
+				return;
+			}
 			beforeUnmount(mountPoint);
-			FuseJna.unmount(this);
 			final File oldMountPoint = mountPoint;
+			FuseJna.unmount(this);
 			mountPoint = null;
 			afterUnmount(oldMountPoint);
 		}

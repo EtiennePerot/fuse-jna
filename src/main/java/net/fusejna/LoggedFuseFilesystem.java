@@ -65,6 +65,19 @@ final class LoggedFuseFilesystem extends FuseFilesystem
 	}
 
 	@Override
+	public void beforeMount(final File mountPoint)
+	{
+		log("beforeMount", new LoggedVoidMethod()
+		{
+			@Override
+			public void invoke()
+			{
+				filesystem.beforeMount(mountPoint);
+			}
+		}, mountPoint.toString());
+	}
+
+	@Override
 	public void beforeUnmount(final File mountPoint)
 	{
 		log("beforeUnmount", new LoggedVoidMethod()
@@ -385,19 +398,6 @@ final class LoggedFuseFilesystem extends FuseFilesystem
 				return filesystem.mknod(path, mode, dev);
 			}
 		}, path, mode, dev);
-	}
-
-	@Override
-	public void onMount(final File mountPoint)
-	{
-		log("onMount", new LoggedVoidMethod()
-		{
-			@Override
-			public void invoke()
-			{
-				filesystem.onMount(mountPoint);
-			}
-		}, mountPoint.toString());
 	}
 
 	@Override

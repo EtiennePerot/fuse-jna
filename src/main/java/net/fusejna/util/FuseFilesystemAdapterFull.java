@@ -33,6 +33,11 @@ public abstract class FuseFilesystemAdapterFull extends FuseFilesystem
 	}
 
 	@Override
+	public void beforeMount(final File mountPoint)
+	{
+	}
+
+	@Override
 	public void beforeUnmount(final File mountPoint)
 	{
 	}
@@ -153,11 +158,6 @@ public abstract class FuseFilesystemAdapterFull extends FuseFilesystem
 	public int mknod(final String path, final ModeWrapper mode, final long dev)
 	{
 		return create(path, mode, null);
-	}
-
-	@Override
-	public void onMount(final File mountPoint)
-	{
 	}
 
 	@Override
