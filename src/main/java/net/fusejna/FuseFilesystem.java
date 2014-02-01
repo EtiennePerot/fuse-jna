@@ -2,8 +2,8 @@ package net.fusejna;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.nio.BufferOverflowException;
+import java.nio.ByteBuffer;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
@@ -143,20 +143,11 @@ public abstract class FuseFilesystem
 			final TypeUInt32 position)
 	{
 		final long sizeValue = size.longValue();
-		if (buffer == null || sizeValue == 0L) {
-			return 0;
-		}
-		final ByteBuffer buf = buffer.getByteBuffer(0, sizeValue);
-		final int result = getxattr(path, xattr, buf, sizeValue, position == null ? 0L : position.longValue());
-		if (result == 0) {
-			try {
-				buf.put((byte) 0);
-			}
-			catch (final BufferOverflowException e) {
-				((ByteBuffer) buf.position(buf.limit() - 1)).put((byte) 0);
-			}
-		}
-		return result;
+		final int positionValue = position == null ? 0 : position.intValue();
+		final XattrFiller filler = new XattrFiller(buffer == null ? null : buffer.getByteBuffer(0, sizeValue), sizeValue,
+				positionValue);
+		final int result = getxattr(path, xattr, filler, sizeValue, position == null ? 0L : position.longValue());
+		return result < 0 ? result : (int) filler.getSize();
 	}
 
 	@FuseMethod
@@ -175,11 +166,10 @@ public abstract class FuseFilesystem
 	final int _listxattr(final String path, final Pointer buffer, final TypeSize size)
 	{
 		final long sizeValue = size.longValue();
-		if (buffer == null || sizeValue == 0L) {
-			return 0;
-		}
-		final XattrListFiller filler = new XattrListFiller(buffer.getByteBuffer(0, sizeValue), sizeValue);
-		return listxattr(path, filler);
+		final XattrListFiller filler = new XattrListFiller(buffer == null ? null : buffer.getByteBuffer(0, sizeValue),
+				sizeValue);
+		final int result = listxattr(path, filler);
+		return result < 0 ? result : (int) filler.requiredSize();
 	}
 
 	@FuseMethod
@@ -294,11 +284,12 @@ public abstract class FuseFilesystem
 	}
 
 	@FuseMethod
-	final int _setxattr(final String path, final Pointer buffer, final TypeSize size, final int flags, final TypeUInt32 position)
+	final int _setxattr(final String path, final String xattr, final Pointer value, final TypeSize size, final int flags,
+			final int position)
 	{
 		final long sizeValue = size.longValue();
-		final ByteBuffer buf = buffer.getByteBuffer(0, sizeValue);
-		return setxattr(path, buf, sizeValue, flags, position == null ? 0L : position.longValue());
+		final ByteBuffer val = value.getByteBuffer(0, sizeValue);
+		return setxattr(path, xattr, val, sizeValue, flags, position);
 	}
 
 	@FuseMethod
@@ -485,7 +476,7 @@ public abstract class FuseFilesystem
 	}
 
 	@UserMethod
-	public abstract int getxattr(final String path, final String xattr, final ByteBuffer buf, final long size,
+	public abstract int getxattr(final String path, final String xattr, final XattrFiller filler, final long size,
 			final long position);
 
 	@FuseMethod
@@ -589,7 +580,8 @@ public abstract class FuseFilesystem
 	}
 
 	@UserMethod
-	public abstract int setxattr(final String path, final ByteBuffer buf, final long size, final int flags, final long position);
+	public abstract int setxattr(final String path, final String xattr, final ByteBuffer value, final long size,
+			final int flags, final int position);
 
 	@UserMethod
 	public abstract int statfs(final String path, final StatvfsWrapper wrapper);

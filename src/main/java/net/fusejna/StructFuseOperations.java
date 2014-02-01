@@ -314,10 +314,10 @@ public class StructFuseOperations extends Structure
 			case MAC_MACFUSE:
 				setxattr = new Callback()
 				{
-					public final int callback(final String path, final String xattr, final Pointer buffer, final TypeSize size,
-							final int flags, final TypeUInt32 position)
+					public final int callback(final String path, final String xattr, final Pointer value, final TypeSize size,
+							final int flags, final int position)
 					{
-						return filesystem._setxattr(path, buffer, size, flags, position);
+						return filesystem._setxattr(path, xattr, value, size, flags, position);
 					}
 				};
 				getxattr = new Callback()
@@ -332,10 +332,10 @@ public class StructFuseOperations extends Structure
 			default:
 				setxattr = new Callback()
 				{
-					public final int callback(final String path, final String xattr, final Pointer buffer, final TypeSize size,
+					public final int callback(final String path, final String xattr, final Pointer value, final TypeSize size,
 							final int flags)
 					{
-						return filesystem._setxattr(path, buffer, size, flags, null);
+						return filesystem._setxattr(path, xattr, value, size, flags, 0);
 					}
 				};
 				getxattr = new Callback()

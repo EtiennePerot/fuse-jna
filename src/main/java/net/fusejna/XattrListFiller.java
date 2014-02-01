@@ -27,19 +27,21 @@ public final class XattrListFiller
 			if (addedXattrs.contains(xattr)) {
 				continue;
 			}
-			if (currentSize >= maxSize) {
+			if (currentSize >= maxSize && buffer != null) {
 				return false;
 			}
 			bytes = xattr.getBytes();
 			hasNullByte = bytes[bytes.length - 1] == 0;
 			size = bytes.length + (hasNullByte ? 0 : 1);
-			if (currentSize + size > maxSize) {
+			if (currentSize + size > maxSize && buffer != null) {
 				return false;
 			}
 			addedXattrs.add(xattr);
-			buffer.put(bytes);
-			if (!hasNullByte) {
-				buffer.put((byte) 0);
+			if (buffer != null) {
+				buffer.put(bytes);
+				if (!hasNullByte) {
+					buffer.put((byte) 0);
+				}
 			}
 			currentSize += size;
 		}
@@ -49,6 +51,11 @@ public final class XattrListFiller
 	public final boolean add(final String... xattrs)
 	{
 		return add(Arrays.asList(xattrs));
+	}
+
+	public final long requiredSize()
+	{
+		return currentSize;
 	}
 
 	@Override

@@ -22,8 +22,8 @@ public class HelloFS extends FuseFilesystemAdapterFull
 		new HelloFS().log(true).mount(args[0]);
 	}
 
-	private final String filename = "/hello.txt";
-	private final String contents = "Hello World!\n";
+	final String filename = "/hello.txt";
+	final String contents = "Hello World!\n";
 
 	@Override
 	public int getattr(final String path, final StatWrapper stat)

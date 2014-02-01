@@ -3329,6 +3329,16 @@ public final class ErrorCodes
 		return getPlatformErrorCodes().EXFULL();
 	}
 
+	public static final Integer firstNonNull(final Integer... errorCodes)
+	{
+		for (final Integer i : errorCodes) {
+			if (i != null) {
+				return i;
+			}
+		}
+		return null;
+	}
+
 	private static final IErrorCodes getPlatformErrorCodes()
 	{
 		if (platformErrorCodes == null) {

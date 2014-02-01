@@ -14,7 +14,7 @@ import net.fusejna.types.TypeMode.ModeWrapper;
 import net.fusejna.types.TypeMode.NodeType;
 import net.fusejna.util.FuseFilesystemAdapterAssumeImplemented;
 
-public final class MemoryFS extends FuseFilesystemAdapterAssumeImplemented
+public class MemoryFS extends FuseFilesystemAdapterAssumeImplemented
 {
 	private final class MemoryDirectory extends MemoryPath
 	{

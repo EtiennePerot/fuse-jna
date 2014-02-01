@@ -12,6 +12,7 @@ import net.fusejna.StructFuseFileInfo.FileInfoWrapper;
 import net.fusejna.StructStat.StatWrapper;
 import net.fusejna.StructStatvfs.StatvfsWrapper;
 import net.fusejna.StructTimeBuffer.TimeBufferWrapper;
+import net.fusejna.XattrFiller;
 import net.fusejna.XattrListFiller;
 import net.fusejna.types.TypeMode.ModeWrapper;
 
@@ -120,7 +121,7 @@ public abstract class FuseFilesystemAdapterFull extends FuseFilesystem
 	}
 
 	@Override
-	public int getxattr(final String path, final String xattr, final ByteBuffer buf, final long size, final long position)
+	public int getxattr(final String path, final String xattr, final XattrFiller filler, final long size, final long position)
 	{
 		return -ErrorCodes.ENOSYS();
 	}
@@ -221,7 +222,8 @@ public abstract class FuseFilesystemAdapterFull extends FuseFilesystem
 	}
 
 	@Override
-	public int setxattr(final String path, final ByteBuffer buf, final long size, final int flags, final long position)
+	public int setxattr(final String path, final String xattr, final ByteBuffer buf, final long size, final int flags,
+			final int position)
 	{
 		return -ErrorCodes.ENOSYS();
 	}
