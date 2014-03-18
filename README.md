@@ -24,7 +24,11 @@ There's another example filesystem that you can use, which is writable:
 
 3. The filesystem will be unmounted automatically at JVM shutdown time if possible. You can unmount it at runtime using `.unmount()`.
 
-4. *(Bonus)* You can get logging for free by calling `.log(true)` or `.log(myLogger)` on the filesystem instance.
+4. ???
+
+5. Profit.
+
+6. *(Bonus)* You can get logging for free by calling `.log(true)` or `.log(myLogger)` on the filesystem instance.
 
 ## The longer stuff
 #### The idea
@@ -32,10 +36,10 @@ fuse-jna was born out of the desire for no-compilation-required, no-bullshit, ac
 
 Originally built to make the OS X/Linux port of [SrcDemo²] possible, it was separated into its own library because I figured others would benefit from it.
 
-I like Python, and I like using [fuse.py] when writing FUSE filesystems in Python. Thanks to ctypes, only one file and you get nice, straight Python bindings.
+I like Python, and I like using [fuse.py] when writing FUSE filesystems in Python. Thanks to `ctypes`, it comes in just one file and that's all you need for nice 'n' straight Python bindings.
 The goal of fuse-jna is to bring FUSE bindings to Java with the same simplicity.
 
-To do that, it uses [JNA], which was inspired by Python's ctypes in terms of ease-of-use.
+To do that, it uses [JNA], which itself was inspired by Python's `ctypes` in terms of ease-of-use.
 
 #### Compatibility
 
