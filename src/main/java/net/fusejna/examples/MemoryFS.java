@@ -30,10 +30,15 @@ public class MemoryFS extends FuseFilesystemAdapterAssumeImplemented
 			super(name, parent);
 		}
 
-		public void add(final MemoryPath p)
+		public synchronized void add(final MemoryPath p)
 		{
 			contents.add(p);
 			p.parent = this;
+		}
+
+		private synchronized void deleteChild(final MemoryPath child)
+		{
+			contents.remove(child);
 		}
 
 		@Override
@@ -45,19 +50,21 @@ public class MemoryFS extends FuseFilesystemAdapterAssumeImplemented
 			while (path.startsWith("/")) {
 				path = path.substring(1);
 			}
-			if (!path.contains("/")) {
-				for (final MemoryPath p : contents) {
-					if (p.name.equals(path)) {
-						return p;
+			synchronized (this) {
+				if (!path.contains("/")) {
+					for (final MemoryPath p : contents) {
+						if (p.name.equals(path)) {
+							return p;
+						}
 					}
+					return null;
 				}
-				return null;
-			}
-			final String nextName = path.substring(0, path.indexOf("/"));
-			final String rest = path.substring(path.indexOf("/"));
-			for (final MemoryPath p : contents) {
-				if (p.name.equals(nextName)) {
-					return p.find(rest);
+				final String nextName = path.substring(0, path.indexOf("/"));
+				final String rest = path.substring(path.indexOf("/"));
+				for (final MemoryPath p : contents) {
+					if (p.name.equals(nextName)) {
+						return p.find(rest);
+					}
 				}
 			}
 			return null;
@@ -69,17 +76,17 @@ public class MemoryFS extends FuseFilesystemAdapterAssumeImplemented
 			stat.setMode(NodeType.DIRECTORY);
 		}
 
-		private void mkdir(final String lastComponent)
+		private synchronized void mkdir(final String lastComponent)
 		{
 			contents.add(new MemoryDirectory(lastComponent, this));
 		}
 
-		public void mkfile(final String lastComponent)
+		public synchronized void mkfile(final String lastComponent)
 		{
 			contents.add(new MemoryFile(lastComponent, this));
 		}
 
-		public void read(final DirectoryFiller filler)
+		public synchronized void read(final DirectoryFiller filler)
 		{
 			for (final MemoryPath p : contents) {
 				filler.add(p.name);
@@ -116,22 +123,23 @@ public class MemoryFS extends FuseFilesystemAdapterAssumeImplemented
 		@Override
 		protected void getattr(final StatWrapper stat)
 		{
-			stat.setMode(NodeType.FILE);
-			stat.size(contents.capacity());
+			stat.setMode(NodeType.FILE).size(contents.capacity());
 		}
 
 		private int read(final ByteBuffer buffer, final long size, final long offset)
 		{
 			final int bytesToRead = (int) Math.min(contents.capacity() - offset, size);
 			final byte[] bytesRead = new byte[bytesToRead];
-			contents.position((int) offset);
-			contents.get(bytesRead, 0, bytesToRead);
-			buffer.put(bytesRead);
-			contents.position(0); // Rewind
+			synchronized (this) {
+				contents.position((int) offset);
+				contents.get(bytesRead, 0, bytesToRead);
+				buffer.put(bytesRead);
+				contents.position(0); // Rewind
+			}
 			return bytesToRead;
 		}
 
-		private void truncate(final long size)
+		private synchronized void truncate(final long size)
 		{
 			if (size < contents.capacity()) {
 				// Need to create a new, smaller buffer
@@ -146,17 +154,19 @@ public class MemoryFS extends FuseFilesystemAdapterAssumeImplemented
 		private int write(final ByteBuffer buffer, final long bufSize, final long writeOffset)
 		{
 			final int maxWriteIndex = (int) (writeOffset + bufSize);
-			if (maxWriteIndex > contents.capacity()) {
-				// Need to create a new, larger buffer
-				final ByteBuffer newContents = ByteBuffer.allocate(maxWriteIndex);
-				newContents.put(contents);
-				contents = newContents;
-			}
 			final byte[] bytesToWrite = new byte[(int) bufSize];
-			buffer.get(bytesToWrite, 0, (int) bufSize);
-			contents.position((int) writeOffset);
-			contents.put(bytesToWrite);
-			contents.position(0); // Rewind
+			synchronized (this) {
+				if (maxWriteIndex > contents.capacity()) {
+					// Need to create a new, larger buffer
+					final ByteBuffer newContents = ByteBuffer.allocate(maxWriteIndex);
+					newContents.put(contents);
+					contents = newContents;
+				}
+				buffer.get(bytesToWrite, 0, (int) bufSize);
+				contents.position((int) writeOffset);
+				contents.put(bytesToWrite);
+				contents.position(0); // Rewind
+			}
 			return (int) bufSize;
 		}
 	}
@@ -177,10 +187,10 @@ public class MemoryFS extends FuseFilesystemAdapterAssumeImplemented
 			this.parent = parent;
 		}
 
-		private void delete()
+		private synchronized void delete()
 		{
 			if (parent != null) {
-				parent.contents.remove(this);
+				parent.deleteChild(this);
 				parent = null;
 			}
 		}
