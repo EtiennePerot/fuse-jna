@@ -63,29 +63,34 @@ final class ProcessGobbler
 
 	int getReturnCode()
 	{
-		join();
-		return returnCode;
-	}
-
-	String getStderr()
-	{
-		join();
-		return stderr.getContents();
-	}
-
-	String getStdout()
-	{
-		join();
-		return stdout.getContents();
-	}
-
-	private void join()
-	{
 		try {
 			returnCode = process.waitFor();
 		}
 		catch (final InterruptedException e) {
 			// Too bad
 		}
+		return returnCode;
+	}
+
+	String getStderr()
+	{
+		try {
+			stderr.join();
+		}
+		catch (final InterruptedException e) {
+			return null;
+		}
+		return stderr.getContents();
+	}
+
+	String getStdout()
+	{
+		try {
+			stdout.join();
+		}
+		catch (final InterruptedException e) {
+			return null;
+		}
+		return stdout.getContents();
 	}
 }
