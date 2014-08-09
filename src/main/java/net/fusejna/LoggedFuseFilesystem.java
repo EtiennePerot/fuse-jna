@@ -184,7 +184,7 @@ final class LoggedFuseFilesystem extends FuseFilesystem
 	@Override
 	public int fsync(final String path, final int datasync, final FileInfoWrapper info)
 	{
-		return log("flush", 0, new LoggedMethod<Integer>()
+		return log("fsync", 0, new LoggedMethod<Integer>()
 		{
 			@Override
 			public Integer invoke()
@@ -210,7 +210,7 @@ final class LoggedFuseFilesystem extends FuseFilesystem
 	@Override
 	public int ftruncate(final String path, final long offset, final FileInfoWrapper info)
 	{
-		return log("getattr", 0, new LoggedMethod<Integer>()
+		return log("ftruncate", 0, new LoggedMethod<Integer>()
 		{
 			@Override
 			public Integer invoke()
