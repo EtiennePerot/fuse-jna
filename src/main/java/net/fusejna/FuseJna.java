@@ -56,6 +56,19 @@ public final class FuseJna
 	private static int currentUid = 0;
 	private static int currentGid = 0;
 
+	static void destroyed(final FuseFilesystem fuseFilesystem)
+	{
+		if (handleShutdownHooks()) {
+			try {
+				Runtime.getRuntime().removeShutdownHook(fuseFilesystem.getUnmountHook());
+			}
+			catch (final IllegalStateException e) {
+				// Already shutting down; this is fine and expected, ignore the exception.
+			}
+		}
+		unregisterFilesystemName(fuseFilesystem.getMountPoint());
+	}
+
 	private static final String getFilesystemName(final File mountPoint, final String fuseName)
 	{
 		filesystemNameLock.lock();
@@ -231,20 +244,11 @@ public final class FuseJna
 
 	static void unmount(final FuseFilesystem fuseFilesystem) throws IOException, FuseException
 	{
-		if (handleShutdownHooks()) {
-			try {
-				Runtime.getRuntime().removeShutdownHook(fuseFilesystem.getUnmountHook());
-			}
-			catch (final IllegalStateException e) {
-				// Already shutting down; this is fine and expected, ignore the exception.
-			}
-		}
 		final File mountPoint = fuseFilesystem.getMountPoint();
 		final int result = unmount(mountPoint);
 		if (result != 0) {
 			throw new FuseException(result);
 		}
-		unregisterFilesystemName(fuseFilesystem.getMountPoint());
 	}
 
 	private static final void unregisterFilesystemName(final File mountPoint)

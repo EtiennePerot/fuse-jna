@@ -39,11 +39,6 @@ public abstract class FuseFilesystemAdapterFull extends FuseFilesystem
 	}
 
 	@Override
-	public void beforeUnmount(final File mountPoint)
-	{
-	}
-
-	@Override
 	public int bmap(final String path, final FileInfoWrapper info)
 	{
 		return 0;

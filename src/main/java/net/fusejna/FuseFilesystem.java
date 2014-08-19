@@ -29,7 +29,7 @@ import com.sun.jna.Pointer;
 
 public abstract class FuseFilesystem
 {
-	private static @interface FuseMethod
+	static @interface FuseMethod
 	{
 	}
 
@@ -39,6 +39,37 @@ public abstract class FuseFilesystem
 
 	private static final String defaultFilesystemName = "userfs-";
 	private static final Pattern regexNormalizeFilesystemName = Pattern.compile("[^a-zA-Z]");
+
+	/**
+	 * Perform destroy-time cleanup. Takes two {@link FuseFilesystem}s arguments which should be equal in most cases, but may
+	 * not in the case of a wrapped filesystem object for logging ({@link LoggedFuseFilesystem}).
+	 * 
+	 * @param mountedFilesystem
+	 *            The {@link FuseFilesystem} object that is actually mounted (the one receiving the destroy call)
+	 * @param userFilesystem
+	 *            The {@link FuseFilesystem} that the user believes is mounted (the one that the user called .mount on)
+	 */
+	final static void _destroy(final FuseFilesystem mountedFilesystem, final FuseFilesystem userFilesystem)
+	{
+		final File oldMountPoint;
+		mountedFilesystem.mountLock.lock();
+		userFilesystem.mountLock.lock();
+		try {
+			if (!mountedFilesystem.isMounted()) {
+				throw new IllegalStateException("destroy called on a non-mounted filesystem");
+			}
+			oldMountPoint = mountedFilesystem.mountPoint;
+			FuseJna.destroyed(mountedFilesystem);
+			userFilesystem.mountPoint = null;
+			mountedFilesystem.mountPoint = null;
+		}
+		finally {
+			userFilesystem.mountLock.unlock();
+			mountedFilesystem.mountLock.unlock();
+		}
+		mountedFilesystem.afterUnmount(oldMountPoint);
+	}
+
 	private final ReentrantLock mountLock = new ReentrantLock();
 	private final AutoUnmountHook unmountHook = new AutoUnmountHook(this);
 	private File mountPoint = null;
@@ -81,9 +112,10 @@ public abstract class FuseFilesystem
 	}
 
 	@FuseMethod
-	final void _destroy()
+	void _destroy()
 	{
 		destroy();
+		_destroy(this, this);
 	}
 
 	@FuseMethod
@@ -348,8 +380,6 @@ public abstract class FuseFilesystem
 
 	public abstract void beforeMount(final File mountPoint);
 
-	public abstract void beforeUnmount(final File mountPoint);
-
 	@UserMethod
 	public abstract int bmap(final String path, final FileInfoWrapper info);
 
@@ -600,20 +630,10 @@ public abstract class FuseFilesystem
 
 	public final void unmount() throws IOException, FuseException
 	{
-		mountLock.lock();
-		try {
-			if (!isMounted()) {
-				return;
-			}
-			beforeUnmount(mountPoint);
-			final File oldMountPoint = mountPoint;
-			FuseJna.unmount(this);
-			mountPoint = null;
-			afterUnmount(oldMountPoint);
+		if (!isMounted()) {
+			throw new IllegalStateException("Tried to unmount a filesystem which is not mounted");
 		}
-		finally {
-			mountLock.unlock();
-		}
+		FuseJna.unmount(this);
 	}
 
 	@UserMethod
