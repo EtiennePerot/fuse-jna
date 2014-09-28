@@ -1,5 +1,9 @@
 apply plugin: 'java'
 apply plugin: 'idea'
+apply plugin: 'maven-publish'
+
+group = 'fuse-jna'
+version = '1.0.3'
 
 repositories {
 	mavenCentral()
@@ -14,5 +18,21 @@ task uberJar(type: Jar) {
 	classifier = 'uber'
 	dependsOn configurations.runtime
 	from sourceSets.main.output
-	from { configurations.runtime.collect { it.isDirectory() ? it : zipTree(it) } }
+	from { configurations.runtime.collect { it.directory ? it : zipTree(it) } }
+}
+
+task sourceJar(type: Jar) {
+    description = 'Make JAR of all the source files'
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+            artifact sourceJar
+            artifact uberJar
+        }
+    }
 }
