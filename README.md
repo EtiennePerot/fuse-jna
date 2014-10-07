@@ -60,6 +60,7 @@ Following [fuse.py], fuse-jna should work with:
 * [JGitFS](https://github.com/centic9/JGitFS): Displays Git branches, tags and commits as files
 * [GithubFS](https://github.com/akiellor/githubfs): Expose GitHub issues as files
 * [Java FUSE Mirror File System](https://github.com/Syed-Rahman-Mashwani/Java-FUSE-Mirror-File-System): Mirror filesystem stub implementation
+* [gdrivefs](http://www.gdrivefs.com/): Google Drive Linux client
 
 Feel free to [open an issue](https://github.com/EtiennePerot/fuse-jna/issues/new) to get your project added here.
 
