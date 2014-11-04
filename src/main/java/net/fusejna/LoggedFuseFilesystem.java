@@ -489,7 +489,7 @@ final class LoggedFuseFilesystem extends FuseFilesystem
 	@Override
 	public int removexattr(final String path, final String xattr)
 	{
-		return log("remtoexattr", 0, new LoggedMethod<Integer>()
+		return log("removexattr", 0, new LoggedMethod<Integer>()
 		{
 			@Override
 			public Integer invoke()
