@@ -1,15 +1,19 @@
-package net.fusejna.examples;
+package net.fusejna.examples
 
-import java.io.File;
-import java.nio.ByteBuffer;
 
-import net.fusejna.DirectoryFiller;
-import net.fusejna.ErrorCodes;
-import net.fusejna.FuseException;
-import net.fusejna.StructFuseFileInfo.FileInfoWrapper;
-import net.fusejna.StructStat.StatWrapper;
-import net.fusejna.types.TypeMode.NodeType;
-import net.fusejna.util.FuseFilesystemAdapterFull;
+import java.util.Map
+import java.util.Arrays
+import java.util.HashMap
+import java.nio.ByteBuffer
+import net.fusejna.DirectoryFiller
+import net.fusejna.ErrorCodes
+import net.fusejna.FuseException
+import net.fusejna.StructFuseFileInfo.FileInfoWrapper
+import net.fusejna.StructStat.StatWrapper
+import net.fusejna.types.TypeMode.NodeType
+import net.fusejna.util.FuseFilesystemAdapterFull
+import net.fusejna.XattrFiller;
+import net.fusejna.XattrListFiller;
 
 public class GroovyFS extends FuseFilesystemAdapterFull
 {
@@ -22,8 +26,15 @@ public class GroovyFS extends FuseFilesystemAdapterFull
 		new GroovyFS().log(true).mount(args[0]);
 	}
 
-	final String filename = "/hello.txt";
-	final String contents = "Hello World!\n";
+	 def slurper = new groovy.json.JsonSlurper()
+         def helloTxtAttrs = slurper.parseText '''
+	      {
+		"user.attr1" : "xattr 1 value",
+		"user.attr2" : "xattr 2 value",
+		"user.attr3" : "xattr 3 value"
+             }'''
+	final String filename = "/psaux.txt"
+	final String contents = "ps aux".execute().text  //groovy comes with a built-in .execute() method on strings
 
 	@Override
 	public int getattr(final String path, final StatWrapper stat)
@@ -55,4 +66,29 @@ public class GroovyFS extends FuseFilesystemAdapterFull
 		filler.add(filename);
 		return 0;
 	}
+        @Override
+        public int listxattr(final String path, final XattrListFiller filler)
+        {
+		println "got xattrquestion for " + path
+                if (!path.equals(filename)) {
+			echo "path not correct?"
+                        return -ErrorCodes.ENOTSUP();
+                }
+		println "keyset: " + helloTxtAttrs.keySet()
+                filler.add(helloTxtAttrs.keySet());
+                return 0;
+        }
+	@Override
+        public int getxattr(final String path, final String xattr, final XattrFiller filler,  final long size, final long position)
+        {
+                if (!path.equals(filename)) {
+                        return -ErrorCodes.firstNonNull(ErrorCodes.ENOATTR(), ErrorCodes.ENOATTR(), ErrorCodes.ENODATA());
+                }
+                if (!helloTxtAttrs.containsKey(xattr)) {
+                        return -ErrorCodes.firstNonNull(ErrorCodes.ENOATTR(), ErrorCodes.ENOATTR(), ErrorCodes.ENODATA());
+                }
+                filler.set(helloTxtAttrs.get(xattr).getBytes());
+                return 0;
+        };
 }
+
