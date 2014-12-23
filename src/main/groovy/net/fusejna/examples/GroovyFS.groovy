@@ -26,15 +26,15 @@ public class GroovyFS extends FuseFilesystemAdapterFull
 		new GroovyFS().log(true).mount(args[0]);
 	}
 
-	 def slurper = new groovy.json.JsonSlurper()
-	 def helloTxtAttrs = slurper.parseText '''
-	      {
+	def slurper = new groovy.json.JsonSlurper()
+	def helloTxtAttrs = slurper.parseText '''
+	{
 		"user.attr1" : "xattr 1 value",
 		"user.attr2" : "xattr 2 value",
 		"user.attr3" : "xattr 3 value"
-	     }'''
+	}'''
 	final String filename = "/psaux.txt"
-	String contents = "ps aux".execute().text;
+	String contents = "ps aux".execute().text
 
 	@Override
 	public int getattr(final String path, final StatWrapper stat)
@@ -43,27 +43,23 @@ public class GroovyFS extends FuseFilesystemAdapterFull
 			stat.setMode(NodeType.DIRECTORY);
 			return 0;
 		}
-		if (path.equals(filename)) { // hello.txt
+		if (path.equals(filename)) { // psaux.txt
 			stat.setMode(NodeType.FILE).size(contents.length());
 			return 0;
 		}
 		return -ErrorCodes.ENOENT();
 	}
-
 	@Override
 	public int read(final String path, final ByteBuffer buffer, final long size, final long offset, final FileInfoWrapper info)
 	{
 		synchronized(this) {
-			if (offset == 0)
-				this.contents = "ps aux".execute().text  //groovy comes with a built-in .execute() method on strings
 			// Compute substring that we are being asked to read
-			final String s = this.contents.substring((int) offset,
+			final String s = contents.substring((int) offset,
 				(int) Math.max(offset, Math.min(contents.length() - offset, offset + size)));
 			buffer.put(s.getBytes());
 			return s.getBytes().length;
 		}
 	}
-
 	@Override
 	public int readdir(final String path, final DirectoryFiller filler)
 	{
