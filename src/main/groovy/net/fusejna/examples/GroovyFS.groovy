@@ -52,13 +52,11 @@ public class GroovyFS extends FuseFilesystemAdapterFull
 	@Override
 	public int read(final String path, final ByteBuffer buffer, final long size, final long offset, final FileInfoWrapper info)
 	{
-		synchronized(this) {
-			// Compute substring that we are being asked to read
-			final String s = contents.substring((int) offset,
-				(int) Math.max(offset, Math.min(contents.length() - offset, offset + size)));
-			buffer.put(s.getBytes());
-			return s.getBytes().length;
-		}
+		// Compute substring that we are being asked to read
+		final String s = contents.substring((int) offset,
+			(int) Math.max(offset, Math.min(contents.length() - offset, offset + size)));
+		buffer.put(s.getBytes());
+		return s.getBytes().length;
 	}
 	@Override
 	public int readdir(final String path, final DirectoryFiller filler)
