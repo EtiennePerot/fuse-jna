@@ -17,6 +17,7 @@ public class TypeNLink extends IntegerType
 				size = 2;
 				break;
 			case LINUX_I686:
+			case LINUX_ARM:
 			case LINUX_PPC:
 				size = Platform.size(Integer.class);
 				break;

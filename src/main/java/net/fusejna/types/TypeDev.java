@@ -16,6 +16,7 @@ public class TypeDev extends IntegerType
 				size = 4;
 				break;
 			case LINUX_I686:
+			case LINUX_ARM:
 			case LINUX_PPC:
 			case LINUX_X86_64:
 				size = Platform.size(TypeLongLong.class);

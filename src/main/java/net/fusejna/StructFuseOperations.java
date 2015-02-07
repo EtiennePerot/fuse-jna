@@ -98,6 +98,7 @@ public class StructFuseOperations extends Structure
 					}
 				};
 				break;
+			case LINUX_ARM:
 			case LINUX_I686:
 				getattr = new Callback()
 				{

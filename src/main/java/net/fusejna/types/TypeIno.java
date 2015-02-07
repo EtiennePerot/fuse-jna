@@ -19,6 +19,7 @@ public class TypeIno extends IntegerType
 				size = 4;
 				break;
 			case LINUX_I686:
+			case LINUX_ARM:
 			case LINUX_PPC:
 				size = Platform.size(TypeLongLong.class);
 				break;

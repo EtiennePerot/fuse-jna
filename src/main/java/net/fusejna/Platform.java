@@ -12,7 +12,7 @@ public final class Platform
 {
 	public static enum PlatformEnum
 	{
-		LINUX_X86_64, LINUX_I686, LINUX_PPC, MAC, MAC_MACFUSE, FREEBSD
+		LINUX_X86_64, LINUX_I686, LINUX_PPC, MAC, MAC_MACFUSE, FREEBSD, LINUX_ARM
 	}
 
 	private static final String[] osxFuseLibraries = { "fuse4x", "osxfuse", "macfuse", "fuse" };
@@ -80,6 +80,9 @@ public final class Platform
 				default:
 					if (com.sun.jna.Platform.isIntel()) {
 						platform = com.sun.jna.Platform.is64Bit() ? PlatformEnum.LINUX_X86_64 : PlatformEnum.LINUX_I686;
+					}
+					else if (com.sun.jna.Platform.isARM()) {
+						platform = PlatformEnum.LINUX_ARM;
 					}
 					else {
 						platform = PlatformEnum.LINUX_PPC;

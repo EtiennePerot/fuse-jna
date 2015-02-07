@@ -17,6 +17,7 @@ public class TypeSize extends IntegerType
 				size = 8;
 				break;
 			case LINUX_I686:
+			case LINUX_ARM:
 				size = 4;
 				break;
 			case LINUX_PPC:
