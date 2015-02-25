@@ -562,6 +562,7 @@ public abstract class FuseFilesystem
 	{
 		mountLock.lock();
 		if (isMounted()) {
+			mountLock.unlock();
 			throw new IllegalStateException(getFuseName() + " is already mounted at " + this.mountPoint);
 		}
 		this.mountPoint = mountPoint;
