@@ -1,4 +1,5 @@
 apply plugin: 'java'
+apply plugin: 'groovy'
 apply plugin: 'idea'
 apply plugin: 'maven-publish'
 
@@ -9,8 +10,10 @@ repositories {
 	mavenCentral()
 }
 
+
 dependencies {
-	compile 'net.java.dev.jna:jna:3.5.2'
+	compile 'net.java.dev.jna:jna:4.1.0'
+	compile "org.codehaus.groovy:groovy-all:2.1.5"
 }
 
 task uberJar(type: Jar) {

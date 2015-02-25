@@ -164,6 +164,7 @@ public class TypeMode extends IntegerType
 				size = 2;
 				break;
 			case LINUX_I686:
+			case LINUX_ARM:
 			case LINUX_PPC:
 			case LINUX_X86_64:
 				size = Platform.size(Integer.class);

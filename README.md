@@ -52,7 +52,7 @@ This being said, you can greatly increase throughput by preventing FUSE from chu
 Following [fuse.py], fuse-jna should work with:
 
 * OS X with [MacFUSE]/[fuse4x]/[OSXFUSE] on Intel architectures
-* Linux with [FUSE][Linux-Fuse] on Intel and PowerPC architectures
+* Linux with [FUSE][Linux-Fuse] on Intel, ARM, and PowerPC architectures
 * FreeBSD with [FUSE][FreeBSD-Fuse] on Intel architectures
 
 #### Projects using fuse-jna
