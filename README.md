@@ -47,6 +47,8 @@ First and foremost, this library uses [JNA] for bindings, rather than [JNI]. Do 
 
 This being said, you can greatly increase throughput by preventing FUSE from chunking writes in tiny blocks, tweaking some JVM parameters, etc. See [issue 31][Issue 31] for details.
 
+Other fuse libraries have popped up that use [JNR] instead of JNA. You might want to use them instead: [javafs], [jnr-fuse].
+
 #### Compatibility
 
 Following [fuse.py], fuse-jna should work with:
@@ -62,6 +64,7 @@ Following [fuse.py], fuse-jna should work with:
 * [Java FUSE Mirror File System](https://github.com/Syed-Rahman-Mashwani/Java-FUSE-Mirror-File-System): Mirror filesystem stub implementation
 * [gdrivefs](http://www.gdrivefs.com/): Google Drive Linux client
 * [gyingpan](https://github.com/tbutter/gyingpan): Google Drive client
+* [javafs]: Port of fuse-jna to [JNR] instead of JNA.
 
 Feel free to [open an issue](https://github.com/EtiennePerot/fuse-jna/issues/new) to get your project added here.
 
@@ -71,8 +74,11 @@ JNA is licensed under the [LGPL v2.1].
 
 [SrcDemo²]: https://github.com/EtiennePerot/srcdemo2
 [fuse.py]: http://code.google.com/p/fusepy/source/browse/trunk/fuse.py
-[JNA]: https://github.com/twall/jna
+[javafs]: https://github.com/puniverse/javafs
+[jnr-fuse]: https://github.com/SerCeMan/jnr-fuse
 [JNI]: https://en.wikipedia.org/wiki/Java_Native_Interface
+[JNA]: https://github.com/twall/jna
+[JNR]: https://github.com/jnr/jnr-ffi
 [Issue 31]: https://github.com/EtiennePerot/fuse-jna/issues/31
 [MacFUSE]: http://code.google.com/p/macfuse/
 [fuse4x]: http://fuse4x.org/
