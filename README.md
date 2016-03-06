@@ -62,7 +62,7 @@ Following [fuse.py], fuse-jna should work with:
 * [JGitFS](https://github.com/centic9/JGitFS): Displays Git branches, tags and commits as files
 * [GithubFS](https://github.com/akiellor/githubfs): Expose GitHub issues as files
 * [Java FUSE Mirror File System](https://github.com/Syed-Rahman-Mashwani/Java-FUSE-Mirror-File-System): Mirror filesystem stub implementation
-* [gdrivefs](http://www.gdrivefs.com/): Google Drive Linux client
+* [gdrivefs](https://github.com/smacke/gdrivefs): Google Drive Linux client
 * [gyingpan](https://github.com/tbutter/gyingpan): Google Drive client
 * [javafs]: Port of fuse-jna to [JNR] instead of JNA.
 
